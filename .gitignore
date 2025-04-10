@@ -400,6 +400,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 
-#don't ignore cprocessing lib file
+#don't ignore cprocessing lib file directory
 !/CProcessing/Processing_Empty/CProcessing/lib/x64
 !/CProcessing/Processing_Empty/CProcessing/lib/x86
