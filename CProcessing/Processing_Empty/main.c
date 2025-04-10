@@ -2,13 +2,21 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "unit.h"
-CP_Font font;
+#include "./MyC/JhDebug.h"
 
 extern CP_Vector player_pos;
+
+struct PlayerCharacter sumsin;
+
 void game_init(void)
 {
-	font = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	//font = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	SetPosition(1760, 990);
+	InitDebuging();
+
+	sumsin.posX = 0;
+	sumsin.posY = 50;
+	sumsin.speed = 400;
 }
 
 void game_update(void)
@@ -19,11 +27,10 @@ void game_update(void)
 	PlayerMove();
 	if (CP_Input_KeyDown(KEY_G)) InitChar();
 	ChangeSpeed();
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_RIGHT, CP_TEXT_ALIGN_V_BOTTOM);
-	//CP_Font_DrawText(player_pos.x, 0, 0);
-	char buf[1];
-	sprintf(buf, "%f", 3.14);
-	printf("%s\n", buf);
+
+	PrintFrameInfo();
+
+	PrintPlayerInfo(sumsin);
 }
 
 void game_exit(void)

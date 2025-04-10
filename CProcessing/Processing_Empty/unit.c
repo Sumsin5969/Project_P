@@ -10,6 +10,8 @@
 float player_spd = 400;
 CP_Vector player_pos;
 
+
+//struct PlayerCharacter sumsin;
 void SetPosition(float w, float h) // 실행 시 위치 초기화
 {
 	player_pos = CP_Vector_Set(w / 2, h / 2);

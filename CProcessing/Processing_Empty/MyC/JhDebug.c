@@ -1,7 +1,13 @@
 #include "cprocessing.h"
 #include <stdio.h> 
+#include "../unit.h"
 char buffer[200];
 char buffer2[200];
+char playerPosX[200];
+char playerPosY[200];
+char playerSpeed[200];
+
+
 
 float nowTime;
 float nowFrameCount;
@@ -28,4 +34,16 @@ void PrintFrameInfo()
 
 	sprintf_s(buffer2, sizeof(buffer2), "frameCount : %.2f", nowFrameCount);
 	CP_Font_DrawText(buffer2, 0, 50);
+}
+
+void PrintPlayerInfo(struct PlayerCharacter _pc)
+{
+	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc.posX);
+	CP_Font_DrawText(buffer, 100, 0);
+
+	sprintf_s(buffer2, sizeof(playerPosY), "Y : %.2f", _pc.posY);
+	CP_Font_DrawText(buffer2, 100, 50);
+
+	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc.speed);
+	CP_Font_DrawText(buffer2, 100, 100);
 }
