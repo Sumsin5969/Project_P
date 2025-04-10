@@ -1,4 +1,4 @@
-//---------------------------------------------------------
+﻿//---------------------------------------------------------
 // file:	main.c
 // author:	[NAME]
 // email:	[DIGIPEN EMAIL ADDRESS]
@@ -12,36 +12,41 @@
 // Copyright ?2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
+#include <stdio.h>
 #include "cprocessing.h"
-#include "main.h"
+#include "unit.h"
+CP_Font font;
 
-// use CP_Engine_SetNextGameState to specify this function as the initialization function
-// this function will be called once at the beginning of the program
+extern CP_Vector player_pos;
 void game_init(void)
 {
-	// initialize variables and CProcessing settings for this gamestate
-	
+	font = CP_Font_Load("Assets/Exo2-Regular.ttf");
+	SetPosition(1760, 990);
 }
 
-// use CP_Engine_SetNextGameState to specify this function as the update function
-// this function will be called repeatedly every frame
 void game_update(void)
 {
-	// check input, update simulation, render etc.
+	CP_Graphics_ClearBackground(CP_Color_Create(50, 50, 50, 0));
+	CP_System_SetFrameRate(100);
+	DrawPlayer(player_pos.x, player_pos.y);
+	PlayerMove();
+	if (CP_Input_KeyDown(KEY_G)) InitChar();
+	ChangeSpeed();
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_RIGHT, CP_TEXT_ALIGN_V_BOTTOM);
+	//CP_Font_DrawText(player_pos.x, 0, 0);
+	char buf[1];
+	sprintf(buf, "%f", 3.14);
+	printf("%s\n", buf);
 }
 
-// use CP_Engine_SetNextGameState to specify this function as the exit function
-// this function will be called once just before leaving the current gamestate
 void game_exit(void)
 {
-	// shut down the gamestate and cleanup any dynamic memory
+
 }
 
-// main() the starting point for the program
-// CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit
-// CP_Engine_Run() is the core function that starts the simulation
 int main(void)
 {
+	CP_System_SetWindowSize(1760, 990);
 	CP_Engine_SetNextGameState(game_init, game_update, game_exit);
 	CP_Engine_Run();
 	return 0;
