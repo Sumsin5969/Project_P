@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton
 // brief:	Helpful file IO functions  
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------

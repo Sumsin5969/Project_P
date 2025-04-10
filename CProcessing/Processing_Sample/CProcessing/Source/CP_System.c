@@ -3,7 +3,7 @@
 // author:	Justin Chambers
 // brief:	Primary implementation of the CProcessing interface
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
 #include "cprocessing.h"

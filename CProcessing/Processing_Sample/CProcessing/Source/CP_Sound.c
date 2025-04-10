@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton, Andrea Ellinger
 // brief:	Load, play and manipulate sound files 
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------

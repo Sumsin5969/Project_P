@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton
 // brief:	Handle all input and querying
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------

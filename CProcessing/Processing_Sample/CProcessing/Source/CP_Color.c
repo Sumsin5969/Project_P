@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton
 // brief:	Create and edit colors
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------

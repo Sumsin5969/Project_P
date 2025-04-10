@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton
 // brief:	API for loading and displaying images
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton
 // brief:	Math functions for use in the processing environment
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------

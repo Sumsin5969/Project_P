@@ -3,7 +3,7 @@
 // author:	Justin Chambers
 // brief:	Header used to manage the DLL export/import declarations
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
 #include "cprocessing.h"

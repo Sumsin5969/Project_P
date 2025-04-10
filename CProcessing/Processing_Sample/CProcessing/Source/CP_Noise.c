@@ -3,7 +3,7 @@
 // author:	Justin Chambers
 // brief:	Noise implementation based on Ken Perlin's work with some improvements
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
 #include <stdlib.h>
