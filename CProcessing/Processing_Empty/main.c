@@ -3,34 +3,32 @@
 #include "cprocessing.h"
 #include "unit.h"
 #include "./MyC/JhDebug.h"
-
+#define WIDTH 1760
+#define HEIGHT 990
 extern CP_Vector player_pos;
 
-struct PlayerCharacter sumsin;
+struct PlayerCharacter player;
 
 void game_init(void)
 {
 	//font = CP_Font_Load("Assets/Exo2-Regular.ttf");
-	SetPosition(1760, 990);
+	InitChar(WIDTH, HEIGHT);
 	InitDebuging();
 
-	sumsin.posX = 0;
-	sumsin.posY = 50;
-	sumsin.speed = 400;
 }
 
 void game_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(50, 50, 50, 0));
 	CP_System_SetFrameRate(100);
-	DrawPlayer(player_pos.x, player_pos.y);
+	DrawPlayer(player.pos.x, player.pos.y);
 	PlayerMove();
-	if (CP_Input_KeyDown(KEY_G)) InitChar();
+	if (CP_Input_KeyDown(KEY_G)) InitChar(WIDTH, HEIGHT);
 	ChangeSpeed();
 
 	PrintFrameInfo();
 
-	PrintPlayerInfo(sumsin);
+	PrintPlayerInfo(player);
 }
 
 void game_exit(void)

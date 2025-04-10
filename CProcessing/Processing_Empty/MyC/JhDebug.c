@@ -38,12 +38,12 @@ void PrintFrameInfo()
 
 void PrintPlayerInfo(struct PlayerCharacter _pc)
 {
-	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc.posX);
-	CP_Font_DrawText(buffer, 100, 0);
+	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc.pos.x);
+	CP_Font_DrawText(buffer, 500, 0);
 
-	sprintf_s(buffer2, sizeof(playerPosY), "Y : %.2f", _pc.posY);
-	CP_Font_DrawText(buffer2, 100, 50);
+	sprintf_s(buffer2, sizeof(playerPosY), "Y : %.2f", _pc.pos.y);
+	CP_Font_DrawText(buffer2, 500, 50);
 
-	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc.speed);
-	CP_Font_DrawText(buffer2, 100, 100);
+	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc.spd);
+	CP_Font_DrawText(buffer2, 500, 100);
 }

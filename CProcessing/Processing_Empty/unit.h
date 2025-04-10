@@ -1,14 +1,13 @@
 #pragma once
 
-struct PlayerCharacter
-{
-	float posX;
-	float posY;
-	float speed;
-};
 
-void SetPosition(float w, float h);
+typedef struct PlayerCharacter
+{
+    CP_Vector pos;
+    float spd;
+} PlayerCharacter;
+
 void PlayerMove(void);
 void DrawPlayer(float x, float y);
-void InitChar(void);
+void InitChar(float, float);
 void ChangeSpeed(void);
