@@ -1,6 +1,6 @@
 
 #include "cprocessing.h"
-#include "./MyC/JhDebug.h"
+#include "main.h"
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
@@ -10,7 +10,8 @@ CP_Vector player_position;
 
 void game_init(void) 
 {
-	InitDebuging();
+	// initialize variables and CProcessing settings for this gamestate
+	
 }
 
 void game_update(void) {
