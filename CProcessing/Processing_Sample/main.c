@@ -4,7 +4,7 @@
 // brief:	Main entry point for the sample usage project
 //			of the CProcessing library
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
 #include <windows.h>

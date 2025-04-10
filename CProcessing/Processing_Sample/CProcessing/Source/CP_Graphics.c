@@ -3,7 +3,7 @@
 // author:	Daniel Hamilton
 // brief:	Manipulate and draw basic vector shapes 
 //
-// Copyright © 2019 DigiPen, All rights reserved.
+// Copyright ?2019 DigiPen, All rights reserved.
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
