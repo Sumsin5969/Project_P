@@ -401,4 +401,5 @@ FodyWeavers.xsd
 
 
 #don't ignore cprocessing lib file
-!/CProcessing/Processing_Empty/CProcessing/*
+!/CProcessing/Processing_Empty/CProcessing/lib/x64
+!/CProcessing/Processing_Empty/CProcessing/lib/x86
