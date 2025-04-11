@@ -13,9 +13,13 @@ void DrawWall()
 {
 	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
 	CP_Settings_Stroke(CP_Color_Create(0,0,0, 0));
+	// 왼쪽 벽
 	CP_Graphics_DrawRect(WALLWIDTHSIZE/2, HEIGHT/2, WALLWIDTHSIZE, HEIGHT);
+	// 오른쪽 벽
 	CP_Graphics_DrawRect(WIDTH-(WALLWIDTHSIZE/2), HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
+	// 위쪽 벽
 	CP_Graphics_DrawRect(WIDTH/2, WALLHEIGHTSIZE/2, WIDTH, WALLHEIGHTSIZE);
+	// 아래쪽 벽
 	CP_Graphics_DrawRect(WIDTH/2, HEIGHT-(WALLHEIGHTSIZE/2), WIDTH, WALLHEIGHTSIZE);
 }
 

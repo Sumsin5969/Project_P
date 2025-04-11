@@ -1,15 +1,8 @@
+#include <math.h>
+#include "../unit.h"
 
-#include "math.h"
-#include "unit.h"
-
-int WallCollision(PlayerCharacter _pc)
+int WallCollision(PlayerCharacter _pc, float x, float y, float w, float h)
 {
-	_pc.pos.x = 0;
-
+	
 	return 0;
-}
-
-int WallCollision()
-{
-
 }

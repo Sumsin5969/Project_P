@@ -1,4 +1,5 @@
 #pragma once
+#include "cprocessing.h"
 typedef struct PlayerCharacter
 {
     CP_Vector pos;
@@ -13,7 +14,7 @@ typedef struct PlayerCharacter
 	CP_Vector direction;
 } PlayerCharacter;
 extern PlayerCharacter player;
-#pragma once
+
 typedef struct Enemy
 {
 	CP_Vector pos;
