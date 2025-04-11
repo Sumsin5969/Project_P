@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include <stdio.h> 
+#include "string.h"
 #include "../unit.h"
 char buffer[200];
 char buffer2[200];
@@ -8,6 +9,7 @@ char playerPosY[200];
 char playerSpeed[200];
 
 char debugString[100][100];
+
 int debugStringIndex;
 
 float nowTime;
@@ -49,8 +51,9 @@ void PrintPlayerInfo(struct PlayerCharacter _pc)
 	CP_Font_DrawText(buffer2, 500, 100);
 }
 
-void PrintFloat(int _Index,float _value, float _xPos, float _yPos)
+void PrintFloat(int _Index,float _xPos, float _yPos, char* _string, float _value)
 {
-	sprintf_s(debugString[_Index], sizeof(debugString[_Index]), "X : %.2f", _value);
+	sprintf_s(debugString[_Index], sizeof(debugString[_Index]), "%s : %.2f",_string, _value);
+
 	CP_Font_DrawText(debugString[_Index], _xPos, _yPos);
 }
