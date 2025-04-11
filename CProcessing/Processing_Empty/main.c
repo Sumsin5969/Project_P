@@ -3,19 +3,7 @@
 #include "cprocessing.h"
 #include "unit.h"
 #include "./MyC/JhDebug.h"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 #include "./MyC/Collision.h"
-=======
-
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
 #define WIDTH 1760
 #define HEIGHT 990
 #define WALLWIDTHSIZE 30
@@ -36,18 +24,7 @@ void game_init(void)
 	//font = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	InitChar(WIDTH, HEIGHT);
 	InitDebuging();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
 	PlayerInit();
->>>>>>> Stashed changes
-=======
-	PlayerInit();
->>>>>>> Stashed changes
-=======
-	PlayerInit();
->>>>>>> Stashed changes
 }
 
 void game_update(void)
