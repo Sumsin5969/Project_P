@@ -13,7 +13,11 @@ typedef struct PlayerCharacter
 	CP_Vector direction;
 } PlayerCharacter;
 extern PlayerCharacter player;
+<<<<<<< Updated upstream
 #pragma once
+=======
+
+>>>>>>> Stashed changes
 typedef struct Enemy
 {
 	CP_Vector pos;

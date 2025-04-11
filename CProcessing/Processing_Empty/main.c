@@ -5,7 +5,11 @@
 #include "./MyC/JhDebug.h"
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 #include "./MyC/Collision.h"
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -34,6 +38,10 @@ void game_init(void)
 	InitDebuging();
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+	PlayerInit();
+>>>>>>> Stashed changes
 =======
 	PlayerInit();
 >>>>>>> Stashed changes
