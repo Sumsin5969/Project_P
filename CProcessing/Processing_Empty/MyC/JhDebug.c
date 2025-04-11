@@ -7,7 +7,8 @@ char playerPosX[200];
 char playerPosY[200];
 char playerSpeed[200];
 
-
+char debugString[100][100];
+int debugStringIndex;
 
 float nowTime;
 float nowFrameCount;
@@ -46,4 +47,10 @@ void PrintPlayerInfo(struct PlayerCharacter _pc)
 
 	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc.spd);
 	CP_Font_DrawText(buffer2, 500, 100);
+}
+
+void PrintFloat(int _Index,float _value, float _xPos, float _yPos)
+{
+	sprintf_s(debugString[_Index], sizeof(playerPosX), "X : %.2f", _value);
+	CP_Font_DrawText(buffer, _xPos, _yPos);
 }
