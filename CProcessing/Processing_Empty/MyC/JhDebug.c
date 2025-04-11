@@ -52,5 +52,5 @@ void PrintPlayerInfo(struct PlayerCharacter _pc)
 void PrintFloat(int _Index,float _value, float _xPos, float _yPos)
 {
 	sprintf_s(debugString[_Index], sizeof(debugString[_Index]), "X : %.2f", _value);
-	CP_Font_DrawText(buffer, _xPos, _yPos);
+	CP_Font_DrawText(debugString[_Index], _xPos, _yPos);
 }
