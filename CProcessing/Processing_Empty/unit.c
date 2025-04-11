@@ -49,3 +49,8 @@ void ChangeSpeed(void)
 	if (CP_Input_KeyDown(KEY_8)) player.spd = 800;
 	if (CP_Input_KeyDown(KEY_9)) player.spd = 900;
 }
+
+/*void Dash(void)
+{
+	if (CP_Input_KeyDown(KEY_SPACE))
+}*/
