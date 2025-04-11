@@ -3,6 +3,7 @@
 #include "cprocessing.h"
 #include "unit.h"
 #include "./MyC/JhDebug.h"
+#include "./MyC/Collision.h"
 #define WIDTH 1760
 #define HEIGHT 990
 extern CP_Vector player_pos;
@@ -14,7 +15,6 @@ void game_init(void)
 	//font = CP_Font_Load("Assets/Exo2-Regular.ttf");
 	InitChar(WIDTH, HEIGHT);
 	InitDebuging();
-
 }
 
 void game_update(void)
