@@ -8,7 +8,6 @@
 #include "../Defines.h"
 
 char buffer[200];
-char buffer2[200];
 char playerPosX[200];
 char playerPosY[200];
 char playerSpeed[200];
@@ -44,8 +43,8 @@ void PrintFrameInfo()
 	sprintf_s(buffer, sizeof(buffer), "Time : %.2f", nowTime);
 	CP_Font_DrawText(buffer, 0, 0);
 
-	sprintf_s(buffer2, sizeof(buffer2), "frameCount : %.2f", nowFrameCount);
-	CP_Font_DrawText(buffer2, 0, 50);
+	sprintf_s(buffer, sizeof(buffer), "frameCount : %.2f", nowFrameCount);
+	CP_Font_DrawText(buffer, 0, 50);
 }
 
 void PrintPlayerInfo(struct PlayerCharacter* _pc)
@@ -53,11 +52,14 @@ void PrintPlayerInfo(struct PlayerCharacter* _pc)
 	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc->pos.x);
 	CP_Font_DrawText(buffer, 500, 0);
 
-	sprintf_s(buffer2, sizeof(playerPosY), "Y : %.2f", _pc->pos.y);
-	CP_Font_DrawText(buffer2, 500, 50);
+	sprintf_s(buffer, sizeof(playerPosY), "Y : %.2f", _pc->pos.y);
+	CP_Font_DrawText(buffer, 500, 50);
 
-	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc->spd);
-	CP_Font_DrawText(buffer2, 500, 100);
+	sprintf_s(buffer, sizeof(playerSpeed), "Speed : %.2f", _pc->spd);
+	CP_Font_DrawText(buffer, 500, 100);
+	
+	sprintf_s(buffer, sizeof(playerSpeed), "playerSize : %.2f", _pc->size * GetCamera()->camZoom);
+	CP_Font_DrawText(buffer, 1000, 0);
 }
 
 void PrintFloat(int _Index,float _xPos, float _yPos, char* _string, float _value)
