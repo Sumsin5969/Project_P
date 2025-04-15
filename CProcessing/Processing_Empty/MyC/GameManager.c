@@ -5,31 +5,20 @@
 #include "PP_Renderer.h"
 #include "../Defines.h"
 #include "JhDebug.h"
+#include "Collision.h"
 
 
 
-typedef struct Units
-{
 	PlayerCharacter* playerCharacter;
 	Enemy* enemyCharacter;
 	Obstacle* obstacle;
 	BossCharacter* boss;
-} Units;
-
-Units* allUnit;
 
 void InitGameManager()
 {
-	allUnit = (Units*)calloc(1, sizeof(Units));
-	if (allUnit == NULL)
-	{
-		printf("메모리 할당실패");
-		exit(1); // todo: CProcessing에서 제공하는 종료 함수 사용해용
-	}
-
 	PlayerInit();
 
-	allUnit->playerCharacter = GetPlayer();
+	playerCharacter = GetPlayer();
 
 	InitCamera();
 
@@ -40,6 +29,7 @@ void GMUpdate()
 {
 	PlayerMove();
 	Dash();
+	CheckWall();
 }
 
 void GMLateUpdate()

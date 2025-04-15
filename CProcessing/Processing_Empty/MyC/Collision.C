@@ -5,10 +5,10 @@
 #include "../Defines.h"
 int isWall = 0;
 
-int CheckWall(PlayerCharacter pc)
+int CheckWall()
 {
-	float rightwall = WIDTH - WALLWIDTHSIZE;
-	if(pc.pos.x + pc.size >= rightwall)
+	float rightwall = (GetCamera()->camZoom / 10) - (GetCamera()->camZoom / 10);
+	if(GetPlayer()->pos.x + GetPlayer()->size >= rightwall)
 	{
 		printf("player reached rightwall, %f\n",GetCamera()->camZoom);
 	}

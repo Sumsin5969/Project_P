@@ -37,13 +37,13 @@ void ZoomIn()
 	//cam->camZoom *= 2;
 	cam->camZoom *= 1.25f;
 	//// 소수점 둘째자리까지 반올림
-	cam->camZoom = (float)round((cam->camZoom * 100) / 100);
+	//cam->camZoom = (float)round((cam->camZoom * 100) / 100);
 }
 void ZoomOut()
 {
 	//cam->camZoom *= 0.5f;
 	cam->camZoom /= 1.25f;
-	cam->camZoom = (float)round((cam->camZoom * 100) / 100);
+	//cam->camZoom = (float)round((cam->camZoom * 100) / 100);
 }
 
 void Destroy() //todo 게임매니저 혹은 메인에 넣을것
