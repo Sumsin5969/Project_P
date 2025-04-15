@@ -60,31 +60,41 @@ void RenderEnemy(Enemy* _enemy)
 //	CP_Graphics_DrawRect(_obstacle->pos.x, _obstacle->pos.y, _obstacle->width, _obstacle->height);
 //}
 
-int LaserAlpha = 100;
-int LaserAlphaMax = 220;
-float LaserChargeTime = 2.f;
+int LaserAlpha = 50;
+int LaserAlphaMax = 200;
+float LaserChargeTime = 1.5f;
+float LaserChargeWidth = 0.f;
+float LaserWidth = 150.f;
 float LaserTimer = 0.f;
 float LaserAttackTimer = 0.f;
 float LaserTime = 1.f;
 void EnemyLaserAttack()
 {
 	float dt = CP_System_GetDt();
+	if (LaserTimer > LaserChargeTime && LaserAttackTimer > LaserTime)
+	{
+		LaserTimer = 0.f;
+		LaserAttackTimer = 0.f;
+		LaserChargeWidth = 0.f;
+	}
 	if (LaserTimer < LaserChargeTime)
 	{
 		LaserTimer += dt * 1.5f;
+		LaserChargeWidth += dt * 100.f;
 		LaserAlpha = (int)(LaserTimer / LaserChargeTime * LaserAlphaMax);
 		if (LaserAlpha > LaserAlphaMax) LaserAlpha = LaserAlphaMax;
-		CP_Settings_Fill(CP_Color_Create(200, 100, 100, LaserAlpha));
+		if (LaserChargeWidth > LaserWidth) LaserChargeWidth = LaserWidth;
+		CP_Settings_Fill(CP_Color_Create(238, 1, 147, LaserAlpha));
 		CP_Settings_NoStroke();
-		CP_Graphics_DrawRect(WIDTH / 2, 100, 100, HEIGHT - 300); // 레이저 위치
+		CP_Graphics_DrawRect(WIDTH / 2, 100, LaserChargeWidth, HEIGHT*10); // 레이저 위치
 	}
 	else
 	{
 		LaserAttackTimer += dt;
-		if (LaserAttackTimer <= LaserTime)
+		if (LaserAttackTimer < LaserTime)
 		{
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-			CP_Graphics_DrawRect(WIDTH / 2, 100, 100, HEIGHT - 300);
+			CP_Graphics_DrawRect(WIDTH / 2, 100, 100, HEIGHT*10);
 		}
 	}
 }

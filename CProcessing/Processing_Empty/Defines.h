@@ -3,7 +3,6 @@
 #define HEIGHT 990
 #define WALLWIDTHSIZE 30
 #define WALLHEIGHTSIZE 24
-
 typedef enum WallDirect
 {
 	LEFT,
@@ -21,3 +20,9 @@ typedef enum UnitType
 	OBSTACLE,
 	BOSS,
 } E_UnitType;
+
+typedef enum PlayerState
+{
+	HIT,
+	NORMAL,
+} PlayerState;

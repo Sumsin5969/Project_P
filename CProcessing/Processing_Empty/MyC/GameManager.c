@@ -10,13 +10,18 @@
 PlayerCharacter* playerCharacter;
 Enemy* enemyCharacter;
 Obstacle wall[MAX];
-
 //Obstacle* obstacle;
 //BossCharacter* boss;
+
+PlayerState playerState;
+
+
 
 void InitGameManager()
 {
 	PlayerInit();
+
+	playerState = NORMAL;
 
 	playerCharacter = GetPlayer();
 

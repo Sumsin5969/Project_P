@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "Player.h"
+#include "Defines.h"
 
 #define UP CP_Input_KeyDown(KEY_UP)
 #define DOWN CP_Input_KeyDown(KEY_DOWN)
 #define LEFT CP_Input_KeyDown(KEY_LEFT)
 #define RIGHT CP_Input_KeyDown(KEY_RIGHT)
-
+PlayerState playerState;
 PlayerCharacter player;
-
 PlayerCharacter* GetPlayer()
 {
 	return &player;
@@ -86,4 +86,9 @@ void Dash(void)
 		}
 	}
 
+}
+
+void PlayerHit()
+{
+	playerState = HIT;
 }
