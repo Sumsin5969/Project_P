@@ -36,7 +36,10 @@ void GMLateUpdate()
 
 	RenderWall();
 
+	EnemyAttack();
+
 	RenderPlayer(playerCharacter);
+	
 
 	DebugUpdate();
 }

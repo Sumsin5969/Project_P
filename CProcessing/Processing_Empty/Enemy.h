@@ -9,3 +9,6 @@ typedef struct Enemy
 	float appTime;
 	float size;
 } Enemy;
+
+void EnemyInit(Enemy* enemy);
+void EnemyAttack();
