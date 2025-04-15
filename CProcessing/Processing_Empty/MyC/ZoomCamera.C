@@ -3,7 +3,6 @@
 #include "ZoomCamera.h"
 #include "cprocessing.h"
 #include "math.h"
-#include "../unit.h"
 #include "GameManager.h"
 CamInfo* cam;
 
@@ -35,19 +34,13 @@ CamInfo* GetCamera()
 void ZoomIn()
 {
 	cam->camZoom *= 1.25f;
-<<<<<<< Updated upstream
-	//// 소수점 둘째자리까지 반올림
+	// 소수점 둘째자리까지 반올림
 	//cam->camZoom = (float)round((cam->camZoom * 100) / 100);
-=======
->>>>>>> Stashed changes
 }
 void ZoomOut()
 {
 	cam->camZoom /= 1.25f;
-<<<<<<< Updated upstream
 	//cam->camZoom = (float)round((cam->camZoom * 100) / 100);
-=======
->>>>>>> Stashed changes
 }
 
 void DestroyCam() //todo 게임매니저 혹은 메인에 넣을것
