@@ -7,4 +7,5 @@ void RenderPlayer(PlayerCharacter*);
 void RenderEnemy(Enemy*);
 void RenderObstacle(Obstacle*);
 void RenderBoss();
+
 void RenderAll();

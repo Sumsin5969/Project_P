@@ -21,7 +21,7 @@ float nowTime;
 float nowFrameCount;
 CP_Font my_awesome_font;
 
-PlayerCharacter* pc;
+static PlayerCharacter* pc;
 
 void InitDebuging()
 {
