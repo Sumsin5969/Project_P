@@ -36,7 +36,7 @@ void GMLateUpdate()
 
 	RenderWall();
 
-	EnemyAttack();
+	EnemyLaserAttack();
 
 	RenderPlayer(playerCharacter);
 	

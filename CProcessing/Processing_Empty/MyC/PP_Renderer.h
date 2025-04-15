@@ -9,3 +9,4 @@ void RenderEnemy(Enemy*);
 void RenderBoss();
 
 void RenderAll();
+void EnemyLaserAttack();

@@ -11,4 +11,3 @@ typedef struct Enemy
 } Enemy;
 
 void EnemyInit(Enemy* enemy);
-void EnemyAttack();
