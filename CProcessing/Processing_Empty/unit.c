@@ -19,6 +19,9 @@ void PlayerInit(void)
 	player.dashTime = 0.3f;
 	player.dashSpeedBoost = 1000.f;
 	player.size = 25.f;
+	player.pos.x = 0;
+	player.pos.y = 0;
+
 }
 void EnemyInit(Enemy enemy)
 {

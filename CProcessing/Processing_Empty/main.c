@@ -38,7 +38,7 @@ void game_update(void)
 	//CP_System_SetFrameRate(100);
 	//DrawPlayer(player.pos.x,  player.pos.y);
 	//PlayerMove();
-	//if (CP_Input_KeyDown(KEY_G)) InitChar(WIDTH, HEIGHT);
+	
 	//ChangeSpeed();
 	//Dash();
 	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));

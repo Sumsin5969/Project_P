@@ -1,3 +1,4 @@
+#include "JhDebug.h"
 #include "cprocessing.h"
 #include "cprocessing_common.h"
 #include "ZoomCamera.h"
@@ -78,6 +79,11 @@ void ZoomTest()
 	}
 }
 
+void PlayerToZero()
+{
+	if (CP_Input_KeyDown(KEY_G)) InitChar(WIDTH, HEIGHT);
+}
+
 void DebugUpdate()
 {
 
@@ -85,5 +91,7 @@ void DebugUpdate()
 	PrintPlayerInfo(pc);
 	PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", pc->dashDecayRate);
 
+	PlayerToZero();
 	ZoomTest();
 }
+
