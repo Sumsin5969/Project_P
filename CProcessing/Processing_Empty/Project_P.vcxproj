@@ -156,7 +156,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </ClCompile>
     <Link>
       <AdditionalDependencies>CProcessingd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -199,6 +199,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="MyC\GameManager.c" />
     <ClCompile Include="MyC\PP_Renderer.c" />
     <ClCompile Include="MyC\ZoomCamera.c" />
+    <ClCompile Include="Player.c" />
     <ClCompile Include="unit.c" />
     <ClCompile Include="MyC\JhDebug.c" />
   </ItemGroup>
@@ -207,6 +208,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="MyC\GameManager.h" />
     <ClInclude Include="MyC\PP_Renderer.h" />
     <ClInclude Include="MyC\ZoomCamera.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,7 @@
     <ClCompile Include="MyC\ZoomCamera.c" />
     <ClCompile Include="MyC\GameManager.c" />
     <ClCompile Include="MyC\PP_Renderer.c" />
+    <ClCompile Include="Player.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyC\Collision.h">
@@ -22,6 +23,7 @@
     <ClInclude Include="MyC\PP_Renderer.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

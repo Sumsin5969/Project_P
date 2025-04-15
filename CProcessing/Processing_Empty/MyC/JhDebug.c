@@ -6,6 +6,7 @@
 #include "string.h"
 #include "../unit.h"
 #include "../Defines.h"
+#include "../Player.h"
 
 char buffer[200];
 char playerPosX[200];
@@ -83,7 +84,7 @@ void ZoomTest()
 
 void PlayerToZero()
 {
-	if (CP_Input_KeyDown(KEY_G)) InitChar(WIDTH, HEIGHT);
+	
 }
 
 void DebugUpdate()

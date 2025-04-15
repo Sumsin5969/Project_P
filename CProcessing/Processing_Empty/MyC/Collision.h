@@ -1,2 +1,4 @@
+#pragma once
+#include "../Player.h"
 
-int WallCollision(PlayerCharacter _pc, float x, float y, float w, float h);
+int CheckWall(PlayerCharacter pc);

@@ -1,3 +1,4 @@
+#pragma once
 #define WIDTH 1760
 #define HEIGHT 990
 #define WALLWIDTHSIZE 30

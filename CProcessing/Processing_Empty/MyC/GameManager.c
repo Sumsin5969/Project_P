@@ -6,6 +6,8 @@
 #include "../Defines.h"
 #include "JhDebug.h"
 
+
+
 typedef struct Units
 {
 	PlayerCharacter* playerCharacter;
@@ -22,7 +24,7 @@ void InitGameManager()
 	if (allUnit == NULL)
 	{
 		printf("메모리 할당실패");
-		exit(1);
+		exit(1); // todo: CProcessing에서 제공하는 종료 함수 사용해용
 	}
 
 	PlayerInit();
@@ -43,6 +45,8 @@ void GMUpdate()
 void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
+
+	RenderWall();
 
 	RenderPlayer(allUnit->playerCharacter);
 

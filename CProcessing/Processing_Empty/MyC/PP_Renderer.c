@@ -2,14 +2,20 @@
 #include "../unit.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
-
-#define WIDTH 1760
-#define HEIGHT 990
-#define WALLWIDTHSIZE 30
-#define WALLHEIGHTSIZE 24
+#include "../Player.h"
 
 void RenderWall()
 {
+	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+	// 왼쪽 벽
+	CP_Graphics_DrawRect(WALLWIDTHSIZE / 2, HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
+	// 오른쪽 벽
+	CP_Graphics_DrawRect(WIDTH - (WALLWIDTHSIZE / 2), HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
+	// 위쪽 벽
+	CP_Graphics_DrawRect(WIDTH / 2, WALLHEIGHTSIZE / 2, WIDTH, WALLHEIGHTSIZE);
+	// 아래쪽 벽
+	CP_Graphics_DrawRect(WIDTH / 2, HEIGHT - (WALLHEIGHTSIZE / 2), WIDTH, WALLHEIGHTSIZE);
 
 }
 
