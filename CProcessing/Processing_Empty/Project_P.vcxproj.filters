@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.c" />
+    <ClCompile Include="MyC\Collision.c" />
+    <ClCompile Include="unit.c" />
+    <ClCompile Include="MyC\JhDebug.c" />
+    <ClCompile Include="MyC\ZoomCamera.c" />
+    <ClCompile Include="MyC\GameManager.c" />
+    <ClCompile Include="MyC\PP_Renderer.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyC\Collision.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyC\ZoomCamera.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyC\GameManager.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyC\PP_Renderer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{72596b5e-0fa4-418c-a1b0-2108ae1c0a35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

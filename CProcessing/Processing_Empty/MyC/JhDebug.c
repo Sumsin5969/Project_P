@@ -1,7 +1,11 @@
 #include "cprocessing.h"
+#include "cprocessing_common.h"
+#include "ZoomCamera.h"
 #include <stdio.h> 
 #include "string.h"
 #include "../unit.h"
+#include "../Defines.h"
+
 char buffer[200];
 char buffer2[200];
 char playerPosX[200];
@@ -16,6 +20,8 @@ float nowTime;
 float nowFrameCount;
 CP_Font my_awesome_font;
 
+PlayerCharacter* pc;
+
 void InitDebuging()
 {
 	my_awesome_font = CP_Font_Load("Assets/Exo2-Regular.ttf");
@@ -25,6 +31,8 @@ void InitDebuging()
 
 	nowTime = 0.f;
 	nowFrameCount = 0.f;
+
+	pc = GetPlayer();
 }
 
 void PrintFrameInfo()
@@ -39,15 +47,15 @@ void PrintFrameInfo()
 	CP_Font_DrawText(buffer2, 0, 50);
 }
 
-void PrintPlayerInfo(struct PlayerCharacter _pc)
+void PrintPlayerInfo(struct PlayerCharacter* _pc)
 {
-	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc.pos.x);
+	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc->pos.x);
 	CP_Font_DrawText(buffer, 500, 0);
 
-	sprintf_s(buffer2, sizeof(playerPosY), "Y : %.2f", _pc.pos.y);
+	sprintf_s(buffer2, sizeof(playerPosY), "Y : %.2f", _pc->pos.y);
 	CP_Font_DrawText(buffer2, 500, 50);
 
-	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc.spd);
+	sprintf_s(buffer2, sizeof(playerSpeed), "Speed : %.2f", _pc->spd);
 	CP_Font_DrawText(buffer2, 500, 100);
 }
 
@@ -56,4 +64,26 @@ void PrintFloat(int _Index,float _xPos, float _yPos, char* _string, float _value
 	sprintf_s(debugString[_Index], sizeof(debugString[_Index]), "%s : %.2f",_string, _value);
 
 	CP_Font_DrawText(debugString[_Index], _xPos, _yPos);
+}
+
+void ZoomTest()
+{
+	if (CP_Input_KeyDown(KEY_F3))
+	{
+		ZoomIn();
+	}
+	else if (CP_Input_KeyDown(KEY_F4))
+	{
+		ZoomOut();
+	}
+}
+
+void DebugUpdate()
+{
+
+	PrintFrameInfo();
+	PrintPlayerInfo(pc);
+	PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", pc->dashDecayRate);
+
+	ZoomTest();
 }

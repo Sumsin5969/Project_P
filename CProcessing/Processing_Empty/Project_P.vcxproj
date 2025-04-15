@@ -196,11 +196,17 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="MyC\Collision.c" />
+    <ClCompile Include="MyC\GameManager.c" />
+    <ClCompile Include="MyC\PP_Renderer.c" />
+    <ClCompile Include="MyC\ZoomCamera.c" />
     <ClCompile Include="unit.c" />
     <ClCompile Include="MyC\JhDebug.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyC\Collision.h" />
+    <ClInclude Include="MyC\GameManager.h" />
+    <ClInclude Include="MyC\PP_Renderer.h" />
+    <ClInclude Include="MyC\ZoomCamera.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,15 @@
-struct ZoomCamera
+#pragma once
+#include "cprocessing_common.h"
+
+typedef struct CamInfo
 {
-	float zoomRate;
-};
+	CP_Matrix camMatrix;
+	CP_Vector camPos;
+	float camZoom;
+} CamInfo;
 
 void InitCamera();
-void ZoomIn(float _rate);
-void ZoomOut(float _rate);
+CamInfo* GetCamera();
+void ZoomIn();
+void ZoomOut();
+

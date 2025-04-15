@@ -1,0 +1,12 @@
+#define WIDTH 1760
+#define HEIGHT 990
+#define WALLWIDTHSIZE 30
+#define WALLHEIGHTSIZE 24
+
+typedef enum UnitType
+{
+	PLAYERCHARACTER = 0,
+	ENEMYCHARACTER,
+	OBSTACLE,
+	BOSS,
+} E_UnitType;

@@ -1,5 +1,6 @@
 #pragma once
 #include "cprocessing.h"
+
 typedef struct PlayerCharacter
 {
     CP_Vector pos;
@@ -13,7 +14,6 @@ typedef struct PlayerCharacter
 	float size;
 	CP_Vector direction;
 } PlayerCharacter;
-extern PlayerCharacter player;
 
 typedef struct Enemy
 {
@@ -23,12 +23,28 @@ typedef struct Enemy
 	float appTime;
 	float size;
 } Enemy;
-extern Enemy enemy;
+
+typedef struct Obstacle
+{
+	CP_Vector pos;
+	float width;
+	float height;
+} Obstacle;
+
+typedef struct BossCharacter
+{
+	CP_Vector pos;
+	float size;
+	// 보스에 추가될 요소들
+
+
+} BossCharacter;
+
 
 void PlayerMove(void);
-void DrawPlayer(float x, float y);
 void InitChar(float, float);
 void ChangeSpeed(void);
 void Dash(void);
 void PlayerInit(void);
 void DrawWall(void);
+PlayerCharacter* GetPlayer();

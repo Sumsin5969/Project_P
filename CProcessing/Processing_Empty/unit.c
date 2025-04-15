@@ -5,8 +5,13 @@
 #define DOWN CP_Input_KeyDown(KEY_DOWN)
 #define LEFT CP_Input_KeyDown(KEY_LEFT)
 #define RIGHT CP_Input_KeyDown(KEY_RIGHT)
+
 PlayerCharacter player;
-Enemy enemy;
+
+PlayerCharacter* GetPlayer()
+{
+	return &player;
+}
 
 void PlayerInit(void)
 {
@@ -15,7 +20,7 @@ void PlayerInit(void)
 	player.dashSpeedBoost = 1000.f;
 	player.size = 25.f;
 }
-void EnemyInit(void)
+void EnemyInit(Enemy enemy)
 {
 	enemy.appTime = 10.f;
 	enemy.isAttack = 0;
@@ -42,11 +47,12 @@ void PlayerMove(void) // 방향키를 입력받으면 플레이어를 이동시�
 	player.pos.y += player.direction.y * player.spd * dt;
 }
 
-void DrawPlayer(float x, float y) // 플레이어 캐릭터를 그려주는 함수
-{
-	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
-	CP_Graphics_DrawCircle(x, y, player.size);
-}
+// 랜더러로 넘긴다
+//void DrawPlayer(float x, float y) // 플레이어 캐릭터를 그려주는 함수
+//{
+//	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
+//	CP_Graphics_DrawCircle(x, y, player.size);
+//}
 
 void InitChar(float x, float y) // 디버깅용 위치 초기화 함수
 {
