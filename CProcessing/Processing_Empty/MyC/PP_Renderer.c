@@ -4,45 +4,34 @@
 #include "../Defines.h"
 #include "../Player.h"
 #include "../Enemy.h"
+#include "../Obstacle.h"
 
-void RenderWall()
+void RenderWall(Obstacle _obstacles[])
 {
-	//CamInfo* cam = GetCamera();
+	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
 
-	//CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-	//CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+	CamInfo* cam = GetCamera();
 
-	////CP_Vector leftwallPos = { WALLWIDTHSIZE / 2,HEIGHT / 2};
+	for (int i = 0; i < MAX; ++i)
+	{
+		CP_Matrix wallS;
+		wallS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+		CP_Matrix wallT;
+		wallT = CP_Matrix_Translate(cam->camPos);
+		CP_Matrix camMatrix = CP_Matrix_Multiply(wallT, wallS);
 
+		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacles[i].pos);
 
-	//CP_Matrix wallS;
-	//wallS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	//CP_Matrix wallT;
-	//wallT = CP_Matrix_Translate(cam->camPos);
-	//CP_Matrix camMatrix = CP_Matrix_Multiply(wallT, wallS);
-
-
-	//CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, leftwallPos);
-
-	//CP_Graphics_DrawRect(targetVector.x, targetVector.y, WALLWIDTHSIZE, HEIGHT);
-
-	// 왼쪽 벽
-	CP_Graphics_DrawRect(WALLWIDTHSIZE/2, (HEIGHT  / 2), WALLWIDTHSIZE, HEIGHT);
-
-	//// 오른쪽 벽
-	//CP_Graphics_DrawRect(WIDTH - (WALLWIDTHSIZE / 2), HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
-	//// 위쪽 벽
-	//CP_Graphics_DrawRect(WIDTH / 2, WALLHEIGHTSIZE / 2, WIDTH, WALLHEIGHTSIZE);
-	//// 아래쪽 벽
-	//CP_Graphics_DrawRect(WIDTH / 2, HEIGHT - (WALLHEIGHTSIZE / 2), WIDTH, WALLHEIGHTSIZE);
-
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacles[i].width, _obstacles[i].height);
+	}
 }
 
 void RenderPlayer(PlayerCharacter* _playerCharacter)
 {
 	CamInfo* cam = GetCamera();
 
-	
+
 	//CP_Vector baseV = CP_Vector_Set(WIDTH / 2 - _playerCharacter->pos.x, HEIGHT / 2 - _playerCharacter->pos.y);
 
 	CP_Matrix pcS;
@@ -50,7 +39,7 @@ void RenderPlayer(PlayerCharacter* _playerCharacter)
 	CP_Matrix pcT;
 	pcT = CP_Matrix_Translate(cam->camPos);
 
-	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT,pcS);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
 
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _playerCharacter->pos);
 

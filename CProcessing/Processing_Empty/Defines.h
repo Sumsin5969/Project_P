@@ -9,7 +9,9 @@ typedef enum WallDirect
 	LEFT,
 	RIGHT,
 	TOP,
-	BOTTOM
+	BOTTOM,
+	MAX
+
 } WallDirect;
 
 typedef enum UnitType
