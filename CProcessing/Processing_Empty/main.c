@@ -20,7 +20,7 @@ void game_update(void)
 
 void game_exit(void)
 {
-
+	FreeAll();
 }
 
 int main(void)

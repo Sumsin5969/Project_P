@@ -7,16 +7,34 @@
 
 void RenderWall()
 {
-	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+	//CamInfo* cam = GetCamera();
+
+	//CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+	//CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+
+	////CP_Vector leftwallPos = { WALLWIDTHSIZE / 2,HEIGHT / 2};
+
+
+	//CP_Matrix wallS;
+	//wallS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	//CP_Matrix wallT;
+	//wallT = CP_Matrix_Translate(cam->camPos);
+	//CP_Matrix camMatrix = CP_Matrix_Multiply(wallT, wallS);
+
+
+	//CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, leftwallPos);
+
+	//CP_Graphics_DrawRect(targetVector.x, targetVector.y, WALLWIDTHSIZE, HEIGHT);
+
 	// 왼쪽 벽
-	CP_Graphics_DrawRect(WALLWIDTHSIZE / 2, HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
-	// 오른쪽 벽
-	CP_Graphics_DrawRect(WIDTH - (WALLWIDTHSIZE / 2), HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
-	// 위쪽 벽
-	CP_Graphics_DrawRect(WIDTH / 2, WALLHEIGHTSIZE / 2, WIDTH, WALLHEIGHTSIZE);
-	// 아래쪽 벽
-	CP_Graphics_DrawRect(WIDTH / 2, HEIGHT - (WALLHEIGHTSIZE / 2), WIDTH, WALLHEIGHTSIZE);
+	CP_Graphics_DrawRect(WALLWIDTHSIZE/2, (HEIGHT  / 2), WALLWIDTHSIZE, HEIGHT);
+
+	//// 오른쪽 벽
+	//CP_Graphics_DrawRect(WIDTH - (WALLWIDTHSIZE / 2), HEIGHT / 2, WALLWIDTHSIZE, HEIGHT);
+	//// 위쪽 벽
+	//CP_Graphics_DrawRect(WIDTH / 2, WALLHEIGHTSIZE / 2, WIDTH, WALLHEIGHTSIZE);
+	//// 아래쪽 벽
+	//CP_Graphics_DrawRect(WIDTH / 2, HEIGHT - (WALLHEIGHTSIZE / 2), WIDTH, WALLHEIGHTSIZE);
 
 }
 

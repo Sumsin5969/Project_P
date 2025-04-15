@@ -4,6 +4,14 @@
 #define WALLWIDTHSIZE 30
 #define WALLHEIGHTSIZE 24
 
+typedef enum WallDirect
+{
+	LEFT,
+	RIGHT,
+	TOP,
+	BOTTOM
+} WallDirect;
+
 typedef enum UnitType
 {
 	PLAYERCHARACTER = 0,

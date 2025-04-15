@@ -59,8 +59,11 @@ void PrintPlayerInfo(struct PlayerCharacter* _pc)
 	sprintf_s(buffer, sizeof(playerSpeed), "Speed : %.2f", _pc->spd);
 	CP_Font_DrawText(buffer, 500, 100);
 	
-	sprintf_s(buffer, sizeof(playerSpeed), "playerSize : %.2f", _pc->size * GetCamera()->camZoom);
+	sprintf_s(buffer, sizeof(playerSpeed), "playerSize : %.5f", _pc->size * GetCamera()->camZoom);
 	CP_Font_DrawText(buffer, 1000, 0);
+
+	sprintf_s(buffer, sizeof(playerSpeed), "camzoomValue : %.5f", GetCamera()->camZoom);
+	CP_Font_DrawText(buffer, 1000, 50);
 }
 
 void PrintFloat(int _Index,float _xPos, float _yPos, char* _string, float _value)

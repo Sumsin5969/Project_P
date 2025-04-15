@@ -12,4 +12,4 @@ void InitCamera();
 CamInfo* GetCamera();
 void ZoomIn();
 void ZoomOut();
-
+void DestroyCam();
