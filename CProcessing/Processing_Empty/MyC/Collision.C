@@ -7,7 +7,6 @@ int isWall = 0;
 
 int CheckWall(PlayerCharacter pc)
 {
-	return 0;
 	float rightwall = WIDTH - WALLWIDTHSIZE;
 	if(pc.pos.x + pc.size >= rightwall)
 	{
