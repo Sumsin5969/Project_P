@@ -1,18 +1,16 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "../unit.h"
 #include "ZoomCamera.h"
 #include "PP_Renderer.h"
 #include "../Defines.h"
 #include "JhDebug.h"
 #include "Collision.h"
+#include "../Enemy.h"
 
-
-
-	PlayerCharacter* playerCharacter;
-	Enemy* enemyCharacter;
-	Obstacle* obstacle;
-	BossCharacter* boss;
+PlayerCharacter* playerCharacter;
+Enemy* enemyCharacter;
+//Obstacle* obstacle;
+//BossCharacter* boss;
 
 void InitGameManager()
 {
@@ -38,7 +36,7 @@ void GMLateUpdate()
 
 	RenderWall();
 
-	RenderPlayer(allUnit->playerCharacter);
+	RenderPlayer(playerCharacter);
 
 	DebugUpdate();
 }

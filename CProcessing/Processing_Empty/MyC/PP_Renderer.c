@@ -1,8 +1,9 @@
 #include "cprocessing.h"
-#include "../unit.h"
+#include "PP_Renderer.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
 #include "../Player.h"
+#include "../Enemy.h"
 
 void RenderWall()
 {
@@ -46,11 +47,11 @@ void RenderEnemy(Enemy* _enemy)
 	CP_Graphics_DrawRect(_enemy->pos.x, _enemy->pos.y, _enemy->size, _enemy->size);
 }
 
-void RenderObstacle(Obstacle* _obstacle)
-{
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Graphics_DrawRect(_obstacle->pos.x, _obstacle->pos.y, _obstacle->width, _obstacle->height);
-}
+//void RenderObstacle(Obstacle* _obstacle)
+//{
+//	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+//	CP_Graphics_DrawRect(_obstacle->pos.x, _obstacle->pos.y, _obstacle->width, _obstacle->height);
+//}
 
 void RenderBoss()
 

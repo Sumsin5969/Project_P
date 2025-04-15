@@ -3,12 +3,12 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="MyC\Collision.c" />
-    <ClCompile Include="unit.c" />
     <ClCompile Include="MyC\JhDebug.c" />
     <ClCompile Include="MyC\ZoomCamera.c" />
     <ClCompile Include="MyC\GameManager.c" />
     <ClCompile Include="MyC\PP_Renderer.c" />
     <ClCompile Include="Player.c" />
+    <ClCompile Include="Enemy.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyC\Collision.h">
@@ -24,6 +24,7 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
