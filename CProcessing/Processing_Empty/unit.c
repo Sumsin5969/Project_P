@@ -18,7 +18,7 @@ void PlayerInit(void)
 	player.isDashing = 0;
 	player.dashTime = 0.3f;
 	player.dashSpeedBoost = 1000.f;
-	player.size = 25.f;
+	player.size = 100.f;
 	player.pos.x = 0;
 	player.pos.y = 0;
 

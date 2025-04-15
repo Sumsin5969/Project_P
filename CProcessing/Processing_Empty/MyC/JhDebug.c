@@ -69,11 +69,11 @@ void PrintFloat(int _Index,float _xPos, float _yPos, char* _string, float _value
 
 void ZoomTest()
 {
-	if (CP_Input_KeyDown(KEY_F3))
+	if (CP_Input_KeyReleased(KEY_F3))
 	{
 		ZoomIn();
 	}
-	else if (CP_Input_KeyDown(KEY_F4))
+	else if (CP_Input_KeyReleased(KEY_F4))
 	{
 		ZoomOut();
 	}
