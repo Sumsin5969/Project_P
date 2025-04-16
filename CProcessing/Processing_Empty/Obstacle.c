@@ -3,6 +3,7 @@
 
 void InitWall(Obstacle* _wall, WallDirect _wd)
 {
+
 	switch (_wd)
 	{
 	case LEFT:
