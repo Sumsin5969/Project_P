@@ -9,4 +9,4 @@ typedef struct Obstacle
 	float height;
 } Obstacle;
 
-void InitWall(Obstacle _wall, WallDirect _wd);
+void InitWall(Obstacle* _wall, WallDirect _wd);

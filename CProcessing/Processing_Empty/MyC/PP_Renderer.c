@@ -6,25 +6,33 @@
 #include "../Enemy.h"
 #include "../Obstacle.h"
 
-void RenderWall(Obstacle _obstacles[])
+#include "stdio.h"
+
+void RenderWall(Obstacle* _obstacles)
 {
-	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
 
 	CamInfo* cam = GetCamera();
 
 	for (int i = 0; i < MAX; ++i)
 	{
-		CP_Matrix wallS;
-		wallS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-		CP_Matrix wallT;
-		wallT = CP_Matrix_Translate(cam->camPos);
+
+		CP_Matrix  wallS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+		CP_Matrix  wallT = CP_Matrix_Translate(cam->camPos);
 		CP_Matrix camMatrix = CP_Matrix_Multiply(wallT, wallS);
 
 		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacles[i].pos);
 
 		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacles[i].width, _obstacles[i].height);
 	}
+
+	/*for (int i = 0; i < MAX; ++i)
+	{
+		CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
+	}*/
+
+
 }
 
 void RenderPlayer(PlayerCharacter* _playerCharacter)

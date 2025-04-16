@@ -4,13 +4,14 @@
 #include "cprocessing.h"
 #include "math.h"
 #include "GameManager.h"
+
 CamInfo* cam;
 
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
 	
-	cam->camPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f, CP_System_GetWindowHeight() * 0.5f); // 카메라 포지션을 중앙으로
+	cam->camPos = CP_Vector_Set(W* 0.5f, CP_System_GetWindowHeight() * 0.5f); // 카메라 포지션을 중앙으로
 
 	cam->camZoom = 1;
 

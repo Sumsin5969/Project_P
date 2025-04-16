@@ -29,10 +29,10 @@ void InitGameManager()
 
 	InitDebuging();
 
-	InitWall(wall[0], LEFT);
-	InitWall(wall[1], RIGHT);
-	InitWall(wall[2], TOP);
-	InitWall(wall[3], BOTTOM);
+	InitWall(&wall[0], LEFT);
+	InitWall(&wall[1], RIGHT);
+	InitWall(&wall[2], TOP);
+	InitWall(&wall[3], BOTTOM);
 
 }
 
@@ -47,12 +47,12 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	RenderWall(wall);
-
 	EnemyLaserAttack();
 
+	RenderWall(wall);
+
 	RenderPlayer(playerCharacter);
-	
+
 
 	DebugUpdate();
 }

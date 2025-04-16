@@ -3,7 +3,7 @@
 #include "../Enemy.h"
 #include "../Obstacle.h"
 
-void RenderWall(Obstacle[4]);
+void RenderWall(Obstacle*);
 void RenderPlayer(PlayerCharacter*);
 void RenderEnemy(Enemy*);
 //void RenderObstacle(Obstacle*);
