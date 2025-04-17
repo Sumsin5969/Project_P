@@ -63,16 +63,16 @@ void RenderEnemy(Enemy* _enemy)
 //	CP_Graphics_DrawRect(_obstacle->pos.x, _obstacle->pos.y, _obstacle->width, _obstacle->height);
 //}
 
-int LaserAlpha = 50;
-int LaserAlphaMax = 125;
-float LaserChargeTime = 1.5f;
-float LaserChargeWidth = 0.f;
-float LaserWidth = 150.f;
-float LaserTimer = 0.f;
-float LaserAttackTimer = 0.f;
-float LaserTime = 1.f;
-float LaserDelay = 0.5f;
-float LaserDelayTimer = 0.f;
+int LaserAlpha = 50; // 전조 알파값
+int LaserAlphaMax = 125; // 전조 최대 알파값
+float LaserTimer = 0.f; // 전조 시간
+float LaserChargeTime = 1.5f; // 전조 시간 cap
+float LaserChargeWidth = 0.f; // 전조 범위
+float LaserWidth = 150.f; // 전조 범위 cap
+float LaserAttackTimer = 0.f; // 공격 시간
+float LaserTime = 1.f; // 공격 시간 cap
+float LaserDelay = 0.5f; // 전조 후 발사 전 사라질 시간 cap
+float LaserDelayTimer = 0.f; // 사라질 시간
 void EnemyLaserAttack()
 {
 	float dt = CP_System_GetDt();
