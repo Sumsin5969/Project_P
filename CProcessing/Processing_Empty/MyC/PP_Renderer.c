@@ -5,8 +5,8 @@
 #include "../Player.h"
 #include "../Enemy.h"
 #include "../Obstacle.h"
-
 #include "stdio.h"
+#include <math.h>
 
 void RenderWall(Obstacle* _obstacles)
 {
@@ -30,7 +30,7 @@ void RenderWall(Obstacle* _obstacles)
 
 }
 
-void RenderPlayer(PlayerCharacter* _playerCharacter)
+void RenderPlayer()
 {
 	CamInfo* cam = GetCamera();
 
@@ -44,17 +44,17 @@ void RenderPlayer(PlayerCharacter* _playerCharacter)
 
 	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
 
-	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _playerCharacter->pos);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, player->pos);
 
 	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
 
-	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * _playerCharacter->size);
+	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 }
 
-void RenderEnemy(Enemy* _enemy)
+void RenderEnemy()
 {
 	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-	CP_Graphics_DrawRect(_enemy->pos.x, _enemy->pos.y, _enemy->size, _enemy->size);
+	CP_Graphics_DrawRect(enemy->pos.x, enemy->pos.y, enemy->size, enemy->size);
 }
 
 //void RenderObstacle(Obstacle* _obstacle)
@@ -105,6 +105,39 @@ void EnemyLaserAttack()
 		{
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
 			CP_Graphics_DrawRect(WIDTH / 2, 100, 100, HEIGHT*10);
+		}
+	}
+}
+
+
+void EnemyBulletFire()
+{
+	float dt = CP_System_GetDt();
+	float originX = enemy->pos.x;
+	float originY = enemy->pos.y;
+	for (int i = 0; i < MAX_BULLET; i++)
+	{
+		if (!bullets[i].active)
+		{
+			bullets[i].projPos.x = originX;
+			bullets[i].projPos.y = originY;
+			bullets[i].fireAngle = CP_Math_Radians(bullets[i].degree);
+			bullets[i].fireDir.x = cosf(bullets[i].fireAngle);
+			bullets[i].fireDir.y = sinf(bullets[i].fireAngle);
+			bullets[i].active = 1;
+			bullets[i].fireTime = 0;
+		}
+		if (bullets[i].active)
+		{
+			bullets[i].fireTime += dt;
+			if (bullets[i].fireTime > bullets[i].fireRate)
+			{
+				bullets[i].projPos.x += bullets[i].projSpd * bullets[i].fireDir.x * dt;
+				bullets[i].projPos.y += bullets[i].projSpd * bullets[i].fireDir.y * dt;
+				bullets[i].degree += 360.f / MAX_BULLET;
+				CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+				CP_Graphics_DrawCircle(bullets[i].projPos.x, bullets[i].projPos.y, 10.f);
+			}
 		}
 	}
 }

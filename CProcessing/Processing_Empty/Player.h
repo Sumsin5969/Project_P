@@ -1,5 +1,6 @@
 #pragma once
 #include "cprocessing.h"
+#include <stdlib.h>
 
 typedef struct PlayerCharacter
 {
@@ -15,8 +16,10 @@ typedef struct PlayerCharacter
 	CP_Vector direction;
 } PlayerCharacter;
 
-PlayerCharacter* GetPlayer();
+PlayerCharacter* player;
+
 void PlayerMove(void);
 void ChangeSpeed(void);
 void Dash(void);
 void PlayerInit(void);
+void DestroyPlayer();

@@ -20,8 +20,6 @@ float nowTime;
 float nowFrameCount;
 CP_Font my_awesome_font;
 
-static PlayerCharacter* pc;
-
 void InitDebuging()
 {
 	my_awesome_font = CP_Font_Load("Assets/Exo2-Regular.ttf");
@@ -31,8 +29,6 @@ void InitDebuging()
 
 	nowTime = 0.f;
 	nowFrameCount = 0.f;
-
-	pc = GetPlayer();
 }
 
 void PrintFrameInfo()
@@ -47,18 +43,18 @@ void PrintFrameInfo()
 	CP_Font_DrawText(buffer, 0, 50);
 }
 
-void PrintPlayerInfo(struct PlayerCharacter* _pc)
+void PrintPlayerInfo()
 {
-	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", _pc->pos.x);
+	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", player->pos.x);
 	CP_Font_DrawText(buffer, 500, 0);
 
-	sprintf_s(buffer, sizeof(playerPosY), "Y : %.2f", _pc->pos.y);
+	sprintf_s(buffer, sizeof(playerPosY), "Y : %.2f", player->pos.y);
 	CP_Font_DrawText(buffer, 500, 50);
 
-	sprintf_s(buffer, sizeof(playerSpeed), "Speed : %.2f", _pc->spd);
+	sprintf_s(buffer, sizeof(playerSpeed), "Speed : %.2f", player->spd);
 	CP_Font_DrawText(buffer, 500, 100);
 	
-	sprintf_s(buffer, sizeof(playerSpeed), "playerSize : %.5f", _pc->size * GetCamera()->camZoom);
+	sprintf_s(buffer, sizeof(playerSpeed), "playerSize : %.5f", player->size * GetCamera()->camZoom);
 	CP_Font_DrawText(buffer, 1000, 0);
 
 	sprintf_s(buffer, sizeof(playerSpeed), "camzoomValue : %.5f", GetCamera()->camZoom);
@@ -93,8 +89,8 @@ void DebugUpdate()
 {
 
 	PrintFrameInfo();
-	PrintPlayerInfo(pc);
-	PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", pc->dashDecayRate);
+	PrintPlayerInfo();
+	PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", player->dashDecayRate);
 
 	PlayerToZero();
 	ZoomTest();

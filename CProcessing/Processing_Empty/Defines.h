@@ -3,6 +3,7 @@
 #define HEIGHT 990
 #define WALLWIDTHSIZE 30
 #define WALLHEIGHTSIZE 24
+#define MAX_BULLET 3000
 typedef enum WallDirect
 {
 	LEFT,

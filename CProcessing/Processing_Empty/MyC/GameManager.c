@@ -7,8 +7,7 @@
 #include "Collision.h"
 #include "../Enemy.h"
 #include "../Obstacle.h"
-PlayerCharacter* playerCharacter;
-Enemy* enemyCharacter;
+
 Obstacle wall[MAX];
 //Obstacle* obstacle;
 //BossCharacter* boss;
@@ -19,13 +18,13 @@ PlayerState playerState;
 
 void InitGameManager()
 {
+	InitCamera();
+
 	PlayerInit();
 
-	playerState = NORMAL;
+	BulletInit();
 
-	playerCharacter = GetPlayer();
-
-	InitCamera();
+	EnemyInit();
 
 	InitDebuging();
 
@@ -49,15 +48,22 @@ void GMLateUpdate()
 
 	EnemyLaserAttack();
 
+	EnemyBulletFire();
+
 	RenderWall(wall);
 
-	RenderPlayer(playerCharacter);
+	RenderEnemy();
+
+	RenderPlayer();
 
 
 	DebugUpdate();
 }
-
+// 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
+// cam, EnemyInit, 
 void FreeAll()
-{
-	
+{ 
+	DestroyPlayer();
+	DestroyEnemy();
+	DestroyCam();
 }

@@ -10,7 +10,13 @@ CamInfo* cam;
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
-	
+
+	if (cam == NULL)
+	{
+		printf("[ERROR] Failed to allocate memory for camera!\n");
+		return;
+	}
+
 	cam->camPos = CP_Vector_Set(WIDTH * 0.5f, HEIGHT * 0.5f); // 카메라 포지션을 중앙으로
 
 	cam->camZoom = 1;
@@ -29,6 +35,11 @@ void InitCamera()
 
 CamInfo* GetCamera()
 {
+	if (cam == NULL)
+	{
+		printf("Error: Camera not initialized!\n");
+		return NULL;
+	}
 	CP_Matrix scale = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom,cam->camZoom));
 	//CP_Matrix rotate = CP_Matrix_Rotate(cam.rota);
 	CP_Matrix translate = CP_Matrix_Translate(CP_Vector_Set(-cam->camPos.x, -cam->camPos.y));
@@ -53,5 +64,6 @@ void ZoomOut()
 void DestroyCam() //todo 게임매니저 혹은 메인에 넣을것
 {
 	free(cam);
+	cam = NULL;
 }
 

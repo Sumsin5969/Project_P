@@ -4,10 +4,10 @@
 #include "../Obstacle.h"
 
 void RenderWall(Obstacle*);
-void RenderPlayer(PlayerCharacter*);
-void RenderEnemy(Enemy*);
+void RenderPlayer();
+void RenderEnemy();
 //void RenderObstacle(Obstacle*);
-void RenderBoss();
-
-void RenderAll();
 void EnemyLaserAttack();
+void EnemyBulletFire();
+void RenderBoss();
+void RenderAll();
