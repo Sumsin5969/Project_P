@@ -9,6 +9,8 @@
     <ClCompile Include="MyC\PP_Renderer.c" />
     <ClCompile Include="Player.c" />
     <ClCompile Include="Enemy.c" />
+    <ClCompile Include="Obstacle.c" />
+    <ClCompile Include="StageManager.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyC\Collision.h">
@@ -25,6 +27,7 @@
     </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
