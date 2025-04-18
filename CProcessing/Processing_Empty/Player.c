@@ -18,7 +18,6 @@ void PlayerInit(void)
 		return;
 	}
 	player->isDashing = 0;
-	player->isHit = 0;
 	player->playerState = NORMAL;
 	player->dashTime = 0.3f;
 	player->dashSpeedBoost = 1000.f;
@@ -94,16 +93,6 @@ void Dash(void)
 		}
 	}
 
-}
-
-void PlayerHit()
-{
-	if (player->isHit == 1)
-	{
-		playerState = HIT;
-		player->isHit = 0;
-	}
-	
 }
 
 void DestroyPlayer()

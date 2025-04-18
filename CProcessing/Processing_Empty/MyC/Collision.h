@@ -3,4 +3,4 @@
 
 typedef struct Obstacle Obstacle;
 
-int CheckWall(Obstacle* );
+void CheckWall(Obstacle* );

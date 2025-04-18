@@ -8,7 +8,6 @@ typedef struct PlayerCharacter
 	CP_Vector pos;
 	float spd;
 	int isDashing;
-	int isHit;
 	float dashTime;
 	float dashTimer;
 	float dashSpeedBoost;
