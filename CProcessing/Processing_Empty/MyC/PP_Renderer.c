@@ -13,7 +13,6 @@ void RenderWall(Obstacle* _obstacles)
 	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
 
-	CamInfo* cam = GetCamera();
 
 	for (int i = 0; i < MAX; ++i)
 	{
@@ -56,7 +55,7 @@ void RenderEnemy()
 
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
 
-	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
+	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemy->size, cam->camZoom * enemy->size);
 }
@@ -84,8 +83,6 @@ void LaserAttack()
 	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix pcT;
 	pcT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
-	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
 
 	float dt = CP_System_GetDt();
 	if (LaserTimer > LaserChargeTime && LaserAttackTimer > LaserTime)
@@ -122,13 +119,21 @@ void LaserAttack()
 }
 
 
-void EnemyBulletFire()
+void CircleBulletFire()
 {
+	CamInfo* cam = GetCamera();
+	CP_Matrix pcS;
+	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix pcT;
+	pcT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
 	float dt = CP_System_GetDt();
 	float originX = enemy->pos.x;
 	float originY = enemy->pos.y;
 	for (int i = 0; i < MAX_BULLET; i++)
 	{
+		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, bullets[i].projPos);
+		bullets[i].projTime += dt;
 		if (!bullets[i].active)
 		{
 			bullets[i].projPos.x = originX;
@@ -137,7 +142,6 @@ void EnemyBulletFire()
 			bullets[i].fireDir.x = cosf(bullets[i].fireAngle);
 			bullets[i].fireDir.y = sinf(bullets[i].fireAngle);
 			bullets[i].active = 1;
-			bullets[i].fireTime = 0;
 		}
 		if (bullets[i].active)
 		{
@@ -148,8 +152,13 @@ void EnemyBulletFire()
 				bullets[i].projPos.y += bullets[i].projSpd * bullets[i].fireDir.y * dt;
 				bullets[i].degree += 360.f / MAX_BULLET;
 				CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-				CP_Graphics_DrawCircle(bullets[i].projPos.x, bullets[i].projPos.y, bullets[i].size);
+				CP_Graphics_DrawCircle(targetVector.x, targetVector.y, bullets[i].size * cam->camZoom);
 			}
+		}
+		if (bullets[i].projTime > 10.f)
+		{
+			bullets[i].projTime = 0;
+			BulletInit();
 		}
 	}
 }
@@ -165,4 +174,18 @@ void RenderAll()
 
 }
 
+char timeBuffer[10];
+float stageTime = 30.f;
+void StageTimer()
+{
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	float elapsedTime = CP_System_GetDt();
+	if (player->playerState == HIT)
+	{
+		elapsedTime = 0;
+		stageTime = 30.f;
+	}
+	stageTime -= elapsedTime;
+}
 

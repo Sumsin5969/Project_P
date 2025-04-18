@@ -13,8 +13,8 @@ void EnemyInit()
 	enemy->appTime = 10.f;
 	enemy->isAttack = 0;
 	enemy->spd = 100.f;
-	enemy->pos.x = 0;
-	enemy->pos.y = 0;
+	enemy->pos.x = 500;
+	enemy->pos.y = 100;
 	enemy->size = 50.f;
 }
 void BulletInit()
@@ -26,6 +26,7 @@ void BulletInit()
 		bullets[i].fireCoolTime = .5f;
 		bullets[i].fireTime = 0.f;
 		bullets[i].projSpd = 200.f;
+		bullets[i].projTime = 0.f;
 		bullets[i].size = 10.f;
 	}
 }

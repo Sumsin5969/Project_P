@@ -8,6 +8,7 @@ void RenderPlayer();
 void RenderEnemy();
 //void RenderObstacle(Obstacle*);
 void LaserAttack();
-void EnemyBulletFire();
+void CircleBulletFire();
 void RenderBoss();
 void RenderAll();
+void StageTimer();

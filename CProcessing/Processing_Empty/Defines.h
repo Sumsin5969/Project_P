@@ -3,7 +3,7 @@
 #define HEIGHT 990
 #define WALLWIDTHSIZE 30
 #define WALLHEIGHTSIZE 24
-#define MAX_BULLET 3000
+#define MAX_BULLET 2300
 typedef enum ObstacleType
 {
 	WALL_LEFT,
@@ -27,3 +27,17 @@ typedef enum PlayerState
 	HIT,
 	NORMAL,
 } PlayerState;
+
+typedef enum StageState
+{
+	MainMenu,
+	GameOver,
+	GameClear,
+	StageOne,
+	StageTwo,
+	StageThree,
+	StageFour,
+	StageFive,
+	StageBoss
+} StageState;
+PlayerState playerState;

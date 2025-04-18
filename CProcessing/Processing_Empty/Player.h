@@ -1,5 +1,6 @@
 #pragma once
 #include "cprocessing.h"
+#include "Defines.h"
 #include <stdlib.h>
 
 typedef struct PlayerCharacter
@@ -7,6 +8,7 @@ typedef struct PlayerCharacter
 	CP_Vector pos;
 	float spd;
 	int isDashing;
+	int isHit;
 	float dashTime;
 	float dashTimer;
 	float dashSpeedBoost;
@@ -14,6 +16,7 @@ typedef struct PlayerCharacter
 	float dashDecayRate;
 	float size;
 	CP_Vector direction;
+	PlayerState playerState;
 } PlayerCharacter;
 
 PlayerCharacter* player;
