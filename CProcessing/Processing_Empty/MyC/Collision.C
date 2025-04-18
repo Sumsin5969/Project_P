@@ -9,41 +9,43 @@ int isWall = 0;
 
 PlayerState CheckWall(Obstacle* _obstacle)
 {
-	//CP_Vector camPos = GetCamera()->camPos;
+	CP_Vector camPos = GetCamera()->camPos;
 
-	switch (_obstacle->type)
+	for (int i = 0; i < 4; ++i)
 	{
-	case WALL_LEFT:
-		
-		if (player->pos.x - player->size < _obstacle->width)
+		switch (_obstacle[i].type)
 		{
-			printf("왼쪽벽 X = %f", player->pos.x - player->size);
-			printf("왼쪽벽에 부딪힘\n");
-			return HIT;
+		case WALL_LEFT:
+			if (player->pos.x - player->size / 2 + camPos.x < _obstacle[i].pos.x + _obstacle[i].width / 2)
+			{
+				printf("왼쪽벽에 부딪힘");
+				return HIT;
+			}
+			break;
+		case WALL_RIGHT:
+			if (_obstacle[i].pos.x - _obstacle[i].width / 2 < player->pos.x + player->size / 2 + camPos.x)
+			{
+				printf("오른쪽벽에 부딪힘\n");
+				return HIT;
+			}
+			break;
+		case WALL_TOP:
+			if (player->pos.y - player->size / 2 + camPos.y < _obstacle[i].pos.y + _obstacle[i].height / 2)
+			{
+				printf("위쪽벽에 부딪힘\n");
+				return HIT;
+			}
+			break;
+		case WALL_BOTTOM:
+			if (_obstacle[i].pos.y - _obstacle[i].height / 2 < player->pos.y + player->size / 2 + camPos.y)
+			{
+				printf("아래벽에 부딪힘\n");
+				return HIT;
+			}
+			break;
 		}
-		break;
-	case WALL_RIGHT:
-		if (_obstacle->pos.x - _obstacle->width < player->pos.x + player->size);
-		{
-			printf("오른쪽벽에 부딪힘\n");
-			return HIT;
-		}
-		break;
-	case WALL_TOP:
-		if (-_obstacle->height < player->pos.y - player->size);
-		{
-			printf("위쪽벽에 부딪힘\n");
-			return HIT;
-		}
-		break;
-	case WALL_BOTTOM:
-		if (player->pos.y - player->size < _obstacle->pos.y + _obstacle->height);
-		{
-			printf("아래벽에 부딪힘\n");
-			return HIT;
-		}
-		break;
+
 	}
-	
+
 	return NORMAL;
 }

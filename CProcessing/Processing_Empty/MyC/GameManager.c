@@ -28,11 +28,8 @@ void InitGameManager()
 
 	InitDebuging();
 
-	InitWall(&wall[0]);
-	InitWall(&wall[1]);
-	InitWall(&wall[2]);
-	InitWall(&wall[3]);
-
+	SetWallType(wall);
+	InitWall(wall);
 }
 
 void GMUpdate()
@@ -40,17 +37,13 @@ void GMUpdate()
 	PlayerMove();
 	Dash();
 	CheckWall(&wall[0]);
-	CheckWall(&wall[1]);
-	CheckWall(&wall[2]);
-	CheckWall(&wall[3]);
-
 }
 
 void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	EnemyLaserAttack();
+	LaserAttack();
 
 	EnemyBulletFire();
 
