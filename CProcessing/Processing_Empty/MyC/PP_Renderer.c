@@ -54,11 +54,12 @@ void RenderEnemy()
 
 	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
 
-	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
-
 	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-
-	CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemy->size, cam->camZoom * enemy->size);
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemies[i].pos);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemies[i].size, cam->camZoom * enemies[i].size);
+	}
 }
 
 //void RenderObstacle(Obstacle* _obstacle)
@@ -120,7 +121,7 @@ void LaserAttack()
 }
 
 
-void CircleBulletFire()
+void CircleBulletFire(Enemy* e, Bullet* b)
 {
 	CamInfo* cam = GetCamera();
 	CP_Matrix pcS;
@@ -129,37 +130,38 @@ void CircleBulletFire()
 	pcT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
 	float dt = CP_System_GetDt();
-	float originX = enemy->pos.x;
-	float originY = enemy->pos.y;
-	for (int i = 0; i < MAX_BULLET; i++)
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
-		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, bullets[i].projPos);
-		bullets[i].projTime += dt;
-		if (!bullets[i].active)
+		float originX = e->pos.x;
+		float originY = e->pos.y;
+		b[i].projTime += dt;
+		if (!b[i].active)
 		{
-			bullets[i].projPos.x = originX;
-			bullets[i].projPos.y = originY;
-			bullets[i].fireAngle = CP_Math_Radians(bullets[i].degree);
-			bullets[i].fireDir.x = cosf(bullets[i].fireAngle);
-			bullets[i].fireDir.y = sinf(bullets[i].fireAngle);
-			bullets[i].active = 1;
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
+			b[i].fireAngle = CP_Math_Radians(b[i].degree);
+			b[i].fireDir.x = cosf(b[i].fireAngle);
+			b[i].fireDir.y = sinf(b[i].fireAngle);
+			b[i].active = 1;
 		}
-		if (bullets[i].active)
+		if (b[i].active)
 		{
-			bullets[i].fireTime += dt;
-			if (bullets[i].fireTime > bullets[i].fireCoolTime)
+			b[i].fireTime += dt;
+			if (b[i].fireTime > b[i].fireCoolTime)
 			{
-				bullets[i].projPos.x += bullets[i].projSpd * bullets[i].fireDir.x * dt;
-				bullets[i].projPos.y += bullets[i].projSpd * bullets[i].fireDir.y * dt;
-				bullets[i].degree += 360.f / MAX_BULLET;
+				b[i].projPos.x += b[i].projSpd * b[i].fireDir.x * dt;
+				b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
+				b[i].degree += 360.f / MAX_BULLETS_PER_ENEMY;
 				CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-				CP_Graphics_DrawCircle(targetVector.x, targetVector.y, bullets[i].size * cam->camZoom);
+				CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b[i].projPos);
+				CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b[i].size * cam->camZoom);
 			}
 		}
-		if (bullets[i].projTime > 10.f)
+		if (b[i].projTime > 1.f)
 		{
-			bullets[i].projTime = 0;
-			BulletInit();
+			b[i].projTime = 0;
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
 		}
 	}
 }

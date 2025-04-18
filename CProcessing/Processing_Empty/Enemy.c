@@ -4,34 +4,31 @@
 #include "Defines.h"
 void EnemyInit()
 {
-	enemy = (Enemy*)calloc(1, sizeof(Enemy));
-	if (enemy == NULL)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		printf("ERROR: enemy not initialized!\n");
-		return;
-	}
-	enemy->appTime = 10.f;
-	enemy->isAttack = 0;
-	enemy->spd = 100.f;
-	enemy->pos.x = 500;
-	enemy->pos.y = 100;
-	enemy->size = 50.f;
-}
-void BulletInit()
-{
-	for (int i = 0; i < MAX_BULLET; i++)
-	{
-		bullets[i].active = 0;
-		bullets[i].degree = i * (360.f / MAX_BULLET);
-		bullets[i].fireCoolTime = .5f;
-		bullets[i].fireTime = 0.f;
-		bullets[i].projSpd = 200.f;
-		bullets[i].projTime = 0.f;
-		bullets[i].size = 10.f;
+		enemies[i].appTime = 10.f;
+		enemies[i].isAttack = 0;
+		enemies[i].spd = 100.f;
+		enemies[i].pos.x = 0;
+		enemies[i].pos.y = 0;
+		enemies[i].size = 50.f;
+		enemies[i].active = 0;
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			allBullets[i][j].active = 0;
+			allBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+			allBullets[i][j].fireCoolTime = 0.3f;
+			allBullets[i][j].fireTime = 0.f;
+			allBullets[i][j].projSpd = 1000.f;
+			allBullets[i][j].projTime = 0.f;
+			allBullets[i][j].size = 100.f;
+		}
 	}
 }
-void DestroyEnemy()
+void DisableEnemy()
 {
-	free(enemy);
-	enemy = NULL;
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		enemies[i].active = 0;
+	}
 }

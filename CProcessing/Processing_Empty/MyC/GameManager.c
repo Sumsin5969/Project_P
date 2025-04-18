@@ -15,14 +15,13 @@ Obstacle wall[MAX];
 
 PlayerState playerState;
 StageState stageState;
+GameState gameState;
 
 void InitGameManager()
 {
 	InitCamera();
 
 	PlayerInit();
-
-	BulletInit();
 
 	EnemyInit();
 
@@ -44,8 +43,10 @@ void GMLateUpdate()
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
 	LaserAttack();
-
-	CircleBulletFire();
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		CircleBulletFire(&enemies[i], allBullets[i]);
+	}
 
 	RenderWall(wall);
 
@@ -54,7 +55,8 @@ void GMLateUpdate()
 	RenderPlayer();
 
 	DebugUpdate();
-
+	if (CP_Input_KeyTriggered(KEY_A)) gameState = ChangingStage; // 게임스테이트 디버깅용
+	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	StageTimer();
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
@@ -62,7 +64,6 @@ void GMLateUpdate()
 void FreeAll()
 {
 	DestroyPlayer();
-	DestroyEnemy();
 	DestroyCam();
 }
 
@@ -74,4 +75,9 @@ PlayerState GetPlayerState()
 StageState GetStageState()
 {
 	return stageState;
+}
+
+GameState GetGameState()
+{
+	return gameState;
 }

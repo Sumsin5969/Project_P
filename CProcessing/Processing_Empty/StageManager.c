@@ -24,23 +24,30 @@ void OnPlayerHit()
 {
 	// prevstg ㄱㄱ
 	// 무적 ㄱㄱ
-	// 
 }
 
 char timeBuffer[10];
-float stageTime = 30.f;
+float stageTime = 30.f; // 타이머
+float timeAcc = 0.f; // 가중치
 void StageTimer()
 {
-	float elapsedTime = CP_System_GetDt();
-	if (GetStageState() == Play)
+	float dt = CP_System_GetDt();
+	if (GetGameState() == Play)
 	{
 		sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 		CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
-		stageTime -= elapsedTime;
+		stageTime -= dt; // 타이머 흐르게
 	}
 	else
 	{
-		elapsedTime = 0;
-		stageTime = 30.f;
+		sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+		CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+		timeAcc += dt;
+		stageTime += dt * timeAcc;
+		if (stageTime >= 30.f)
+		{
+			stageTime = 30.f;
+			timeAcc = 0.f;
+		}
 	}
 }

@@ -8,8 +8,8 @@ typedef struct Enemy
 	int isAttack;
 	float appTime;
 	float size;
+	int active;
 } Enemy;
-Enemy* enemy;
 
 typedef struct Bullet
 {
@@ -24,7 +24,8 @@ typedef struct Bullet
 	CP_Vector fireDir;
 	int active;
 } Bullet;
-Bullet bullets[MAX_BULLET];
-void BulletInit();
+Enemy enemies[MAX_ENEMIES];
+Bullet allBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+void BulletInit(Bullet* bullets);
 void EnemyInit();
-void DestroyEnemy();
+void DisableEnemy();
