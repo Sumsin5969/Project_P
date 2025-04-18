@@ -42,6 +42,8 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
+	StageTimer();
+
 	LaserAttack();
 
 	CircleBulletFire();
