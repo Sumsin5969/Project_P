@@ -28,10 +28,10 @@ void InitGameManager()
 
 	InitDebuging();
 
-	InitWall(&wall[0], LEFT);
-	InitWall(&wall[1], RIGHT);
-	InitWall(&wall[2], TOP);
-	InitWall(&wall[3], BOTTOM);
+	InitWall(&wall[0]);
+	InitWall(&wall[1]);
+	InitWall(&wall[2]);
+	InitWall(&wall[3]);
 
 }
 
@@ -39,7 +39,11 @@ void GMUpdate()
 {
 	PlayerMove();
 	Dash();
-	CheckWall();
+	CheckWall(&wall[0]);
+	CheckWall(&wall[1]);
+	CheckWall(&wall[2]);
+	CheckWall(&wall[3]);
+
 }
 
 void GMLateUpdate()

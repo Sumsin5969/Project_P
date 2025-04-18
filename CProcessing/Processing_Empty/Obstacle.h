@@ -7,6 +7,7 @@ typedef struct Obstacle
 	CP_Vector pos;
 	float width;
 	float height;
+	ObstacleType type;
 } Obstacle;
 
-void InitWall(Obstacle* _wall, WallDirect _wd);
+void InitWall(Obstacle* _wall);

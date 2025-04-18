@@ -17,15 +17,8 @@ void RenderWall(Obstacle* _obstacles)
 
 	for (int i = 0; i < MAX; ++i)
 	{
-		CP_Vector targetVector = CP_Vector_MatrixMultiply(cam->camMatrix, _obstacles[i].pos);
-
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacles[i].width, _obstacles[i].height);
-	}
-
-	/*for (int i = 0; i < MAX; ++i)
-	{
 		CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
-	}*/
+	}
 
 
 }

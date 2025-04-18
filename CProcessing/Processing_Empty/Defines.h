@@ -4,15 +4,15 @@
 #define WALLWIDTHSIZE 30
 #define WALLHEIGHTSIZE 24
 #define MAX_BULLET 3000
-typedef enum WallDirect
+typedef enum ObstacleType
 {
-	LEFT,
-	RIGHT,
-	TOP,
-	BOTTOM,
+	WALL_LEFT,
+	WALL_RIGHT,
+	WALL_TOP,
+	WALL_BOTTOM,
 	MAX
 
-} WallDirect;
+} ObstacleType;
 
 typedef enum UnitType
 {
