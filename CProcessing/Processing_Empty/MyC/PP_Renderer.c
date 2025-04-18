@@ -6,6 +6,7 @@
 #include "../Enemy.h"
 #include "../Obstacle.h"
 #include "stdio.h"
+#include "GameManager.h"
 #include <math.h>
 
 void RenderWall(Obstacle* _obstacles)
@@ -101,7 +102,7 @@ void LaserAttack()
 		if (LaserChargeWidth > LaserWidth) LaserChargeWidth = LaserWidth;
 		CP_Settings_Fill(CP_Color_Create(238, 1, 147, LaserAlpha));
 		CP_Settings_NoStroke();
-		CP_Graphics_DrawRect(WIDTH / 2, 100, LaserChargeWidth * cam->camZoom, HEIGHT*10 * cam->camZoom); // 레이저 위치
+		CP_Graphics_DrawRect(WIDTH / 2, 100, LaserChargeWidth * cam->camZoom, HEIGHT * 10 * cam->camZoom); // 레이저 위치
 	}
 	else if (LaserDelayTimer < LaserDelay)
 	{
@@ -113,7 +114,7 @@ void LaserAttack()
 		if (LaserAttackTimer < LaserTime)
 		{
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-			CP_Graphics_DrawRect(WIDTH / 2, 100, 100 * cam->camZoom, HEIGHT*10 * cam->camZoom);
+			CP_Graphics_DrawRect(WIDTH / 2, 100, 100 * cam->camZoom, HEIGHT * 10 * cam->camZoom);
 		}
 	}
 }
@@ -178,14 +179,17 @@ char timeBuffer[10];
 float stageTime = 30.f;
 void StageTimer()
 {
-	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
-	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
-	float elapsedTime = CP_System_GetDt();
-	if (player->playerState == HIT)
+	if (GetStageState() == Play);
 	{
-		elapsedTime = 0;
-		stageTime = 30.f;
+		sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+		CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+		float elapsedTime = CP_System_GetDt();
+		if (player->playerState == HIT)
+		{
+			elapsedTime = 0;
+			stageTime = 30.f;
+		}
+		stageTime -= elapsedTime;
 	}
-	stageTime -= elapsedTime;
 }
 

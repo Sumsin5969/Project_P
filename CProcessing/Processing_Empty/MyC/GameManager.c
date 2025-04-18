@@ -13,8 +13,7 @@ Obstacle wall[MAX];
 //BossCharacter* boss;
 
 PlayerState playerState;
-
-
+StageState stageState;
 
 void InitGameManager()
 {
@@ -42,7 +41,6 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	StageTimer();
 
 	LaserAttack();
 
@@ -54,14 +52,25 @@ void GMLateUpdate()
 
 	RenderPlayer();
 
-
 	DebugUpdate();
+
+	StageTimer();
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
 // cam, EnemyInit, 
 void FreeAll()
-{ 
+{
 	DestroyPlayer();
 	DestroyEnemy();
 	DestroyCam();
+}
+
+PlayerState GetPlayerState()
+{
+	return playerState;
+}
+
+StageState GetStageState()
+{
+	return stageState;
 }

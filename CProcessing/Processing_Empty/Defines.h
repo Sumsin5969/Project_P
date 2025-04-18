@@ -28,6 +28,13 @@ typedef enum PlayerState
 	NORMAL,
 } PlayerState;
 
+typedef enum GameState
+{
+	Play,
+	Stop,
+	ChangingStage,
+} PlayerState;
+
 typedef enum StageState
 {
 	MainMenu,
@@ -40,4 +47,3 @@ typedef enum StageState
 	StageFive,
 	StageBoss
 } StageState;
-PlayerState playerState;
