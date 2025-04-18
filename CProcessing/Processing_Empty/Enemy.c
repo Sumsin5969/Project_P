@@ -13,8 +13,8 @@ void EnemyInit()
 	enemy->appTime = 10.f;
 	enemy->isAttack = 0;
 	enemy->spd = 100.f;
-	enemy->pos.x = WIDTH / 2 + 30;
-	enemy->pos.y = HEIGHT / 2 + 100;
+	enemy->pos.x = 0;
+	enemy->pos.y = 0;
 	enemy->size = 50.f;
 }
 void BulletInit()
@@ -23,9 +23,10 @@ void BulletInit()
 	{
 		bullets[i].active = 0;
 		bullets[i].degree = i * (360.f / MAX_BULLET);
-		bullets[i].fireRate = .2f;
+		bullets[i].fireCoolTime = .5f;
 		bullets[i].fireTime = 0.f;
 		bullets[i].projSpd = 200.f;
+		bullets[i].size = 10.f;
 	}
 }
 void DestroyEnemy()

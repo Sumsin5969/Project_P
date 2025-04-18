@@ -16,9 +16,10 @@ typedef struct Bullet
 	CP_Vector projPos;// 투사체 좌표
 	float projSpd;// 투사체 속도
 	float fireTime;// 투사체 지속시간
-	float fireRate;// 투사체 연사 속도
-	float fireAngle;
+	float fireCoolTime;// 투사체 연사 속도
+	float fireAngle;// 
 	float degree;
+	float size;
 	CP_Vector fireDir;
 	int active;
 } Bullet;

@@ -53,8 +53,19 @@ void RenderPlayer()
 
 void RenderEnemy()
 {
-	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
-	CP_Graphics_DrawRect(enemy->pos.x, enemy->pos.y, enemy->size, enemy->size);
+	CamInfo* cam = GetCamera();
+	CP_Matrix pcS;
+	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix pcT;
+	pcT = CP_Matrix_Translate(cam->camPos);
+
+	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
+
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
+
+	CP_Settings_Fill(CP_Color_Create(100, 100, 100, 255));
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemy->size, cam->camZoom * enemy->size);
 }
 
 //void RenderObstacle(Obstacle* _obstacle)
@@ -73,8 +84,16 @@ float LaserAttackTimer = 0.f; // 공격 시간
 float LaserTime = 1.f; // 공격 시간 cap
 float LaserDelay = 0.5f; // 전조 후 발사 전 사라질 시간 cap
 float LaserDelayTimer = 0.f; // 사라질 시간
-void EnemyLaserAttack()
+void LaserAttack()
 {
+	CamInfo* cam = GetCamera();
+	CP_Matrix pcS;
+	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix pcT;
+	pcT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
+
 	float dt = CP_System_GetDt();
 	if (LaserTimer > LaserChargeTime && LaserAttackTimer > LaserTime)
 	{
@@ -92,7 +111,7 @@ void EnemyLaserAttack()
 		if (LaserChargeWidth > LaserWidth) LaserChargeWidth = LaserWidth;
 		CP_Settings_Fill(CP_Color_Create(238, 1, 147, LaserAlpha));
 		CP_Settings_NoStroke();
-		CP_Graphics_DrawRect(WIDTH / 2, 100, LaserChargeWidth, HEIGHT*10); // 레이저 위치
+		CP_Graphics_DrawRect(WIDTH / 2, 100, LaserChargeWidth * cam->camZoom, HEIGHT*10 * cam->camZoom); // 레이저 위치
 	}
 	else if (LaserDelayTimer < LaserDelay)
 	{
@@ -104,7 +123,7 @@ void EnemyLaserAttack()
 		if (LaserAttackTimer < LaserTime)
 		{
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-			CP_Graphics_DrawRect(WIDTH / 2, 100, 100, HEIGHT*10);
+			CP_Graphics_DrawRect(WIDTH / 2, 100, 100 * cam->camZoom, HEIGHT*10 * cam->camZoom);
 		}
 	}
 }
@@ -130,13 +149,13 @@ void EnemyBulletFire()
 		if (bullets[i].active)
 		{
 			bullets[i].fireTime += dt;
-			if (bullets[i].fireTime > bullets[i].fireRate)
+			if (bullets[i].fireTime > bullets[i].fireCoolTime)
 			{
 				bullets[i].projPos.x += bullets[i].projSpd * bullets[i].fireDir.x * dt;
 				bullets[i].projPos.y += bullets[i].projSpd * bullets[i].fireDir.y * dt;
 				bullets[i].degree += 360.f / MAX_BULLET;
 				CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-				CP_Graphics_DrawCircle(bullets[i].projPos.x, bullets[i].projPos.y, 10.f);
+				CP_Graphics_DrawCircle(bullets[i].projPos.x, bullets[i].projPos.y, bullets[i].size);
 			}
 		}
 	}
