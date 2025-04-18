@@ -13,6 +13,12 @@
 
 ---
 
+## Play Video
+
+>  https://drive.google.com/file/d/1c8T4o3Nm_S0Xal9S1ka5te5mh027ekZi/view?usp=drive_link
+
+---
+
 ## Daily Report 링크
 
 > https://docs.google.com/spreadsheets/d/1qCBNRiYkRlbFA0GK-Sijq355_IKXwG7KapppzgWhN-8/edit?usp=sharing

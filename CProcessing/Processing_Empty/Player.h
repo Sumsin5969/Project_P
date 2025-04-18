@@ -14,6 +14,7 @@ typedef struct PlayerCharacter
 	float originalSpd;
 	float dashDecayRate;
 	float size;
+	float invTime;
 	CP_Vector direction;
 	PlayerState playerState;
 } PlayerCharacter;

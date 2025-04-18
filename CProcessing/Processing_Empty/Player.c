@@ -25,6 +25,7 @@ void PlayerInit(void)
 	player->pos.x = 0;
 	player->pos.y = 0;
 	player->spd = 400.f;
+	player->invTime = 2.f;
 }
 
 void PlayerMove(void) // 방향키를 입력받으면 플레이어를 이동시키는 함수
@@ -94,6 +95,7 @@ void Dash(void)
 	}
 
 }
+
 
 void DestroyPlayer()
 {

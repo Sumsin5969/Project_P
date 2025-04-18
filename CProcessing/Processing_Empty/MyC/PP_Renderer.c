@@ -175,21 +175,6 @@ void RenderAll()
 
 }
 
-char timeBuffer[10];
-float stageTime = 30.f;
-void StageTimer()
-{
-	if (GetStageState() == Play);
-	{
-		sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
-		CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
-		float elapsedTime = CP_System_GetDt();
-		if (player->playerState == HIT)
-		{
-			elapsedTime = 0;
-			stageTime = 30.f;
-		}
-		stageTime -= elapsedTime;
-	}
-}
+
+
 
