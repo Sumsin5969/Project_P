@@ -71,7 +71,7 @@ void EnemyMove(Enemy* enemy)
 		enemy->pos.y += dt;
 		// Zoom level 1에서 BOTTOMLEFT 적의 y좌표가 450이라서 거기까지 이동
 		// 좌표에 zoom level을 곱해서 가변적인 좌표를 얻음
-		if (enemy->pos.y >= 450 * GetCamera()->camZoom)
+		if (enemy->pos.y >= 450)
 		{
 			enemy->enemyPosition = BOTTOMLEFT;
 		}
@@ -79,7 +79,7 @@ void EnemyMove(Enemy* enemy)
 	if (enemy->enemyPosition == BOTTOMLEFT)
 	{
 		enemy->pos.x += dt * (17.f/9.f);
-		if (enemy->pos.x >= 850 * GetCamera()->camZoom)
+		if (enemy->pos.x >= 850)
 		{
 			enemy->enemyPosition = BOTTOMRIGHT;
 		}
@@ -87,7 +87,7 @@ void EnemyMove(Enemy* enemy)
 	if (enemy->enemyPosition == BOTTOMRIGHT)
 	{
 		enemy->pos.y -= dt;
-		if (enemy->pos.y <= -450 * GetCamera()->camZoom)
+		if (enemy->pos.y <= -450)
 		{
 			enemy->enemyPosition = TOPRIGHT;
 		}
@@ -95,7 +95,7 @@ void EnemyMove(Enemy* enemy)
 	if (enemy->enemyPosition == TOPRIGHT)
 	{
 		enemy->pos.x -= dt * (17.f / 9.f);
-		if (enemy->pos.x <= -850 * GetCamera()->camZoom)
+		if (enemy->pos.x <= -850)
 		{
 			enemy->enemyPosition = TOPLEFT;
 		}
