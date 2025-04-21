@@ -5,6 +5,9 @@
 #define WALLHEIGHTSIZE 20
 #define MAX_ENEMIES 4
 #define MAX_BULLETS_PER_ENEMY 30
+
+#define STAGECLEARTIME 30
+
 typedef enum ObstacleType
 {
 	WALL_LEFT,
