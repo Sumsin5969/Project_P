@@ -169,7 +169,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 				CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b[i].size * cam->camZoom);
 			}
 		}
-		if (b[i].projTime > 1.f)
+		if (b[i].projTime > 3.f)
 		{
 			b[i].projTime = 0;
 			b[i].projPos.x = originX;
