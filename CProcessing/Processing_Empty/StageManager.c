@@ -47,6 +47,7 @@ void StageTimer()
 
 		// 최대 2초간 가속적으로 증가
 		float t = timeAcc / 2.f;
+
 		if (t > 1.f) t = 1.f;
 
 		float delta = 30.f - stageTimeStart;
@@ -57,7 +58,7 @@ void StageTimer()
 		{
 			stageTime = 30.f;
 			timeAcc = 0.f;
-			SetGameStage(Play);
+			SetGameState(Play);
 		}
 	}
 

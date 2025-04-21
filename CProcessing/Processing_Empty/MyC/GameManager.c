@@ -89,7 +89,7 @@ GameState GetGameState()
 	return gameState;
 }
 
-void SetGameStage(GameState targetGameState)
+void SetGameState(GameState targetGameState)
 {
 	gameState = targetGameState;
 }

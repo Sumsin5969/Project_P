@@ -19,8 +19,6 @@ typedef struct PlayerCharacter
 	PlayerState playerState;
 } PlayerCharacter;
 
-PlayerCharacter* player;
-
 void PlayerMove(void);
 void ChangeSpeed(void);
 void Dash(void);

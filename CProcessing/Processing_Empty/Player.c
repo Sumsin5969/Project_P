@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "cprocessing.h"
-#include "Player.h"
+//#include "Player.h"
+#include "MyC/GameManager.h"
 #include "Defines.h"
 
 #define UP CP_Input_KeyDown(KEY_UP)

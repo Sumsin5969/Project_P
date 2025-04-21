@@ -1,12 +1,19 @@
 #include <math.h>
 #include <stdio.h>
-#include "../Player.h"
+#include "GameManager.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
 #include "../Obstacle.h"
+#include "../Enemy.h"
 
 int isWall = 0;
 
+
+
+void CheckBullet(Bullet* _bullet)
+{
+
+}
 void CheckWall(Obstacle* _obstacle)
 {
 	CP_Vector camPos = GetCamera()->camPos;

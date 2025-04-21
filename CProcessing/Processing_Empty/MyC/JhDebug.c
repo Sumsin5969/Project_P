@@ -2,10 +2,10 @@
 #include "cprocessing.h"
 #include "cprocessing_common.h"
 #include "ZoomCamera.h"
+#include "GameManager.h"
 #include <stdio.h> 
 #include "string.h"
 #include "../Defines.h"
-#include "../Player.h"
 
 char buffer[200];
 char playerPosX[200];
