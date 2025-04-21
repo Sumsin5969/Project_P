@@ -4,4 +4,4 @@ void PreviousStage();
 void NextStage();
 void OnPlayerHit();
 void StageTimer();
-void CheckPlayerState();
+void SetStageTime(float _time);

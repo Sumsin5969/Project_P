@@ -1,6 +1,6 @@
 #pragma once
 #include "../Defines.h"
-#include "../Player.h"
+#include "../player.h"
 
 void InitGameManager();
 void GMUpdate();
@@ -11,6 +11,9 @@ StageState GetStageState();
 
 GameState GetGameState();
 void SetGameState(GameState targetGameState);
+
+void CheckGameState();
+void CheckPlayerState();
 
 StageState stageState;
 GameState gameState;

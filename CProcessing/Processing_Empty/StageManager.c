@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "Defines.h"
 #include "StageManager.h"
 #include "MyC/ZoomCamera.h"
 #include "MyC/GameManager.h"
@@ -39,6 +40,11 @@ void StageTimer()
 	{
 		stageTime -= dt; // 타이머 흐르게
 		stageTimeStart = stageTime;
+
+		if (stageTime <= 0)
+		{
+			SetGameState(StageUp);
+		}
 	}
 
 	else if (GetGameState() == StageDown)
@@ -58,6 +64,8 @@ void StageTimer()
 		{
 			stageTime = 30.f;
 			timeAcc = 0.f;
+			ZoomIn();
+			PlayerInit();
 			SetGameState(Play);
 		}
 	}
@@ -67,27 +75,7 @@ void StageTimer()
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
 
-void CheckPlayerState() // 플레이어의 상태를 체크해서 게임의 진행사항을 바꿔준다.
+void SetStageTime(float _time)
 {
-	switch (player->playerState)
-	{
-	case HIT:
-		printf("플레이어 HIT \n");
-		break;
-
-	case NORMAL:
-		printf("플레이어 NORMAL \n");
-		break;
-
-	case INVINCIBLE:
-		printf("플레이어 INVINCIBLE 무적 \n");
-		break;
-
-	default:
-		break;
-	}
-}
-
-void CheckGameState()
-{
+	stageTime = _time;
 }
