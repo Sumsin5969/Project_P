@@ -54,7 +54,11 @@ typedef enum StageState
 } StageState;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 typedef enum
+=======
+typedef enum 
+>>>>>>> Stashed changes
 =======
 typedef enum 
 >>>>>>> Stashed changes
