@@ -9,9 +9,9 @@ void EnemyInit()
 		enemies[i].appTime = 10.f;
 		enemies[i].isAttack = 0;
 		enemies[i].spd = 100.f;
-		enemies[i].pos.x = 0;
-		enemies[i].pos.y = 0;
-		enemies[i].size = 50.f;
+		enemies[i].pos.x = CP_Random_RangeFloat(-850, 850);
+		enemies[i].pos.y = -400.f;
+		enemies[i].size = 30.f;
 		enemies[i].active = 0;
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
@@ -21,7 +21,7 @@ void EnemyInit()
 			allBullets[i][j].fireTime = 0.f;
 			allBullets[i][j].projSpd = 1000.f;
 			allBullets[i][j].projTime = 0.f;
-			allBullets[i][j].size = 100.f;
+			allBullets[i][j].size = 15.f;
 		}
 	}
 }
