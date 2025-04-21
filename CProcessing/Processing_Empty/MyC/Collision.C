@@ -95,3 +95,65 @@ void CheckWall(Obstacle* _obstacle)
 
 	}
 }
+
+void CheckWallBullet(Obstacle* _obstacle, Bullet* _bullet)
+{
+	CP_Vector camPos = GetCamera()->camPos;
+	float camZoom = GetCamera()->camZoom;
+
+	float bulletHalfSize = _bullet->size / 2;
+	
+	float bulletLeft;
+	float bulletRight;
+	float bulletTop;
+	float bulletBottom;
+
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		bulletLeft = ((&_bullet[i])->projPos.x - bulletHalfSize) * camZoom + camPos.x;
+		bulletRight = ((&_bullet[i])->projPos.x + bulletHalfSize) * camZoom + camPos.x;
+		bulletTop = ((&_bullet[i])->projPos.y - bulletHalfSize) * camZoom + camPos.y;
+		bulletBottom = ((&_bullet[i])->projPos.y + bulletHalfSize) * camZoom + camPos.y;
+	}
+	float wallLeft = _obstacle[WALL_LEFT].pos.x + _obstacle[WALL_LEFT].width / 2;
+	float wallRight = _obstacle[WALL_RIGHT].pos.x - _obstacle[WALL_RIGHT].width / 2;
+	float wallTop = _obstacle[WALL_TOP].pos.y + _obstacle[WALL_TOP].height / 2;
+	float wallBottom = _obstacle[WALL_BOTTOM].pos.y - _obstacle[WALL_BOTTOM].height / 2;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		switch (_obstacle[i].type)
+		{
+		case WALL_LEFT:
+			if (bulletLeft < wallLeft)
+			{
+				printf("왼쪽벽에 부딪힘\n");
+				(&_bullet[i])->active = 0;
+			}
+			break;
+		case WALL_RIGHT:
+			if (wallRight < bulletRight)
+			{
+				printf("오른쪽벽에 부딪힘\n");
+				(&_bullet[i])->active = 0;
+			}
+			break;
+		case WALL_TOP:
+			if (bulletTop < wallTop)
+			{
+				printf("위쪽벽에 부딪힘\n");
+				(&_bullet[i])->active = 0;
+			}
+			break;
+		case WALL_BOTTOM:
+			if (wallBottom < bulletBottom)
+			{
+				printf("아래벽에 부딪힘\n");
+				(&_bullet[i])->active = 0;
+
+			}
+			break;
+		}
+
+	}
+}

@@ -48,7 +48,8 @@ void GMUpdate()
 	{
 		PlayerMove();
 		Dash();
-		CheckWall(&wall[0]);
+		ChasingBulletFire(enemies, PDBullets);
+		CheckWall(wall);
 	}
 
 }
@@ -59,15 +60,19 @@ void GMLateUpdate()
 
 	LaserAttack();
 	
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		DirectBulletFire(&enemies[i], &PDBullets[i]);
-	}
+
 
 	RenderWall(wall);
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		RenderEnemy(&enemies[i]);
+	}
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			RenderBullet(&PDBullets[i][j]);
+		}
 	}
 
 	//RenderObstacle(obstacles);
@@ -90,6 +95,10 @@ void FreeAll()
 {
 	DestroyPlayer();
 	DestroyCam();
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		//free(&CircleBullets[i]);
+	}
 }
 
 float GetDt()

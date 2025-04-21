@@ -91,7 +91,7 @@ void RenderBullet(Bullet* _bullet)
 	CamInfo* cam = GetCamera();
 	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(camS, camT);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _bullet->projPos);
 
 	float _bulletSize = _bullet->size * cam->camZoom;
@@ -104,7 +104,7 @@ void RenderObstacle(Obstacle* _obstacle)
 	CamInfo* cam = GetCamera();
 	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(camS, camT);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacle->pos);
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
@@ -154,7 +154,7 @@ void LaserAttack()
 		if (LaserChargeWidth > LaserWidth) LaserChargeWidth = LaserWidth;
 		CP_Settings_Fill(CP_Color_Create(238, 1, 147, LaserAlpha));
 		CP_Settings_NoStroke();
-		CP_Graphics_DrawRect(WIDTH / 2, 100, LaserChargeWidth * cam->camZoom, HEIGHT * 10 * cam->camZoom); // 레이저 위치
+		CP_Graphics_DrawRect(WIDTH / 2, HEIGHT / 2, LaserChargeWidth * cam->camZoom, HEIGHT / cam->camZoom); // 레이저 위치
 	}
 	else if (LaserDelayTimer < LaserDelay)
 	{
@@ -166,7 +166,7 @@ void LaserAttack()
 		if (LaserAttackTimer < LaserTime)
 		{
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-			CP_Graphics_DrawRect(WIDTH / 2, 100, 100 * cam->camZoom, HEIGHT * 10 * cam->camZoom);
+			CP_Graphics_DrawRect(WIDTH / 2, HEIGHT / 2, 100 * cam->camZoom, HEIGHT / cam->camZoom);
 		}
 	}
 }
@@ -175,13 +175,7 @@ void LaserAttack()
 // 탄환의 개수는 MAX_BULLETS_PER_ENEMY 만큼 있어야 함 
 void CircleBulletFire(Enemy* e, Bullet* b)
 {
-	CamInfo* cam = GetCamera();
-	CP_Matrix pcS;
-	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	CP_Matrix pcT;
-	pcT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
 		float originX = e->pos.x;
@@ -202,8 +196,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
 			b[i].degree += 360.f / MAX_BULLETS_PER_ENEMY;
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-			CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b[i].projPos);
-			CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b[i].size * cam->camZoom);
+			RenderBullet(b);
 		}
 		if (b[i].projTime > b[i].fireDelay)
 		{
@@ -217,39 +210,30 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 // 약간 유도 되는 탄 발사
 // 탄환의 position 업데이트 및 탄환 Draw
 // 
-void ChasingBulletFire(Enemy* e, Bullet* b)
+void ChasingBulletFire(Enemy* e, Bullet (*b)[MAX_BULLETS_PER_ENEMY])
 {
-	CamInfo* cam = GetCamera();
-	CP_Matrix pcS;
-	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	CP_Matrix pcT;
-	pcT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
-	float dt = CP_System_GetDt();
-	float originX = e->pos.x;
-	float originY = e->pos.y;
-	b->projTime += dt;
-	if (!b->active)
+	float dt = GetDt();
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		b->projPos.x = originX;
-		b->projPos.y = originY;
-		b->active = 1;
-	}
-	else
-	{
-		CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
-		b->fireDir = CP_Vector_Normalize(direction);
-		b->projPos.x += b->projSpd * b->fireDir.x * dt;
-		b->projPos.y += b->projSpd * b->fireDir.y * dt;
-		CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b->projPos);
-		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b->size * cam->camZoom);
-	}
-	if (b->projTime > b->fireDelay)
-	{
-		b->projTime = 0;
-		b->projPos.x = originX;
-		b->projPos.y = originY;
+		float originX = e[i].pos.x;
+		float originY = e[i].pos.y;
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			if (!b[i][j].active)
+			{
+				b[i][j].projPos.x = originX;
+				b[i][j].projPos.y = originY;
+				b[i][j].active = 1;
+			}
+			else
+			{
+				b[i][j].fireDir = CP_Vector_Subtract(player->pos, e[i].pos);
+				// 방향 정규화 할 거임
+				CP_Vector direction = CP_Vector_Normalize(b[i][j].fireDir);
+				b[i][j].projPos.x += b[i][j].projSpd * direction.x * dt;
+				b[i][j].projPos.y += b[i][j].projSpd * direction.y * dt;
+			}
+		}
 	}
 }
 // 발사 시점 플레이어 위치로 직진하는 탄환 발사
@@ -259,39 +243,38 @@ void ChasingBulletFire(Enemy* e, Bullet* b)
 //탄환 정보
 void DirectBulletFire(Enemy* e, Bullet* b)
 {
-	CamInfo* cam = GetCamera();
-	CP_Matrix pcS;
-	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	CP_Matrix pcT;
-	pcT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 	float originX = e->pos.x;
 	float originY = e->pos.y;
-	b->projTime += dt;
-	if (!b->active)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		b->projPos.x = originX;
-		b->projPos.y = originY;
-		CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
-		b->fireDir = CP_Vector_Normalize(direction);
-		b->active = 1;
-	}
-	else
-	{
-		b->projPos.x += b->projSpd * b->fireDir.x * dt;
-		b->projPos.y += b->projSpd * b->fireDir.y * dt;
-		CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b->projPos);
-		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b->size * cam->camZoom);
-	}
-	if (b->projTime > b->fireDelay)
-	{
-		b->projTime = 0;
-		b->projPos.x = originX;
-		b->projPos.y = originY;
-		CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
-		b->fireDir = CP_Vector_Normalize(direction);
+		if (!(&b[i])->active)
+		{
+			(&b[i])->projPos.x = originX;
+			(&b[i])->projPos.y = originY;
+			CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
+			(&b[i])->fireDir = CP_Vector_Normalize(direction);
+			if ((&b[i])->fireTime > (&b[i])->fireDelay)
+			{
+				(&b[i])->active = 1;
+			}
+		}
+		else
+		{
+			(&b[i])->projTime += dt;
+			(&b[i])->projPos.x += (&b[i])->projSpd * (&b[i])->fireDir.x * dt;
+			(&b[i])->projPos.y += (&b[i])->projSpd * (&b[i])->fireDir.y * dt;
+			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+			RenderBullet(&b[i]);
+		}
+		if ((&b[i])->projTime > (&b[i])->fireDelay)
+		{
+			(&b[i])->projTime = 0;
+			(&b[i])->projPos.x = originX;
+			(&b[i])->projPos.y = originY;
+			CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
+			(&b[i])->fireDir = CP_Vector_Normalize(direction);
+		}
 	}
 }
 

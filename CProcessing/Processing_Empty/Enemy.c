@@ -39,17 +39,17 @@ void EnemyInit()
 			enemies[i].enemyPosition = BOTTOMRIGHT;
 			break;
 		}
-		// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
-		//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-		PDBullets[i].projSpd = 1000.f;
-		PDBullets[i].projTime = 0.f;
-		PDBullets[i].fireTime = 0.f;
-		PDBullets[i].fireDelay = 5.f;
-		PDBullets[i].active = 0;
-		PDBullets[i].size = 15.f;
 
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
+			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
+			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
+			PDBullets[i][j].projSpd = 1000.f;
+			PDBullets[i][j].projTime = 0.f;
+			PDBullets[i][j].fireTime = 0.f;
+			PDBullets[i][j].fireDelay = 5.f;
+			PDBullets[i][j].active = 0;
+			PDBullets[i][j].size = 15.f;
 			CircleBullets[i][j].projSpd = 500.f;
 			CircleBullets[i][j].projTime = 0.f;
 			CircleBullets[i][j].fireTime = 0.f;

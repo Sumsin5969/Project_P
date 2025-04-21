@@ -44,7 +44,7 @@ typedef struct Laser
 
 Enemy enemies[MAX_ENEMIES];
 Bullet CircleBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
-Bullet PDBullets[MAX_ENEMIES];
+Bullet PDBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 //void BulletInit(Bullet* bullets);
 void EnemyInit();
 void DisableEnemy();
