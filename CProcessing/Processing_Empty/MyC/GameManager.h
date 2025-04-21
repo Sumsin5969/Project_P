@@ -12,8 +12,7 @@ StageState GetStageState();
 GameState GetGameState();
 void SetGameState(GameState targetGameState);
 
-extern PlayerState playerState;
-extern StageState stageState;
-extern GameState gameState;
+StageState stageState;
+GameState gameState;
 
 PlayerCharacter* player;

@@ -8,7 +8,6 @@
 #define DOWN CP_Input_KeyDown(KEY_DOWN)
 #define LEFT CP_Input_KeyDown(KEY_LEFT)
 #define RIGHT CP_Input_KeyDown(KEY_RIGHT)
-PlayerState playerState;
 
 void PlayerInit(void)
 {
@@ -96,6 +95,8 @@ void Dash(void)
 	}
 
 }
+
+
 
 
 void DestroyPlayer()

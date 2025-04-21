@@ -8,12 +8,39 @@
 
 int isWall = 0;
 
-
-
 void CheckBullet(Bullet* _bullet)
+{
+	
+	float dx;	// 델타 x
+	float dy;	// 델타 y
+	float distanceSquared;
+	float radiusSum;
+
+	switch (_bullet->bulletType)
+	{
+	case B_Circle: // 일반 공격	// cc충돌
+		dx = player->pos.x - _bullet->projPos.x;
+		dy = player->pos.y - _bullet->projPos.y;
+
+		distanceSquared = dx * dx + dy * dy;
+		radiusSum = player->size + _bullet->size;
+		if (distanceSquared <= (radiusSum * radiusSum))
+		{
+			player->playerState = HIT;
+			printf("플레이어 쳐맞음");
+		}
+		break;
+	case B_Laser: // 레이저공격
+		break;
+
+	}
+}
+
+void CheckLaser()
 {
 
 }
+
 void CheckWall(Obstacle* _obstacle)
 {
 	CP_Vector camPos = GetCamera()->camPos;

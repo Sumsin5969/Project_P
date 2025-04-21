@@ -2,9 +2,6 @@
 #include "PP_Renderer.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
-#include "../Player.h"
-#include "../Enemy.h"
-#include "../Obstacle.h"
 #include "stdio.h"
 #include "GameManager.h"
 #include <math.h>
@@ -20,20 +17,20 @@ void RenderWall(Obstacle* _obstacles)
 	}
 }
 
-void RenderObstacle(Obstacle _obstacles[][2])
-{
-	for (int i = 0; i < 7; ++i)
-	{
-		for (int j = 0; j < 2; ++j)
-		{
-			float x = _obstacles[i][j].pos.x;
-			float y = _obstacles[i][j].pos.y;
-			float w = _obstacles[i][j].width;
-			float h = _obstacles[i][j].height;
-			CP_Graphics_DrawRect(x, y, w, h);
-		}
-	}
-}
+//void RenderObstacle(Obstacle _obstacles[][2])
+//{
+//	for (int i = 0; i < 7; ++i)
+//	{
+//		for (int j = 0; j < 2; ++j)
+//		{
+//			float x = _obstacles[i][j].pos.x;
+//			float y = _obstacles[i][j].pos.y;
+//			float w = _obstacles[i][j].width;
+//			float h = _obstacles[i][j].height;
+//			CP_Graphics_DrawRect(x, y, w, h);
+//		}
+//	}
+//}
 
 void RenderPlayer()
 {
@@ -56,23 +53,64 @@ void RenderPlayer()
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 }
 
-void RenderEnemy()
+
+void RenderEnemy(Enemy* _enemy)
 {
 	CamInfo* cam = GetCamera();
-	CP_Matrix pcS;
-	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	CP_Matrix pcT;
-	pcT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camS, camT);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _enemy->pos);
 
-	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
+	float _enemySize = _enemy->size * cam->camZoom;
 
-	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemies[i].pos);
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemies[i].size, cam->camZoom * enemies[i].size);
-	}
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _enemySize, _enemySize);
 }
+
+//void RenderEnemy_Sumsin()
+//{
+//	CamInfo* cam = GetCamera();
+//	CP_Matrix pcS;
+//	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+//	CP_Matrix pcT;
+//	pcT = CP_Matrix_Translate(cam->camPos);
+//
+//	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
+//
+//	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+//	for (int i = 0; i < MAX_ENEMIES; i++)
+//	{
+//		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemies[i].pos);
+//		CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemies[i].size, cam->camZoom * enemies[i].size);
+//	}
+//}
+
+void RenderBullet(Bullet* _bullet)
+{
+
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camS, camT);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _bullet->projPos);
+
+	float _bulletSize = _bullet->size * cam->camZoom;
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bulletSize, _bulletSize);
+}
+
+void RenderObstacle(Obstacle* _obstacle)
+{
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camS, camT);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacle->pos);
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
+}
+
+
 
 //void RenderObstacle(Obstacle* _obstacle)
 //{
@@ -90,6 +128,7 @@ float LaserAttackTimer = 0.f; // 공격 시간
 float LaserTime = 1.f; // 공격 시간 cap
 float LaserDelay = 0.5f; // 전조 후 발사 전 사라질 시간 cap
 float LaserDelayTimer = 0.f; // 사라질 시간
+
 void LaserAttack()
 {
 	CamInfo* cam = GetCamera();
@@ -255,6 +294,8 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 		b->fireDir = CP_Vector_Normalize(direction);
 	}
 }
+
+
 
 void RenderBoss()
 

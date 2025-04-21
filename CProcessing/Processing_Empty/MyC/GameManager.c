@@ -1,8 +1,9 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "../Defines.h"
+#include "GameManager.h"
 #include "ZoomCamera.h"
 #include "PP_Renderer.h"
-#include "../Defines.h"
 #include "JhDebug.h"
 #include "Collision.h"
 #include "../Enemy.h"
@@ -10,12 +11,20 @@
 #include "../StageManager.h"
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
+
+Enemy enemy_1Stage[4];
+Enemy enemy_2Stage[5];
+Enemy enemy_3Stage[4];
+Enemy enemy_4Stage[4];
+
+Bullet bullet_1Stage[12];
+Bullet bullet_2Stage[15];
+Bullet bullet_3Stage[12];
+Bullet bullet_4Stage[12];
+
+
 //Obstacle* obstacle;
 //BossCharacter* boss;
-
-PlayerState playerState;
-StageState stageState;
-GameState gameState;
 
 void InitGameManager()
 {
@@ -32,8 +41,6 @@ void InitGameManager()
 	InitWall(wall);
 
 	InitObstacle(obstacles);
-
-
 }
 
 void GMUpdate()
@@ -56,9 +63,9 @@ void GMLateUpdate()
 
 	RenderWall(wall);
 
-	RenderEnemy();
+	//RenderEnemy();
 
-	RenderObstacle(obstacles);
+	//RenderObstacle(obstacles);
 
 	RenderPlayer();
 
@@ -66,6 +73,7 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	StageTimer();
+
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
 // cam, EnemyInit, 
@@ -77,7 +85,7 @@ void FreeAll()
 
 PlayerState GetPlayerState()
 {
-	return playerState;
+	return player->playerState;
 }
 
 StageState GetStageState()
@@ -94,3 +102,4 @@ void SetGameState(GameState targetGameState)
 {
 	gameState = targetGameState;
 }
+

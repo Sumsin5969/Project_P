@@ -66,3 +66,28 @@ void StageTimer()
 	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
+
+void CheckPlayerState() // 플레이어의 상태를 체크해서 게임의 진행사항을 바꿔준다.
+{
+	switch (player->playerState)
+	{
+	case HIT:
+		printf("플레이어 HIT \n");
+		break;
+
+	case NORMAL:
+		printf("플레이어 NORMAL \n");
+		break;
+
+	case INVINCIBLE:
+		printf("플레이어 INVINCIBLE 무적 \n");
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CheckGameState()
+{
+}
