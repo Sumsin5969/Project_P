@@ -78,7 +78,7 @@ void EnemyMove(Enemy* enemy)
 	}
 	if (enemy->enemyPosition == BOTTOMLEFT)
 	{
-		enemy->pos.x += dt;
+		enemy->pos.x += dt * (17.f/9.f);
 		if (enemy->pos.x >= 850 * GetCamera()->camZoom)
 		{
 			enemy->enemyPosition = BOTTOMRIGHT;
@@ -94,7 +94,7 @@ void EnemyMove(Enemy* enemy)
 	}
 	if (enemy->enemyPosition == TOPRIGHT)
 	{
-		enemy->pos.x -= dt;
+		enemy->pos.x -= dt * (17.f / 9.f);
 		if (enemy->pos.x <= -850 * GetCamera()->camZoom)
 		{
 			enemy->enemyPosition = TOPLEFT;
