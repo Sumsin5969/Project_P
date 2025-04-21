@@ -18,15 +18,22 @@ typedef struct Bullet
 	float projTime;// 투사체 지속시간
 	float fireTime;// 쿨타임
 	float fireDelay;// 쿨타임 cap
-	float fireAngle;
 	float degree;
-	float size;
+	float fireAngle; // 여기부터 렌더러에서 조절
 	CP_Vector fireDir;
 	int active;
+	float size;
 	BulletType bulletType;
 } Bullet;
+
+typedef struct Laser
+{
+	int a;
+} Laser;
+
 Enemy enemies[MAX_ENEMIES];
-Bullet allBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet CircleBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet PDBullets[MAX_ENEMIES];
 //void BulletInit(Bullet* bullets);
 void EnemyInit();
 void DisableEnemy();

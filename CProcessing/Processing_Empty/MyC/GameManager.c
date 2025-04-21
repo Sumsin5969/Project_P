@@ -48,9 +48,10 @@ void GMLateUpdate()
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
 	LaserAttack();
+	
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		ChasingBulletFire(&enemies[i], allBullets[i]);
+		DirectBulletFire(&enemies[i], &PDBullets[i]);
 	}
 
 	RenderWall(wall);
