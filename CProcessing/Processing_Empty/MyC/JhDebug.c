@@ -34,12 +34,12 @@ void InitDebuging()
 void PrintFrameInfo()
 {
 	nowTime = CP_System_GetSeconds();
-	nowFrameCount = (float)CP_System_GetFrameCount()/ nowTime;
+	nowFrameCount = (float)CP_System_GetFrameCount();
 
 	sprintf_s(buffer, sizeof(buffer), "Time : %.2f", nowTime);
 	CP_Font_DrawText(buffer, 0, 0);
 
-	sprintf_s(buffer, sizeof(buffer), "frameCount : %.2f", nowFrameCount);
+	sprintf_s(buffer, sizeof(buffer), "FPS : %.2f", 1 / CP_System_GetDt());
 	CP_Font_DrawText(buffer, 0, 50);
 }
 
@@ -53,7 +53,7 @@ void PrintPlayerInfo()
 
 	sprintf_s(buffer, sizeof(playerSpeed), "Speed : %.2f", player->spd);
 	CP_Font_DrawText(buffer, 500, 100);
-	
+
 	sprintf_s(buffer, sizeof(playerSpeed), "playerSize : %.5f", player->size * GetCamera()->camZoom);
 	CP_Font_DrawText(buffer, 1000, 0);
 
@@ -61,9 +61,9 @@ void PrintPlayerInfo()
 	CP_Font_DrawText(buffer, 1000, 50);
 }
 
-void PrintFloat(int _Index,float _xPos, float _yPos, char* _string, float _value)
+void PrintFloat(int _Index, float _xPos, float _yPos, char* _string, float _value)
 {
-	sprintf_s(debugString[_Index], sizeof(debugString[_Index]), "%s : %.2f",_string, _value);
+	sprintf_s(debugString[_Index], sizeof(debugString[_Index]), "%s : %.2f", _string, _value);
 
 	CP_Font_DrawText(debugString[_Index], _xPos, _yPos);
 }
@@ -82,7 +82,7 @@ void ZoomTest()
 
 void PlayerToZero()
 {
-	
+
 }
 
 void DebugUpdate()
