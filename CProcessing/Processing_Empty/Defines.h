@@ -53,7 +53,7 @@ typedef enum StageState
 	StageBoss
 } StageState;
 
-typedef enum 
+typedef enum
 {
 	B_Circle,
 	B_Left,
