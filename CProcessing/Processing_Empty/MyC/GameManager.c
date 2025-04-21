@@ -50,7 +50,7 @@ void GMLateUpdate()
 	LaserAttack();
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		DirectBulletFire(&enemies[i], allBullets[i]);
+		ChasingBulletFire(&enemies[i], allBullets[i]);
 	}
 
 	RenderWall(wall);

@@ -23,6 +23,7 @@ typedef struct Bullet
 	float size;
 	CP_Vector fireDir;
 	int active;
+	BulletType bulletType;
 } Bullet;
 Enemy enemies[MAX_ENEMIES];
 Bullet allBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
