@@ -2,9 +2,6 @@
 #include "PP_Renderer.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
-#include "../Player.h"
-#include "../Enemy.h"
-#include "../Obstacle.h"
 #include "stdio.h"
 #include "GameManager.h"
 #include <math.h>

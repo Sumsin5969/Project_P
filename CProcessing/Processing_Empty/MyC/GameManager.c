@@ -1,8 +1,9 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "../Defines.h"
+#include "GameManager.h"
 #include "ZoomCamera.h"
 #include "PP_Renderer.h"
-#include "../Defines.h"
 #include "JhDebug.h"
 #include "Collision.h"
 #include "../Enemy.h"
@@ -24,10 +25,6 @@ Bullet bullet_4Stage[12];
 
 //Obstacle* obstacle;
 //BossCharacter* boss;
-
-PlayerState playerState;
-StageState stageState;
-GameState gameState;
 
 void InitGameManager()
 {
@@ -87,7 +84,7 @@ void FreeAll()
 
 PlayerState GetPlayerState()
 {
-	return playerState;
+	return player->playerState;
 }
 
 StageState GetStageState()
@@ -104,3 +101,4 @@ void SetGameState(GameState targetGameState)
 {
 	gameState = targetGameState;
 }
+

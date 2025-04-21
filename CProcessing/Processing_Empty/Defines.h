@@ -27,7 +27,7 @@ typedef enum PlayerState
 {
 	HIT,
 	NORMAL,
-	INVINCIBLE
+	INVINCIBLE // 무적
 } PlayerState;
 
 typedef enum GameState
