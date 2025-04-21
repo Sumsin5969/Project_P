@@ -49,3 +49,14 @@ typedef enum StageState
 	StageFive,
 	StageBoss
 } StageState;
+
+typedef enum BulletType
+{
+	B_Circle,
+	B_Left,
+	B_Right,
+	B_Up,
+	B_Down,
+	PlayerDirection,
+};
+

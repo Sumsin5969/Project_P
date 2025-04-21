@@ -8,7 +8,6 @@
 #include "../Enemy.h"
 #include "../Obstacle.h"
 #include "../StageManager.h"
-
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
 //Obstacle* obstacle;
