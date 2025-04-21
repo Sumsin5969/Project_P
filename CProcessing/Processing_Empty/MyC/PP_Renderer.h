@@ -12,3 +12,4 @@ void CircleBulletFire(Enemy* e, Bullet* bullets);
 void RenderBoss();
 void RenderAll();
 void StageTimer();
+void DirectBulletFire();

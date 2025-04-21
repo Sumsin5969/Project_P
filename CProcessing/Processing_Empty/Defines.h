@@ -3,7 +3,7 @@
 #define HEIGHT 990
 #define WALLWIDTHSIZE 20
 #define WALLHEIGHTSIZE 20
-#define MAX_ENEMIES 30
+#define MAX_ENEMIES 5
 #define MAX_BULLETS_PER_ENEMY 30
 typedef enum ObstacleType
 {

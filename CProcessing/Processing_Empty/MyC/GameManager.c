@@ -32,6 +32,8 @@ void InitGameManager()
 	InitWall(wall);
 
 	InitObstacle(obstacles);
+
+
 }
 
 void GMUpdate()
@@ -48,7 +50,7 @@ void GMLateUpdate()
 	LaserAttack();
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		CircleBulletFire(&enemies[i], allBullets[i]);
+		DirectBulletFire(&enemies[i], allBullets[i]);
 	}
 
 	RenderWall(wall);

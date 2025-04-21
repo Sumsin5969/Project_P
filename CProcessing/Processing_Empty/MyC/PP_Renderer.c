@@ -156,18 +156,53 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			b[i].fireDir.y = sinf(b[i].fireAngle);
 			b[i].active = 1;
 		}
-		if (b[i].active)
+		else
 		{
-			b[i].fireTime += dt;
-			if (b[i].fireTime > b[i].fireCoolTime)
-			{
-				b[i].projPos.x += b[i].projSpd * b[i].fireDir.x * dt;
-				b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
-				b[i].degree += 360.f / MAX_BULLETS_PER_ENEMY;
-				CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-				CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b[i].projPos);
-				CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b[i].size * cam->camZoom);
-			}
+			b[i].projPos.x += b[i].projSpd * b[i].fireDir.x * dt;
+			b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
+			b[i].degree += 360.f / MAX_BULLETS_PER_ENEMY;
+			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+			CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b[i].projPos);
+			CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b[i].size * cam->camZoom);
+		}
+		if (b[i].projTime > 3.f)
+		{
+			b[i].projTime = 0;
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
+		}
+	}
+}
+
+void DirectBulletFire(Enemy* e, Bullet* b)
+{
+	CamInfo* cam = GetCamera();
+	CP_Matrix pcS;
+	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix pcT;
+	pcT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
+	float dt = CP_System_GetDt();
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	{
+		float originX = e->pos.x;
+		float originY = e->pos.y;
+		b[i].projTime += dt;
+		if (!b[i].active)
+		{
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
+			CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
+			b[i].fireDir = CP_Vector_Normalize(direction);
+			b[i].active = 1;
+		}
+		else
+		{
+			b[i].projPos.x += b[i].projSpd * b[i].fireDir.x * dt;
+			b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
+			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+			CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, b[i].projPos);
+			CP_Graphics_DrawCircle(targetVector.x, targetVector.y, b[i].size * cam->camZoom);
 		}
 		if (b[i].projTime > 3.f)
 		{
