@@ -14,13 +14,21 @@ void RenderWall(Obstacle* _obstacles)
 	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
 
-
 	for (int i = 0; i < MAX; ++i)
 	{
 		CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
 	}
+}
 
-
+void RenderObstacle(Obstacle _obstacles[7][2])
+{
+	for (int i = 0; i < 7; ++i)
+	{
+		for (int j = 0; j < 2; ++j)
+		{
+			_obstacles[i][j];
+		}
+	}
 }
 
 void RenderPlayer()

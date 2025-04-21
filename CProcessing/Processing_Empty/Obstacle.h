@@ -12,3 +12,4 @@ typedef struct Obstacle
 
 void InitWall(Obstacle* _wall);
 void SetWallType(Obstacle*);
+void InitObstacle();

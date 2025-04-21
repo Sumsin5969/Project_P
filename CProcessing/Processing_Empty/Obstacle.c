@@ -9,8 +9,18 @@ void SetWallType(Obstacle* _wall)
 	}
 }
 
-void InitObstacle(Obstacle** _obstacle)
+void InitObstacle(Obstacle _obstacle[7][2])
 {
+	for (int i = 0; i < 7; ++i)
+	{
+		for (int j = 0; j < 2; ++j)
+		{
+			_obstacle[i][j].pos = CP_Vector_Set(10000, 10000);
+			_obstacle[i][j].width = 100;
+			_obstacle[i][j].height = 100;
+		}
+	}
+
 	_obstacle[0][0].pos = CP_Vector_Set(200, 500);
 	_obstacle[0][1].pos = CP_Vector_Set(500, 200);
 	_obstacle[1][0].pos = CP_Vector_Set(700, 800);
