@@ -34,7 +34,7 @@ void InitDebuging()
 void PrintFrameInfo()
 {
 	nowTime = CP_System_GetSeconds();
-	nowFrameCount = (float)CP_System_GetFrameCount();
+	nowFrameCount = (float)CP_System_GetFrameCount()/ nowTime;
 
 	sprintf_s(buffer, sizeof(buffer), "Time : %.2f", nowTime);
 	CP_Font_DrawText(buffer, 0, 0);

@@ -29,7 +29,10 @@ void InitGameManager()
 	InitDebuging();
 
 	SetWallType(wall);
+
 	InitWall(wall);
+
+	InitObstacle(obstacles);
 }
 
 void GMUpdate()
@@ -52,6 +55,8 @@ void GMLateUpdate()
 	RenderWall(wall);
 
 	RenderEnemy();
+
+	RenderObstacle(obstacles);
 
 	RenderPlayer();
 

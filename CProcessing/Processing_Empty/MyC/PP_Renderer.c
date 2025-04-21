@@ -20,13 +20,17 @@ void RenderWall(Obstacle* _obstacles)
 	}
 }
 
-void RenderObstacle(Obstacle _obstacles[7][2])
+void RenderObstacle(Obstacle _obstacles[][2])
 {
 	for (int i = 0; i < 7; ++i)
 	{
 		for (int j = 0; j < 2; ++j)
 		{
-			_obstacles[i][j];
+			float x = _obstacles[i][j].pos.x;
+			float y = _obstacles[i][j].pos.y;
+			float w = _obstacles[i][j].width;
+			float h = _obstacles[i][j].height;
+			CP_Graphics_DrawRect(x, y, w, h);
 		}
 	}
 }

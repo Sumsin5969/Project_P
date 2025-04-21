@@ -9,6 +9,7 @@
 void game_init(void)
 {
 	InitGameManager();
+	CP_System_SetFrameRate(100);
 }
 
 void game_update(void)

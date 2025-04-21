@@ -6,7 +6,7 @@
 void RenderWall(Obstacle*);
 void RenderPlayer();
 void RenderEnemy();
-//void RenderObstacle(Obstacle*);
+void RenderObstacle(Obstacle[][2]);
 void LaserAttack();
 void CircleBulletFire(Enemy* e, Bullet* bullets);
 void RenderBoss();

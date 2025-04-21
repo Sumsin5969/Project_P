@@ -26,6 +26,6 @@ typedef struct Bullet
 } Bullet;
 Enemy enemies[MAX_ENEMIES];
 Bullet allBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
-void BulletInit(Bullet* bullets);
+//void BulletInit(Bullet* bullets);
 void EnemyInit();
 void DisableEnemy();
