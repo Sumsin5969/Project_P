@@ -53,7 +53,11 @@ typedef enum StageState
 	StageBoss
 } StageState;
 
+<<<<<<< Updated upstream
 typedef enum
+=======
+typedef enum 
+>>>>>>> Stashed changes
 {
 	B_Circle,
 	B_Left,
