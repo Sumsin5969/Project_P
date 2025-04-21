@@ -45,6 +45,10 @@ void InitGameManager()
 
 void GMUpdate()
 {
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		EnemyMove(&enemies[i]);
+	}
 	PlayerMove();
 	Dash();
 	CheckWall(&wall[0]);
@@ -62,8 +66,10 @@ void GMLateUpdate()
 	}
 
 	RenderWall(wall);
-
-	//RenderEnemy();
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		RenderEnemy(&enemies[i]);
+	}
 
 	//RenderObstacle(obstacles);
 
@@ -81,6 +87,11 @@ void FreeAll()
 {
 	DestroyPlayer();
 	DestroyCam();
+}
+
+float GetDt()
+{
+	return CP_System_GetDt();
 }
 
 PlayerState GetPlayerState()

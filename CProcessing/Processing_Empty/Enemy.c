@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include "Enemy.h"
 #include "Defines.h"
+#include "MyC/GameManager.h"
+#include "MyC/ZoomCamera.h"
+
 // 적과 탄환 초기화
 // 
 void EnemyInit()
@@ -18,18 +21,22 @@ void EnemyInit()
 		case 0:
 			enemies[i].pos.x = -850;
 			enemies[i].pos.y = -450;
+			enemies[i].enemyPosition = TOPLEFT;
 			break;
 		case 1:
 			enemies[i].pos.x = 850;
 			enemies[i].pos.y = -450;
+			enemies[i].enemyPosition = TOPRIGHT;
 			break;
 		case 2:
 			enemies[i].pos.x = -850;
 			enemies[i].pos.y = 450;
+			enemies[i].enemyPosition = BOTTOMLEFT;
 			break;
 		case 3:
 			enemies[i].pos.x = 850;
 			enemies[i].pos.y = 450;
+			enemies[i].enemyPosition = BOTTOMRIGHT;
 			break;
 		}
 		// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
@@ -53,10 +60,48 @@ void EnemyInit()
 		}
 	}
 }
-void EnemyMove(Enemy enemy)
-{
 
+// Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
+
+void EnemyMove(Enemy* enemy)
+{
+	float dt = GetDt() * (enemy->spd);
+	if (enemy->enemyPosition == TOPLEFT)
+	{
+		enemy->pos.y += dt;
+		// Zoom level 1에서 BOTTOMLEFT 적의 y좌표가 450이라서 거기까지 이동
+		// 좌표에 zoom level을 곱해서 가변적인 좌표를 얻음
+		if (enemy->pos.y >= 450 * GetCamera()->camZoom)
+		{
+			enemy->enemyPosition = BOTTOMLEFT;
+		}
+	}
+	if (enemy->enemyPosition == BOTTOMLEFT)
+	{
+		enemy->pos.x += dt;
+		if (enemy->pos.x >= 850 * GetCamera()->camZoom)
+		{
+			enemy->enemyPosition = BOTTOMRIGHT;
+		}
+	}
+	if (enemy->enemyPosition == BOTTOMRIGHT)
+	{
+		enemy->pos.y -= dt;
+		if (enemy->pos.y <= -450 * GetCamera()->camZoom)
+		{
+			enemy->enemyPosition = TOPRIGHT;
+		}
+	}
+	if (enemy->enemyPosition == TOPRIGHT)
+	{
+		enemy->pos.x -= dt;
+		if (enemy->pos.x <= -850 * GetCamera()->camZoom)
+		{
+			enemy->enemyPosition = TOPLEFT;
+		}
+	}
 }
+
 void LaserInit()
 {
 

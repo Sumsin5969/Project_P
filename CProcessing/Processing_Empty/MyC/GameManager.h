@@ -6,6 +6,8 @@ void InitGameManager();
 void GMUpdate();
 void GMLateUpdate();
 void FreeAll();
+float GetDt();
+
 PlayerState GetPlayerState();
 StageState GetStageState();
 

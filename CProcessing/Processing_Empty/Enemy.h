@@ -1,6 +1,15 @@
 #pragma once
 #include "cprocessing.h"
 #include "Defines.h"
+
+typedef enum
+{
+	TOPLEFT,
+	TOPRIGHT,
+	BOTTOMLEFT,
+	BOTTOMRIGHT
+} EnemyPosition;
+
 typedef struct Enemy
 {
 	CP_Vector pos;
@@ -9,6 +18,7 @@ typedef struct Enemy
 	float appTime;
 	float size;
 	int active;
+	EnemyPosition enemyPosition;
 } Enemy;
 
 typedef struct Bullet
@@ -31,9 +41,11 @@ typedef struct Laser
 	int a;
 } Laser;
 
+
 Enemy enemies[MAX_ENEMIES];
 Bullet CircleBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet PDBullets[MAX_ENEMIES];
 //void BulletInit(Bullet* bullets);
 void EnemyInit();
 void DisableEnemy();
+void EnemyMove(Enemy* enemy);
