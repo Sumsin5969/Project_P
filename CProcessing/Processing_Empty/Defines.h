@@ -34,14 +34,17 @@ typedef enum GameState
 {
 	Play,
 	Stop,
-	ChangingStage
+	ChangingStage,
+	StageUp,
+	StageDown,
+	PlayerDead,
+	MainMenu,
+	GameOver,
+	GameClear,
 } GameState;
 
 typedef enum StageState
 {
-	MainMenu,
-	GameOver,
-	GameClear,
 	StageOne,
 	StageTwo,
 	StageThree,
@@ -50,7 +53,7 @@ typedef enum StageState
 	StageBoss
 } StageState;
 
-typedef enum BulletType
+typedef enum
 {
 	B_Circle,
 	B_Left,
@@ -58,5 +61,5 @@ typedef enum BulletType
 	B_Up,
 	B_Down,
 	PlayerDirection,
-};
+} BulletType;
 

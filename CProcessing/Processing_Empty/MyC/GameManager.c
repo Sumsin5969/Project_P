@@ -60,7 +60,7 @@ void GMLateUpdate()
 	RenderPlayer();
 
 	DebugUpdate();
-	if (CP_Input_KeyTriggered(KEY_A)) gameState = ChangingStage; // 게임스테이트 디버깅용
+	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	StageTimer();
 }
@@ -85,4 +85,9 @@ StageState GetStageState()
 GameState GetGameState()
 {
 	return gameState;
+}
+
+void SetGameStage(GameState targetGameState)
+{
+	gameState = targetGameState;
 }

@@ -7,7 +7,9 @@ void GMLateUpdate();
 void FreeAll();
 PlayerState GetPlayerState();
 StageState GetStageState();
+
 GameState GetGameState();
+void SetGameStage(StageState targetGameState);
 
 extern PlayerState playerState;
 extern StageState stageState;
