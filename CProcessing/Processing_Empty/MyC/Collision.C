@@ -127,56 +127,50 @@ void CheckWallBullet(Obstacle* _obstacle, Bullet* b)
 {
 	CP_Vector camPos = GetCamera()->camPos;
 	float camZoom = GetCamera()->camZoom;
-
-
-	float bulletHalfSize;
-	float bulletLeft;
-	float bulletRight;
-	float bulletTop;
-	float bulletBottom;
-
-	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	for (int j = 0; j < MAX; j++)
 	{
-		bulletHalfSize = b[i].size / 2;
-		bulletLeft = (b[i].projPos.x - bulletHalfSize) * camZoom + camPos.x;
-		bulletRight = (b[i].projPos.x + bulletHalfSize) * camZoom + camPos.x;
-		bulletTop = (b[i].projPos.y - bulletHalfSize) * camZoom + camPos.y;
-		bulletBottom = (b[i].projPos.y + bulletHalfSize) * camZoom + camPos.y;
-	}
-	float wallLeft = _obstacle[WALL_LEFT].pos.x + _obstacle[WALL_LEFT].width / 2;
-	float wallRight = _obstacle[WALL_RIGHT].pos.x - _obstacle[WALL_RIGHT].width / 2;
-	float wallTop = _obstacle[WALL_TOP].pos.y + _obstacle[WALL_TOP].height / 2;
-	float wallBottom = _obstacle[WALL_BOTTOM].pos.y - _obstacle[WALL_BOTTOM].height / 2;
-
-	for (int i = 0; i < 4; ++i)
-	{
-		switch (_obstacle[i].type)
+		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 		{
-		case WALL_LEFT:
-			if (bulletLeft < wallLeft)
+			float bulletHalfSize = b[i].size / 2;
+			float bulletLeft = (b[i].projPos.x + bulletHalfSize) * camZoom + camPos.x;
+			float bulletRight = (b[i].projPos.x - bulletHalfSize) * camZoom + camPos.x;
+			float bulletTop = (b[i].projPos.y + bulletHalfSize) * camZoom + camPos.y;
+			float bulletBottom = (b[i].projPos.y - bulletHalfSize) * camZoom + camPos.y;
+			float wallLeft = _obstacle[WALL_LEFT].pos.x + _obstacle[WALL_LEFT].width / 2;
+			float wallRight = _obstacle[WALL_RIGHT].pos.x - _obstacle[WALL_RIGHT].width / 2;
+			float wallTop = _obstacle[WALL_TOP].pos.y + _obstacle[WALL_TOP].height / 2;
+			float wallBottom = _obstacle[WALL_BOTTOM].pos.y - _obstacle[WALL_BOTTOM].height / 2;
+			switch (_obstacle[j].type)
 			{
-				b[i].active = 0;
+			case WALL_LEFT:
+				if (bulletLeft < wallLeft)
+				{
+					printf("%d 총알 왼쪽벽 부딪힘\n", i);
+					b[i].active = 0;
+				}
+				break;
+			case WALL_RIGHT:
+				if (wallRight < bulletRight)
+				{
+					printf("%d 총알 오른쪽벽 부딪힘\n", i);
+					b[i].active = 0;
+				}
+				break;
+			case WALL_TOP:
+				if (bulletTop < wallTop)
+				{
+					printf("%d 총알 위쪽벽 부딪힘\n", i);
+					b[i].active = 0;
+				}
+				break;
+			case WALL_BOTTOM:
+				if (wallBottom < bulletBottom)
+				{
+					printf("%d 총알 아래쪽벽 부딪힘\n", i);
+					b[i].active = 0;
+				}
+				break;
 			}
-			break;
-		case WALL_RIGHT:
-			if (wallRight < bulletRight)
-			{
-				b[i].active = 0;
-			}
-			break;
-		case WALL_TOP:
-			if (bulletTop < wallTop)
-			{
-				b[i].active = 0;
-			}
-			break;
-		case WALL_BOTTOM:
-			if (wallBottom < bulletBottom)
-			{
-				b[i].active = 0;
-			}
-			break;
 		}
-
 	}
 }

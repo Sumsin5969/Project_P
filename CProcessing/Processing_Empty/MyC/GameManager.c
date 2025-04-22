@@ -40,6 +40,10 @@ void GMUpdate()
 
 	if (gameState == Play)
 	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			EnemyMove(&enemies[i]);
+		}
 		PlayerMove();
 		Dash();
 		//for (int i = 0; i < MAX_ENEMIES; i++)
@@ -49,18 +53,18 @@ void GMUpdate()
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
 			BulletConditioner(&enemies[i], PDBullets[i]);
-			ChasingBulletFire(&enemies[i], PDBullets[i]);
-			CheckWallBullet(wall, PDBullets[i]);
+			DirectBulletFire(&enemies[i], PDBullets[i]);
 		}
 		CheckWall(wall);
 	}
 
 	CheckObstacle(&obstacles[0][0]);
+	CheckWall(wall);
+
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		EnemyMove(&enemies[i]);
+		CheckWallBullet(wall, PDBullets[i]);
 	}
-	CheckWall(&wall[0]);
 }
 
 void GMLateUpdate()
@@ -68,11 +72,6 @@ void GMLateUpdate()
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
 	LaserAttack();
-
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		DirectBulletFire(&enemies[i], PDBullets[i]);
-	}
 
 	RenderWall(wall);
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -83,8 +82,10 @@ void GMLateUpdate()
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-
-			RenderBullet(&PDBullets[i][j]);
+			if (PDBullets[i][j].active)
+			{
+				RenderBullet(&PDBullets[i][j]);
+			}
 		}
 	}
 
