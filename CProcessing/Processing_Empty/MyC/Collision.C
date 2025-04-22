@@ -14,18 +14,22 @@ void CheckBullet(Bullet* _bullet)
 
 	float dx;	// 델타 x
 	float dy;	// 델타 y
-	float distanceSquared;
+	float distance;
 	float radiusSum;
-
-	dx = player->pos.x - _bullet->projPos.x;
-	dy = player->pos.y - _bullet->projPos.y;
-
-	distanceSquared = dx * dx + dy * dy;
-	radiusSum = player->size + _bullet->size;
-	if (distanceSquared <= (radiusSum * radiusSum))
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
-		player->playerState = HIT;
-		printf("플레이어 쳐맞음");
+		if (!_bullet[i].active) continue;
+		dx = player->pos.x - _bullet[i].projPos.x;
+		dy = player->pos.y - _bullet[i].projPos.y;
+		distance = sqrtf(dx * dx + dy * dy);
+
+		radiusSum = player->size/2.f + _bullet[i].size/2.f;
+
+		if (distance <= radiusSum)
+		{
+			player->playerState = HIT;
+			printf("플레이어 쳐맞음");
+		}
 	}
 }
 

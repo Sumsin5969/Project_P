@@ -63,6 +63,7 @@ void GMUpdate()
 
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
+		CheckBullet(PDBullets[i]);
 		CheckWallBullet(wall, PDBullets[i]);
 	}
 }
