@@ -32,11 +32,20 @@ void OnPlayerHit()
 	// 무적 ㄱㄱ
 }
 
+void DefaultTimerUI()
+{
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+}
+
 void StageTimer() // Play일때 기본적으로 작동되는 타이머
 {
 	float dt = CP_System_GetDt();
 
 	stageTime -= dt; // 타이머 흐르게
+
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 
 	if (stageTime <= 0)
 	{
@@ -45,8 +54,6 @@ void StageTimer() // Play일때 기본적으로 작동되는 타이머
 		return;
 	}
 
-	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
-	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
 
 void StageTimerLevelUp() // 스테이지 상승할 때 
@@ -96,6 +103,9 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	ZoomInSlightly(delta * (t * t));
 
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+
 	if (t >= 1.f)
 	{
 		stageTime = 30.f;
@@ -103,8 +113,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		ZoomInForce();
 		SetGameState(Play);
 	}
-	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
-	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+
 }
 
 void SetStageTime(float _time)
