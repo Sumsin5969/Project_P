@@ -21,7 +21,8 @@ void InitObstacle(Obstacle _obstacle[7][2])
 		}
 	}
 
-	_obstacle[0][0].pos = CP_Vector_Set(200, 500);
+
+	_obstacle[0][0].pos = CP_Vector_Set(400, 300);
 	_obstacle[0][1].pos = CP_Vector_Set(500, 200);
 	_obstacle[1][0].pos = CP_Vector_Set(700, 800);
 	_obstacle[1][1].pos = CP_Vector_Set(1000, 400);
@@ -29,6 +30,7 @@ void InitObstacle(Obstacle _obstacle[7][2])
 
 void InitWall(Obstacle* _wall)
 {
+
 	for (int i = 0; i < 4; ++i)
 	{
 		switch (_wall[i].type)

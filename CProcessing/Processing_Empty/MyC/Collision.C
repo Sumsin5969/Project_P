@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdio.h>
+#include <math.h>
 #include "GameManager.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
@@ -25,6 +26,38 @@ void CheckBullet(Bullet* _bullet)
 	{
 		player->playerState = HIT;
 		printf("플레이어 쳐맞음");
+	}
+}
+
+void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
+{
+	float radius = player->size / 2;
+
+	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
+	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
+
+	// 2. 박스 AABB 좌표
+	float boxLeft = _obstacle->pos.x - _obstacle->width / 2;
+	float boxRight = _obstacle->pos.x + _obstacle->width / 2;
+	float boxTop = _obstacle->pos.y - _obstacle->height / 2;
+	float boxBottom = _obstacle->pos.y + _obstacle->height / 2;
+
+	// 3. 가장 가까운 박스 안 점 계산 (클램핑)
+	float closestX = CP_Math_ClampFloat(circleCenter.x, boxLeft, boxRight);
+	float closestY = CP_Math_ClampFloat(circleCenter.y, boxTop, boxBottom);
+
+	// 4. 거리 계산 (원 중심 → 가장 가까운 점)
+	float dx = circleCenter.x - closestX;
+	float dy = circleCenter.y - closestY;
+	float distanceSq = dx * dx + dy * dy;
+	float radiusSq = radius * radius;
+
+	// 5. 충돌 여부 판단
+	if (distanceSq < radiusSq)
+	{
+		printf("⭕️ 충돌 감지! 원이 박스와 겹칩니다.\n");
+
+		// 충돌 반응 처리를 여기에 추가 가능
 	}
 }
 

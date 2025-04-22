@@ -3,6 +3,7 @@
 typedef struct Obstacle Obstacle;
 typedef struct Bullet Bullet;
 
-void CheckWall(Obstacle*);
-void CheckBullet(Enemy*);
 void CheckWallBullet(Obstacle*, Bullet*);
+void CheckWall(Obstacle* );
+void CheckBullet(Bullet* );
+void CheckObstacle(Obstacle* _obstacle);
