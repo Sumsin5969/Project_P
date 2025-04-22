@@ -72,6 +72,8 @@ void CheckLaser()
 
 void CheckWall(Obstacle* _obstacle)
 {
+	if (player->playerState != NORMAL) return;
+
 	CP_Vector camPos = GetCamera()->camPos;
 	float camZoom = GetCamera()->camZoom;
 

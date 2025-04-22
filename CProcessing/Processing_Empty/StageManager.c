@@ -86,7 +86,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	stageTime = stageTimeStart + delta * (t * t);  // 가속도 형태로 증가
 
-	ZoomInSlightly();
+	ZoomInSlightly(delta * (t * t));
 
 	if (t >= 1.f)
 	{

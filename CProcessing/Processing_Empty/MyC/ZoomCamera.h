@@ -14,7 +14,7 @@ void ZoomIn();
 void ZoomOut();
 void DestroyCam();
 void ZoomOutSlightly();
-void ZoomInSlightly();
+void ZoomInSlightly(float);
 void SetZoomOutTargetRate();
 void SetZoomInTargetRate();
 void ZoomInForce();
