@@ -73,14 +73,6 @@ void GMLateUpdate()
 
 	LaserAttack();
 
-<<<<<<< Updated upstream
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		DirectBulletFire(&enemies[i], PDBullets[i]);
-	}
-
-=======
->>>>>>> Stashed changes
 	RenderWall(wall);
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
