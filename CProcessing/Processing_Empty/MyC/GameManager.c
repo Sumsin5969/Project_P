@@ -63,6 +63,7 @@ void GMUpdate()
 
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
+		if(!player->isDashing)
 		CheckBullet(PDBullets[i]);
 		CheckWallBullet(wall, PDBullets[i]);
 	}
@@ -72,7 +73,7 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	LaserAttack();
+	//LaserAttack();
 
 	RenderWall(wall);
 	for (int i = 0; i < MAX_ENEMIES; i++)
