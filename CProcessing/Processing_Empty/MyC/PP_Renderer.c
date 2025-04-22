@@ -8,6 +8,7 @@
 
 void RenderWall(Obstacle* _obstacles)
 {
+
 	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
 
@@ -106,6 +107,8 @@ void RenderObstacle(Obstacle* _obstacle)
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacle->pos);
+
+	CP_Settings_Fill(CP_Color_Create(20, 10, 147, 150));
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
