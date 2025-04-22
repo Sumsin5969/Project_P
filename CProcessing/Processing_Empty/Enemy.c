@@ -47,7 +47,7 @@ void EnemyInit()
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			PDBullets[i][j].projSpd = 1000.f;
+			PDBullets[i][j].projSpd = 100.f;
 			PDBullets[i][j].projTime = 0.f;
 			PDBullets[i][j].active = 0;
 			PDBullets[i][j].size = 15.f;
