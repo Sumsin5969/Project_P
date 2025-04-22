@@ -96,9 +96,6 @@ void Dash(void)
 
 }
 
-
-
-
 void DestroyPlayer()
 {
 	free(player);

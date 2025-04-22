@@ -7,6 +7,7 @@
 #define MAX_BULLETS_PER_ENEMY 10
 
 #define STAGECLEARTIME 30
+#define ZOOMSPEED 1
 
 typedef enum ObstacleType
 {

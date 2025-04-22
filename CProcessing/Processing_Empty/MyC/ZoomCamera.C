@@ -7,6 +7,9 @@
 #include "../Defines.h"
 CamInfo* cam;
 
+float targetZoomSize;
+float nowZoomSize;
+
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
@@ -40,13 +43,57 @@ CamInfo* GetCamera()
 		printf("Error: Camera not initialized!\n");
 		return NULL;
 	}
-	CP_Matrix scale = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom,cam->camZoom));
+	CP_Matrix scale = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	//CP_Matrix rotate = CP_Matrix_Rotate(cam.rota);
 	CP_Matrix translate = CP_Matrix_Translate(CP_Vector_Set(-cam->camPos.x, -cam->camPos.y));
 
 	cam->camMatrix = CP_Matrix_Multiply(scale, translate);
 
 	return cam;
+}
+
+void SetZoomInTargetRate()
+{
+	targetZoomSize = cam->camZoom *1.25f;
+}
+
+void SetZoomOutTargetRate()
+{
+
+	targetZoomSize = cam->camZoom / 1.25f;
+}
+
+void ZoomInSlightly()
+{
+	if (cam->camZoom < targetZoomSize)
+	{
+		printf("줌인 조금씩! camZoom = %f \n", cam->camZoom);
+
+		cam->camZoom += GetDt() * ZOOMSPEED;
+	}
+}
+
+void ZoomInForce()
+{
+	cam->camZoom = targetZoomSize;
+}
+
+void ZoomOutForce()
+{
+	cam->camZoom = targetZoomSize;
+}
+
+void ZoomOutSlightly()
+{
+	if (cam->camZoom > targetZoomSize)
+	{
+		cam->camZoom -= GetDt() * ZOOMSPEED;
+	}
+	else
+	{
+		cam->camZoom = targetZoomSize;
+		gameState = Play;
+	}
 }
 
 void ZoomIn()

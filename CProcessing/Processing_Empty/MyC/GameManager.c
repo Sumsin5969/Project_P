@@ -71,7 +71,7 @@ void GMLateUpdate()
 
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		DirectBulletFire(&enemies[i], &PDBullets[i]);
+		DirectBulletFire(&enemies[i], PDBullets[i]);
 	}
 
 	RenderWall(wall);
@@ -145,13 +145,11 @@ void CheckGameState()
 	switch (gameState)
 	{
 	case StageDown:
-		StageTimer();
+		printf("스테이지 다운!");
+		StageTimerLevelDown();
 		break;
 	case StageUp:
-		ZoomOut();
-		stageState++;
-		gameState = Play;
-		SetStageTime(30);
+		StageTimerLevelUp();
 		break;
 	default:
 		break;
@@ -163,12 +161,18 @@ void CheckPlayerState()
 	switch (player->playerState)
 	{
 	case HIT:
+
 		if (stageState == StageOne)
 		{
 			gameState = GameOver;
 		}
 
+		PlayerInit();
+		SetZoomInTargetRate();
+		player->playerState = NORMAL;
+
 		gameState = StageDown;
+
 		break;
 	case NORMAL:
 		break;

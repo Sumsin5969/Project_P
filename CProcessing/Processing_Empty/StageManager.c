@@ -32,45 +32,69 @@ void OnPlayerHit()
 	// 무적 ㄱㄱ
 }
 
-void StageTimer()
+void StageTimer() // Play일때 기본적으로 작동되는 타이머
 {
 	float dt = CP_System_GetDt();
 
-	if (GetGameState() == Play)
-	{
-		stageTime -= dt; // 타이머 흐르게
-		stageTimeStart = stageTime;
+	stageTime -= dt; // 타이머 흐르게
 
-		if (stageTime <= 0)
-		{
-			SetGameState(StageUp);
-		}
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+}
+
+void StageTimerLevelUp() // 스테이지 상승할 때 
+{
+	float dt = CP_System_GetDt();
+
+	timeAcc += dt;
+
+	// 최대 2초간 가속적으로 증가
+	float t = timeAcc / 2.f;
+
+	if (t > 1.f) t = 1.f;
+
+	ZoomOutSlightly();
+	stageTime = (t * t);  // 가속도 형태로 증가
+
+	if (t >= 1.f)
+	{
+		stageTime = 30.f;
+		timeAcc = 0.f;
+
+		ZoomOutForce();
+		SetGameState(Play);
 	}
 
-	else if (GetGameState() == StageDown)
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+}
+
+
+
+void StageTimerLevelDown() // 스테이지 다운할 때
+{
+	float dt = CP_System_GetDt();
+
+	timeAcc += dt;
+
+	// 최대 2초간 가속적으로 증가
+	float t = timeAcc / 2.f;
+
+	if (t > 1.f) t = 1.f;
+
+	float delta = 30.f - stageTimeStart;
+
+	stageTime = stageTimeStart + delta * (t * t);  // 가속도 형태로 증가
+
+	ZoomInSlightly();
+
+	if (t >= 1.f)
 	{
-		timeAcc += dt;
-
-		// 최대 2초간 가속적으로 증가
-		float t = timeAcc / 2.f;
-
-		if (t > 1.f) t = 1.f;
-
-		float delta = 30.f - stageTimeStart;
-
-		stageTime = stageTimeStart + delta * (t * t);  // 가속도 형태로 증가
-
-		if (t >= 1.f)
-		{
-			stageTime = 30.f;
-			timeAcc = 0.f;
-			ZoomIn();
-			PlayerInit();
-			SetGameState(Play);
-		}
+		stageTime = 30.f;
+		timeAcc = 0.f;
+		ZoomInForce();
+		SetGameState(Play);
 	}
-
-
 	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
