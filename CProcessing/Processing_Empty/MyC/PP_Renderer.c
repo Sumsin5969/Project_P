@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "GameManager.h"
 #include <math.h>
+#include "Collision.h"
 
 void RenderWall(Obstacle* _obstacles)
 {
@@ -188,7 +189,6 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			b[i].fireAngle = CP_Math_Radians(b[i].degree);
 			b[i].fireDir.x = cosf(b[i].fireAngle);
 			b[i].fireDir.y = sinf(b[i].fireAngle);
-			b[i].active = 1;
 		}
 		else
 		{
@@ -198,7 +198,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
 			RenderBullet(b);
 		}
-		if (b[i].projTime > b[i].fireDelay)
+		if (b[i].projTime > e->fireDelay)
 		{
 			b[i].projTime = 0;
 			b[i].projPos.x = originX;
@@ -210,29 +210,25 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 // 약간 유도 되는 탄 발사
 // 탄환의 position 업데이트 및 탄환 Draw
 // 
-void ChasingBulletFire(Enemy* e, Bullet (*b)[MAX_BULLETS_PER_ENEMY])
+void ChasingBulletFire(Enemy* e, Bullet* b)
 {
 	float dt = GetDt();
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
-		float originX = e[i].pos.x;
-		float originY = e[i].pos.y;
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		float originX = e->pos.x;
+		float originY = e->pos.y;
+		if (!b[i].active)
 		{
-			if (!b[i][j].active)
-			{
-				b[i][j].projPos.x = originX;
-				b[i][j].projPos.y = originY;
-				b[i][j].active = 1;
-			}
-			else
-			{
-				b[i][j].fireDir = CP_Vector_Subtract(player->pos, e[i].pos);
-				// 방향 정규화 할 거임
-				CP_Vector direction = CP_Vector_Normalize(b[i][j].fireDir);
-				b[i][j].projPos.x += b[i][j].projSpd * direction.x * dt;
-				b[i][j].projPos.y += b[i][j].projSpd * direction.y * dt;
-			}
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
+		}
+		if (b[i].active)
+		{
+			b[i].fireDir = CP_Vector_Subtract(player->pos, e[i].pos);
+			// 방향 정규화 할 거임
+			CP_Vector direction = CP_Vector_Normalize(b[i].fireDir);
+			b[i].projPos.x += b[i].projSpd * direction.x * dt;
+			b[i].projPos.y += b[i].projSpd * direction.y * dt;
 		}
 	}
 }
@@ -248,32 +244,32 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 	float originY = e->pos.y;
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		if (!(&b[i])->active)
+		if (!b[i].active)
 		{
-			(&b[i])->projPos.x = originX;
-			(&b[i])->projPos.y = originY;
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
 			CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
-			(&b[i])->fireDir = CP_Vector_Normalize(direction);
-			if ((&b[i])->fireTime > (&b[i])->fireDelay)
+			b[i].fireDir = CP_Vector_Normalize(direction);
+			if (e->fireTime > e->fireDelay)
 			{
-				(&b[i])->active = 1;
+				b[i].active = 1;
 			}
 		}
 		else
 		{
-			(&b[i])->projTime += dt;
-			(&b[i])->projPos.x += (&b[i])->projSpd * (&b[i])->fireDir.x * dt;
-			(&b[i])->projPos.y += (&b[i])->projSpd * (&b[i])->fireDir.y * dt;
+			b[i].projTime += dt;
+			b[i].projPos.x += b[i].projSpd * b[i].fireDir.x * dt;
+			b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
 			RenderBullet(&b[i]);
 		}
-		if ((&b[i])->projTime > (&b[i])->fireDelay)
+		if (b[i].projTime > e->fireDelay)
 		{
-			(&b[i])->projTime = 0;
-			(&b[i])->projPos.x = originX;
-			(&b[i])->projPos.y = originY;
+			b[i].projTime = 0;
+			b[i].projPos.x = originX;
+			b[i].projPos.y = originY;
 			CP_Vector direction = CP_Vector_Subtract(player->pos, e->pos);
-			(&b[i])->fireDir = CP_Vector_Normalize(direction);
+			b[i].fireDir = CP_Vector_Normalize(direction);
 		}
 	}
 }

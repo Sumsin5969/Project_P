@@ -48,7 +48,16 @@ void GMUpdate()
 	{
 		PlayerMove();
 		Dash();
-		ChasingBulletFire(enemies, PDBullets);
+		//for (int i = 0; i < MAX_ENEMIES; i++)
+		//{
+		//	CircleBulletFire(&enemies[i], CircleBullets[i]);
+		//}
+		for (int i = 0; i < MAX_ENEMIES;i++)
+		{
+			BulletConditioner(&enemies[i], PDBullets[i]);
+			ChasingBulletFire(&enemies[i], PDBullets[i]);
+			CheckWallBullet(wall, PDBullets[i]);
+		}
 		CheckWall(wall);
 	}
 
@@ -71,6 +80,7 @@ void GMLateUpdate()
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
+
 			RenderBullet(&PDBullets[i][j]);
 		}
 	}

@@ -15,5 +15,5 @@ void RenderAll();
 void StageTimer();
 
 void CircleBulletFire(Enemy* e, Bullet* bullets);
-void ChasingBulletFire(Enemy* e, Bullet (*bullets)[MAX_BULLETS_PER_ENEMY]);
+void ChasingBulletFire(Enemy* e, Bullet* bullets);
 void DirectBulletFire(Enemy* e, Bullet* bullets);

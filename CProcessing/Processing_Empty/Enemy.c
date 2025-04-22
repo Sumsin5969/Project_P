@@ -11,11 +11,12 @@ void EnemyInit()
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		enemies[i].appTime = 10.f;
 		enemies[i].isAttack = 0;
 		enemies[i].spd = 100.f;
 		enemies[i].size = 50.f;
 		enemies[i].active = 0;
+		enemies[i].fireDelay = 2.f;
+		enemies[i].fireTime = 0.f;
 		switch (i)
 		{
 		case 0:
@@ -46,14 +47,10 @@ void EnemyInit()
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
 			PDBullets[i][j].projSpd = 1000.f;
 			PDBullets[i][j].projTime = 0.f;
-			PDBullets[i][j].fireTime = 0.f;
-			PDBullets[i][j].fireDelay = 5.f;
 			PDBullets[i][j].active = 0;
 			PDBullets[i][j].size = 15.f;
 			CircleBullets[i][j].projSpd = 500.f;
 			CircleBullets[i][j].projTime = 0.f;
-			CircleBullets[i][j].fireTime = 0.f;
-			CircleBullets[i][j].fireDelay = 5.f;
 			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
 			CircleBullets[i][j].active = 0;
 			CircleBullets[i][j].size = 15.f;
@@ -102,6 +99,19 @@ void EnemyMove(Enemy* enemy)
 	}
 }
 
+// 시간을 재서 Time > Delay면 탄을 발사하는 함수 만들거임
+void BulletConditioner(Enemy* e, Bullet* b)
+{
+	float dt = GetDt();
+	e->fireTime += dt;
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	{
+		if (e->fireDelay < e->fireTime)
+		{
+			b[i].active = 1;
+		}
+	}
+}
 void LaserInit()
 {
 

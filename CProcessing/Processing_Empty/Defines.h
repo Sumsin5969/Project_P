@@ -61,4 +61,12 @@ typedef enum
 	B_PlayerDirection,
 	B_Circle,
 	B_Laser,
-} BulletType;
+} FireType;
+
+typedef enum
+{
+	TOPLEFT,
+	TOPRIGHT,
+	BOTTOMLEFT,
+	BOTTOMRIGHT
+} EnemyPosition;
