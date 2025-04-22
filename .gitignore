@@ -403,3 +403,4 @@ FodyWeavers.xsd
 #don't ignore cprocessing lib file directory
 !/CProcessing/Processing_Empty/CProcessing/lib/x64
 !/CProcessing/Processing_Empty/CProcessing/lib/x86
+SA/Suddenly-Adventure/
