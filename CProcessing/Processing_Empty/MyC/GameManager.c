@@ -55,13 +55,12 @@ void GMUpdate()
 		CheckWall(wall);
 	}
 
-		CheckObstacle(&obstacles[0][0]);
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			EnemyMove(&enemies[i]);
-		}
-		CheckWall(&wall[0]);
+	CheckObstacle(&obstacles[0][0]);
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		EnemyMove(&enemies[i]);
 	}
+	CheckWall(&wall[0]);
 }
 
 void GMLateUpdate()

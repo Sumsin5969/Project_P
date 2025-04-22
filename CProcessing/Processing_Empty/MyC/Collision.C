@@ -153,30 +153,25 @@ void CheckWallBullet(Obstacle* _obstacle, Bullet* b)
 		case WALL_LEFT:
 			if (bulletLeft < wallLeft)
 			{
-				printf("왼쪽벽에 부딪힘\n");
 				b[i].active = 0;
 			}
 			break;
 		case WALL_RIGHT:
 			if (wallRight < bulletRight)
 			{
-				printf("오른쪽벽에 부딪힘\n");
 				b[i].active = 0;
 			}
 			break;
 		case WALL_TOP:
 			if (bulletTop < wallTop)
 			{
-				printf("위쪽벽에 부딪힘\n");
 				b[i].active = 0;
 			}
 			break;
 		case WALL_BOTTOM:
 			if (wallBottom < bulletBottom)
 			{
-				printf("아래벽에 부딪힘\n");
 				b[i].active = 0;
-
 			}
 			break;
 		}
