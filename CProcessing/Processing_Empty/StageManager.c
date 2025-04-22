@@ -63,7 +63,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 	timeAcc += dt;
 
 	// 최대 2초간 가속적으로 증가
-	float t = timeAcc / 2.f;
+	float t = timeAcc * 2.f;
 
 	if (t > 1.f) t = 1.f;
 
@@ -93,7 +93,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 	timeAcc += dt;
 
 	// 최대 2초간 가속적으로 증가
-	float t = timeAcc / 2.f;
+	float t = timeAcc;
 
 	if (t > 1.f) t = 1.f;
 
@@ -101,7 +101,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	stageTime = stageTimeStart + delta * (t * t);  // 가속도 형태로 증가
 
-	ZoomInSlightly(delta * (t * t));
+	ZoomInSlightly(delta * (t/2 * t/2));
 
 	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);

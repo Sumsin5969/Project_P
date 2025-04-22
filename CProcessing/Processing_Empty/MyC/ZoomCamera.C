@@ -77,15 +77,13 @@ void ZoomOutSlightly(float rate)
 {
 	if (cam->camZoom > targetZoomSize)
 	{
-		cam->camZoom -= GetDt() * ZOOMSPEED;
+		cam->camZoom -= GetDt() * rate;
 	}
 }
 void ZoomInSlightly(float rate)
 {
 	if (cam->camZoom < targetZoomSize)
 	{
-		printf("줌인 조금씩! camZoom = %f \n", cam->camZoom);
-
 		cam->camZoom += GetDt() * rate;
 	}
 }
