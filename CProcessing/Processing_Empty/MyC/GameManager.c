@@ -38,6 +38,8 @@ void GMUpdate()
 
 	CheckGameState();
 
+	StageTimer();
+
 	if (gameState == Play)
 	{
 		for (int i = 0; i < MAX_ENEMIES; i++)
@@ -69,6 +71,7 @@ void GMUpdate()
 		}
 		CheckWallBullet(wall, PDBullets[i]);
 	}
+
 }
 
 void GMLateUpdate()
@@ -105,8 +108,7 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(3);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 
-
-	StageTimer();
+	DefaultTimerUI();
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
 // cam, EnemyInit, 
@@ -171,13 +173,15 @@ void CheckPlayerState()
 		{
 			gameState = GameOver;
 		}
-
 		PlayerInit();
+
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			AllBulletInit(PDBullets[i]);
 		}
+
 		SetZoomInTargetRate();
+
 		player->playerState = NORMAL;
 
 		gameState = StageDown;

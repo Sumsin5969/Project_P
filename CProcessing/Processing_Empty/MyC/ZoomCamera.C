@@ -7,7 +7,7 @@
 #include "../Defines.h"
 CamInfo* cam;
 
-float targetZoomSize;
+float targetZoomSize = 1;
 float nowZoomSize;
 
 void InitCamera()
@@ -54,12 +54,13 @@ CamInfo* GetCamera()
 
 void SetZoomInTargetRate()
 {
+	printf("타겟줌사이즈 늘리다");
 	targetZoomSize = cam->camZoom * 1.25f;
 }
 
 void SetZoomOutTargetRate()
 {
-
+	printf("타겟줌사이즈 줄이다");
 	targetZoomSize = cam->camZoom / 1.25f;
 }
 
