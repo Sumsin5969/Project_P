@@ -62,11 +62,8 @@ void RenderBullet(Bullet* _bullet)
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _bullet->projPos);
-	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
-	{
-		float _bulletSize = _bullet->size * cam->camZoom;
-		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
-	}
+	float _bulletSize = _bullet->size * cam->camZoom;
+	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
 
 void RenderObstacle(Obstacle* _obstacle)

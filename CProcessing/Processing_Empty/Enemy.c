@@ -16,7 +16,7 @@ void EnemyInit()
 		enemies[i].spd = 100.f;
 		enemies[i].size = 50.f;
 		enemies[i].active = 0;
-		enemies[i].fireDelay = .1f;
+		enemies[i].fireDelay = .4f;
 		enemies[i].fireTime = 0.f;
 		enemies[i].magazine = 0;
 		switch (i)
@@ -113,7 +113,7 @@ void BulletConditioner(Enemy* e, Bullet* b)
 		e->magazine++;
 
 	}
-	if (e->magazine >= 10)
+	if (e->magazine >= MAX_BULLETS_PER_ENEMY)
 	{
 		e->magazine = 0;
 	}
