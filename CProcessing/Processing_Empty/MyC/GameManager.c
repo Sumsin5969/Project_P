@@ -48,10 +48,10 @@ void GMUpdate()
 		}
 		PlayerMove();
 		Dash();
-		//for (int i = 0; i < MAX_ENEMIES; i++)
-		//{
-		//	CircleBulletFire(&enemies[i], CircleBullets[i]);
-		//}
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CircleBulletFire(&enemies[i], CircleBullets[i]);
+		}
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
 			BulletConditioner(&enemies[i], PDBullets[i]);
@@ -92,6 +92,10 @@ void GMLateUpdate()
 			if (PDBullets[i][j].active)
 			{
 				RenderBullet(&PDBullets[i][j]);
+			}
+			if (CircleBullets[i][j].active)
+			{
+				RenderBullet(&CircleBullets[i][j]);
 			}
 		}
 	}

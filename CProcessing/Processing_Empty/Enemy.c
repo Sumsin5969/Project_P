@@ -16,7 +16,7 @@ void EnemyInit()
 		enemies[i].spd = 100.f;
 		enemies[i].size = 50.f;
 		enemies[i].active = 0;
-		enemies[i].fireDelay = .4f;
+		enemies[i].fireDelay = .1f;
 		enemies[i].fireTime = 0.f;
 		enemies[i].magazine = 0;
 		switch (i)
@@ -47,15 +47,15 @@ void EnemyInit()
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			PDBullets[i][j].projSpd = 100.f;
+			PDBullets[i][j].projSpd = 500.f;
 			PDBullets[i][j].projTime = 0.f;
 			PDBullets[i][j].active = 0;
 			PDBullets[i][j].size = 15.f;
-			CircleBullets[i][j].projSpd = 500.f;
+			CircleBullets[i][j].projSpd = 1000.f;
 			CircleBullets[i][j].projTime = 0.f;
 			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
 			CircleBullets[i][j].active = 0;
-			CircleBullets[i][j].size = 15.f;
+			CircleBullets[i][j].size = 3.f;
 		}
 	}
 }
@@ -137,6 +137,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			b[i].fireAngle = CP_Math_Radians(b[i].degree);
 			b[i].fireDir.x = cosf(b[i].fireAngle);
 			b[i].fireDir.y = sinf(b[i].fireAngle);
+			b[i].active = 1;
 		}
 		else
 		{
@@ -147,6 +148,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 		}
 		if (b[i].projTime > e->fireDelay)
 		{
+			b[i].active = 0;
 			b[i].projTime = 0;
 			b[i].projPos.x = originX;
 			b[i].projPos.y = originY;
