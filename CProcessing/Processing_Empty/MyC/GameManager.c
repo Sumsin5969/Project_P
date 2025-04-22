@@ -156,7 +156,7 @@ void CheckGameState()
 		break;
 	}
 }
-
+void AllBulletInit(Bullet* _bullet);
 void CheckPlayerState()
 {
 	switch (player->playerState)
@@ -169,6 +169,10 @@ void CheckPlayerState()
 		}
 
 		PlayerInit();
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			AllBulletInit(PDBullets[i]);
+		}
 		SetZoomInTargetRate();
 		player->playerState = NORMAL;
 
@@ -181,5 +185,13 @@ void CheckPlayerState()
 	case INVINCIBLE:
 		break;
 
+	}
+}
+
+void AllBulletInit(Bullet* _bullet)
+{
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	{
+		_bullet[i].active = 0;
 	}
 }

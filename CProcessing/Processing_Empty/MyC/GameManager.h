@@ -1,7 +1,7 @@
 #pragma once
 #include "../Defines.h"
 #include "../player.h"
-
+#include "../Enemy.h"
 void InitGameManager();
 void GMUpdate();
 void GMLateUpdate();
@@ -15,6 +15,7 @@ GameState GetGameState();
 void SetGameState(GameState targetGameState);
 
 void CheckGameState();
+void AllBulletInit(Bullet* _bullet);
 void CheckPlayerState();
 
 StageState stageState;
