@@ -107,6 +107,7 @@ void GMLateUpdate()
 	{
 		StageTimer();
 	}
+	else DefaultTimerUI();
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
 // cam, EnemyInit, 
