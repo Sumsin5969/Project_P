@@ -12,6 +12,7 @@ typedef struct Enemy
 	float fireTime;// 쿨타임
 	float fireDelay;// 쿨타임 cap
 	float size;
+	int magazine;
 	int active;
 	EnemyPosition enemyPosition;
 	FireType fireType;
@@ -27,6 +28,7 @@ typedef struct Bullet
 	CP_Vector fireDir;
 	int active;
 	float size;
+	CP_Vector direction;
 } Bullet;
 
 typedef struct Laser
@@ -43,3 +45,6 @@ void EnemyInit();
 void DisableEnemy();
 void EnemyMove(Enemy* );
 void BulletConditioner(Enemy*, Bullet*);
+void CircleBulletFire(Enemy* e, Bullet* bullets);
+void DirectBulletFire(Enemy* e, Bullet* bullets);
+void LaserAttack();
