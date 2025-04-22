@@ -38,6 +38,13 @@ void StageTimer() // Play일때 기본적으로 작동되는 타이머
 
 	stageTime -= dt; // 타이머 흐르게
 
+	if (stageTime <= 0)
+	{
+		SetZoomOutTargetRate();
+		gameState = StageUp;
+		return;
+	}
+
 	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
@@ -53,8 +60,9 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 	if (t > 1.f) t = 1.f;
 
-	ZoomOutSlightly();
 	stageTime = (t * t);  // 가속도 형태로 증가
+
+	ZoomOutSlightly(t * t);
 
 	if (t >= 1.f)
 	{

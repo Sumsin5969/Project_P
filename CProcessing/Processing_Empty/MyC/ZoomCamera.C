@@ -54,23 +54,13 @@ CamInfo* GetCamera()
 
 void SetZoomInTargetRate()
 {
-	targetZoomSize = cam->camZoom *1.25f;
+	targetZoomSize = cam->camZoom * 1.25f;
 }
 
 void SetZoomOutTargetRate()
 {
 
 	targetZoomSize = cam->camZoom / 1.25f;
-}
-
-void ZoomInSlightly(float rate)
-{
-	if (cam->camZoom < targetZoomSize)
-	{
-		printf("줌인 조금씩! camZoom = %f \n", cam->camZoom);
-
-		cam->camZoom += GetDt() * rate ;
-	}
 }
 
 void ZoomInForce()
@@ -83,16 +73,20 @@ void ZoomOutForce()
 	cam->camZoom = targetZoomSize;
 }
 
-void ZoomOutSlightly()
+void ZoomOutSlightly(float rate)
 {
 	if (cam->camZoom > targetZoomSize)
 	{
 		cam->camZoom -= GetDt() * ZOOMSPEED;
 	}
-	else
+}
+void ZoomInSlightly(float rate)
+{
+	if (cam->camZoom < targetZoomSize)
 	{
-		cam->camZoom = targetZoomSize;
-		gameState = Play;
+		printf("줌인 조금씩! camZoom = %f \n", cam->camZoom);
+
+		cam->camZoom += GetDt() * rate;
 	}
 }
 

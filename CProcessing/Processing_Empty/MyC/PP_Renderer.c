@@ -19,21 +19,6 @@ void RenderWall(Obstacle* _obstacles)
 	}
 }
 
-//void RenderObstacle(Obstacle _obstacles[][2])
-//{
-//	for (int i = 0; i < 7; ++i)
-//	{
-//		for (int j = 0; j < 2; ++j)
-//		{
-//			float x = _obstacles[i][j].pos.x;
-//			float y = _obstacles[i][j].pos.y;
-//			float w = _obstacles[i][j].width;
-//			float h = _obstacles[i][j].height;
-//			CP_Graphics_DrawRect(x, y, w, h);
-//		}
-//	}
-//}
-
 void RenderPlayer()
 {
 	CamInfo* cam = GetCamera();
@@ -69,24 +54,6 @@ void RenderEnemy(Enemy* _enemy)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _enemySize, _enemySize);
 }
 
-//void RenderEnemy_Sumsin()
-//{
-//	CamInfo* cam = GetCamera();
-//	CP_Matrix pcS;
-//	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-//	CP_Matrix pcT;
-//	pcT = CP_Matrix_Translate(cam->camPos);
-//
-//	CP_Matrix camMatrix = CP_Matrix_Multiply(pcT, pcS);
-//
-//	CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-//	for (int i = 0; i < MAX_ENEMIES; i++)
-//	{
-//		CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemies[i].pos);
-//		CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom * enemies[i].size, cam->camZoom * enemies[i].size);
-//	}
-//}
-
 void RenderBullet(Bullet* _bullet)
 {
 
@@ -114,13 +81,6 @@ void RenderObstacle(Obstacle* _obstacle)
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
-
-//void RenderObstacle(Obstacle* _obstacle)
-//{
-//	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-//	CP_Graphics_DrawRect(_obstacle->pos.x, _obstacle->pos.y, _obstacle->width, _obstacle->height);
-//}
-
 
 void RenderBoss()
 

@@ -13,7 +13,7 @@ CamInfo* GetCamera();
 void ZoomIn();
 void ZoomOut();
 void DestroyCam();
-void ZoomOutSlightly();
+void ZoomOutSlightly(float);
 void ZoomInSlightly(float);
 void SetZoomOutTargetRate();
 void SetZoomInTargetRate();

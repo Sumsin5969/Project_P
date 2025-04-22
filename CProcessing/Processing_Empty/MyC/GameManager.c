@@ -63,8 +63,8 @@ void GMUpdate()
 
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		if(!player->isDashing)
-		CheckBullet(PDBullets[i]);
+		if (!player->isDashing)
+			CheckBullet(PDBullets[i]);
 		CheckWallBullet(wall, PDBullets[i]);
 	}
 }
@@ -103,8 +103,10 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(3);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 
-
-	StageTimer();
+	if (gameState == Play)
+	{
+		StageTimer();
+	}
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
 // cam, EnemyInit, 
