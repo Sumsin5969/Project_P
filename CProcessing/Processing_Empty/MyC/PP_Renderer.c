@@ -166,8 +166,7 @@ void RenderLaser(Enemy* enemy, Laser* laser)
 	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
-	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, laser->pos);
-
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
 	switch (laser->state)
 	{
 	case CHARGE:
