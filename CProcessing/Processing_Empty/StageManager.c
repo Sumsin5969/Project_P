@@ -88,6 +88,10 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);*/
 }
 
+void StageTimerReset()
+{
+	stageTime = 30.f;
+}
 
 
 void StageTimerLevelDown() // 스테이지 다운할 때

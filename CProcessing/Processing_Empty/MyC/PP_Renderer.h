@@ -9,8 +9,8 @@ void RenderEnemy(Enemy* _enemy);
 void RenderBullet(Bullet* _bullet);
 void RenderLaser(Enemy*, Laser*);
 void RenderObstacle(Obstacle* _obstacle);
+void RenderPlayerShadow();
 
 void RenderBoss();
 void RenderAll();
 void StageTimer();
-

@@ -17,7 +17,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		_enemy[i].spd = 100.f;
 		_enemy[i].size = 50.f;
 		_enemy[i].active = 0;
-		_enemy[i].fireDelay = 1.f;
+		_enemy[i].fireDelay = 0.7f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].magazine = 0;
 		switch (i)

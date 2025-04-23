@@ -9,6 +9,7 @@
 #include "../Enemy.h"
 #include "../Obstacle.h"
 #include "../StageManager.h"
+
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
 
@@ -111,6 +112,8 @@ void GMLateUpdate()
 
 	RenderObstacle(&obstacles[0][0]);
 
+	RenderPlayerShadow();
+
 	RenderPlayer();
 
 	DebugUpdate();
@@ -191,6 +194,7 @@ void CheckPlayerState()
 
 		if (stageState < StageOne)
 		{
+			StageTimerReset();
 			gameState = GameOver;
 			return;
 		}
@@ -217,4 +221,9 @@ void AllBulletInit(Bullet* _bullet)
 	{
 		_bullet[i].active = 0;
 	}
+}
+void SavePlayerPos()
+{
+	pcShadow[shadowIndex] = player->pos;
+	shadowIndex++;
 }
