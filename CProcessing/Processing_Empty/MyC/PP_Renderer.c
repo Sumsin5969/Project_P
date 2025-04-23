@@ -167,20 +167,19 @@ void RenderLaser(Enemy* enemy, Laser* laser)
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, laser->pos);
+
 	switch (laser->state)
 	{
 	case CHARGE:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
-		CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, 500.f / cam->camZoom, laser->laserChargeWidth * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserChargeWidthMax * cam->camZoom, enemy->size * cam->camZoom);
 		break;
 	case ATTACK:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
-		CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, 500.f / cam->camZoom, laser->laserChargeWidthMax * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserChargeWidthMax * cam->camZoom, enemy->size * cam->camZoom);
 		break;
 	}
-	
+
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 }
 

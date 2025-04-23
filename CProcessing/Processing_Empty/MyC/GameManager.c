@@ -23,7 +23,7 @@ void InitGameManager()
 	PlayerInit();
 
 	EnemyInit_StageOne(enemies[StageOne]);
-	
+
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 
 	InitDebuging();
@@ -45,36 +45,38 @@ void GMUpdate()
 
 	if (gameState == Play)
 	{
+		PlayerMove();
+
+		Dash();
+
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			EnemyMove_StageOne(&enemies[StageOne][i]);
-			if (stageState > StageOne)
-			{
-				LaserAttack(Lasers_StageTwo);
-			}
 		}
-		PlayerMove();
-		Dash();
+
+		if (stageState > StageOne)
+		{
+			LaserAttack(Lasers_StageTwo);
+		}
+
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
 			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
 			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-			LaserAttack(&Lasers_StageTwo[i]);
+			//LaserAttack(&Lasers_StageTwo[i]);
 		}
-		CheckWall(wall);
-	}
 
-	CheckObstacle(&obstacles[0][0]);
-	CheckWall(wall);
-
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		if (!player->isDashing)
+		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			CheckBullet(Bullets_StageOne[i]);
+
+			CheckWallBullet(wall, Bullets_StageOne[i]);
 		}
-		CheckWallBullet(wall, Bullets_StageOne[i]);
+
+		CheckWall(wall);
+		CheckObstacle(&obstacles[0][0]);
 	}
+
 
 }
 
@@ -104,10 +106,11 @@ void GMLateUpdate()
 				RenderBullet(&CircleBullets[i][j]);
 			}
 		}
-		if (stageState > StageOne)
-		{
-			RenderLaser(enemies[StageTwo], &Lasers_StageTwo[i]);
-		}
+	}
+
+	if (stageState > StageOne)
+	{
+		RenderLaser(enemies[StageTwo], Lasers_StageTwo);
 	}
 
 
@@ -121,7 +124,7 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 
-	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(3);
+	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 
 	DefaultTimerUI();
