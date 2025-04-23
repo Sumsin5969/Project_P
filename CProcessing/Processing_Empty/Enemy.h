@@ -43,7 +43,8 @@ typedef enum LaserState
 {
 	ATTACK,
 	IDLE,
-	CHARGE
+	CHARGE,
+	WAIT
 }LaserState;
 
 typedef struct Laser
@@ -51,6 +52,7 @@ typedef struct Laser
 	CP_Vector pos;
 	int laserAlpha;
 	int laserAlphaMax;
+	Timer waitTimer;
 	Timer chargeTimer;
 	Timer attackTimer;
 	Timer delayTimer;

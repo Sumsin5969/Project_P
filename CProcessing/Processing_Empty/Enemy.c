@@ -98,6 +98,8 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 
 		laser[i].laserAlpha = 50; // 전조 알파값
 		laser[i].laserAlphaMax = 125; // 전조 최대 알파값
+		laser[i].waitTimer.time = 0.f;
+		laser[i].waitTimer.timeMax = 1.f;
 		laser[i].chargeTimer.time = 0.f;
 		laser[i].chargeTimer.timeMax = 1.5f;
 		laser[i].attackTimer.time = 0.f;
@@ -106,7 +108,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].delayTimer.timeMax = 0.5f;
 		laser[i].laserChargeWidth = 0.f; // 전조 범위
 		laser[i].laserChargeWidthMax = enemies[1][0].size; // 전조 범위 cap
-		laser[i].state = IDLE;
+		laser[i].state = WAIT;
 	}
 }
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
@@ -236,19 +238,24 @@ void LaserAttack(Laser* laser)
 	float dt = GetDt();
 	if (LaserIsTimeout(laser->chargeTimer) && LaserIsTimeout(laser->attackTimer))
 	{
-		laser->state = IDLE;
+		laser->state = WAIT;
+		laser->waitTimer.time = 0.f;
 		laser->chargeTimer.time = 0.f;
 		laser->delayTimer.time = 0.f;
 		laser->attackTimer.time = 0.f;
 		laser->laserChargeWidth = 0.f;
 	}
-
-	if (!LaserIsTimeout(laser->chargeTimer))
+	if (!LaserIsTimeout(laser->waitTimer))
+	{
+		laser->waitTimer.time += dt;
+	}
+	else if (!LaserIsTimeout(laser->chargeTimer))
 	{
 		laser->state = CHARGE;
+		laser->delayTimer.time += 0.f;
 		laser->chargeTimer.time += dt;
 		laser->laserChargeWidth += dt * 100.f;
-		laser->laserAlpha = (int)(laser->chargeTimer.timeMax / laser->chargeTimer.time * laser->laserAlphaMax);
+		laser->laserAlpha = (int)((laser->chargeTimer.time / laser->chargeTimer.timeMax) * laser->laserAlphaMax);
 		if (laser->laserAlpha > laser->laserAlphaMax) laser->laserAlpha = laser->laserAlphaMax;
 		if (laser->laserChargeWidth > laser->laserChargeWidthMax) laser->laserChargeWidth = laser->laserChargeWidthMax;
 	}
@@ -257,15 +264,14 @@ void LaserAttack(Laser* laser)
 		laser->state = IDLE;
 		laser->delayTimer.time += dt;
 	}
-	else
+	else if (!LaserIsTimeout(laser->attackTimer))
 	{
 		laser->state = ATTACK;
 		laser->attackTimer.time += dt;
-
-		if (laser->attackTimer.timeMax <= laser->attackTimer.time)
-		{
-			laser->attackTimer.time = 0;
-		}
+	}
+	else
+	{
+		laser->state = WAIT;
 	}
 }
 int LaserIsTimeout(Timer timer)

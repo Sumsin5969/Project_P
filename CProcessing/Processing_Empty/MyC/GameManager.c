@@ -45,21 +45,22 @@ void GMUpdate()
 
 	if (gameState == Play)
 	{
+		if (stageState > StageOne)
+		{
+			LaserAttack(Lasers_StageTwo);
+		}
+
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			EnemyMove_StageOne(&enemies[StageOne][i]);
-			if (stageState > StageOne)
-			{
-				LaserAttack(Lasers_StageTwo);
-			}
 		}
+
 		PlayerMove();
 		Dash();
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
 			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
 			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-			LaserAttack(&Lasers_StageTwo[i]);
 		}
 		CheckWall(wall);
 	}
