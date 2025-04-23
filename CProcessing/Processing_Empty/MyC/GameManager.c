@@ -59,11 +59,6 @@ void GMUpdate()
 			EnemyMove_StageOne(&enemies[StageOne][i]);
 		}
 		
-		if (stageState > StageOne)
-		{
-			LaserAttack(Lasers_StageTwo);
-		}
-		
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
 			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);

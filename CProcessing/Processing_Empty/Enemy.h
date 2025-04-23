@@ -41,10 +41,10 @@ int LaserIsTimeout(Timer);
 
 typedef enum LaserState
 {
-	ATTACK,
-	IDLE,
-	CHARGE,
-	WAIT
+	IDLE,	// 아무것도 안하는 상태
+	WARNING, // 경고사격
+	WAIT,	// 경고사격 후 + 진짜 사격전 딜레이
+	ATTACK,	// 진짜 사격
 }LaserState;
 
 typedef struct Laser
@@ -52,12 +52,20 @@ typedef struct Laser
 	CP_Vector pos;
 	int laserAlpha;
 	int laserAlphaMax;
-	Timer waitTimer;
-	Timer chargeTimer;
-	Timer attackTimer;
-	Timer delayTimer;
-	float laserChargeWidth;
-	float laserChargeWidthMax;
+	
+	float time;
+
+	float idleDuration;
+	float warningAttackDuration; // 경고사격 지속시간
+	float waitDuration; // 경고사격 후 딜레이 (진짜 사격전 딜레이)
+	float attackDuration;
+
+
+	float laserWarningAttackWidth;
+	float laserWarningAttackWidthMax;
+	float laserWarningAttackHeight;
+	float laserWarningAttackHeightMax;
+
 	LaserState state;
 } Laser;
 

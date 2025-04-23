@@ -98,17 +98,20 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 
 		laser[i].laserAlpha = 50; // 전조 알파값
 		laser[i].laserAlphaMax = 125; // 전조 최대 알파값
-		laser[i].waitTimer.time = 0.f;
-		laser[i].waitTimer.timeMax = 1.f;
-		laser[i].chargeTimer.time = 0.f;
-		laser[i].chargeTimer.timeMax = 1.5f;
-		laser[i].attackTimer.time = 0.f;
-		laser[i].attackTimer.timeMax = 2.f;
-		laser[i].delayTimer.time = 0.f;
-		laser[i].delayTimer.timeMax = 0.5f;
-		laser[i].laserChargeWidth = 0.f; // 전조 범위
-		laser[i].laserChargeWidthMax = enemies[1][0].size; // 전조 범위 cap
-		laser[i].state = WAIT;
+
+		laser[i].time = 0;
+		laser[i].idleDuration = 1.f;
+		laser[i].warningAttackDuration = 1.5f;
+		laser[i].waitDuration = 0.5f;
+		laser[i].attackDuration = 2.f;
+
+		laser[i].laserWarningAttackWidth = 0;
+		laser[i].laserWarningAttackWidthMax = 50;
+		laser[i].laserWarningAttackHeight = 0;
+		laser[i].laserWarningAttackHeightMax = 50;
+
+
+		laser[i].state = IDLE;
 	}
 }
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
@@ -236,42 +239,67 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 void LaserAttack(Laser* laser)
 {
 	float dt = GetDt();
-	if (LaserIsTimeout(laser->chargeTimer) && LaserIsTimeout(laser->attackTimer))
+
+	if (laser->state == IDLE) // 기본상태
 	{
-		laser->state = WAIT;
-		laser->waitTimer.time = 0.f;
-		laser->chargeTimer.time = 0.f;
-		laser->delayTimer.time = 0.f;
-		laser->attackTimer.time = 0.f;
-		laser->laserChargeWidth = 0.f;
+		printf("IDLE 상태 \n");
+		laser->time += dt;
+
+		if (laser->idleDuration < laser->time)	// 전조를 쏘겠다.
+		{
+			laser->state = WARNING;
+			laser->time = 0;
+		}
+
 	}
-	if (!LaserIsTimeout(laser->waitTimer))
+
+	if (laser->state == WARNING)	// 
 	{
-		laser->waitTimer.time += dt;
+		printf("WARNING 상태 \n");
+		laser->time += dt;
+		laser->laserWarningAttackHeight += dt * 100.f;
+		laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
+
+		if (laser->laserAlpha > laser->laserAlphaMax) // 알파 최대값 넘어가는 것 방지하기위함
+		{
+			laser->laserAlpha = laser->laserAlphaMax;
+		}
+
+		if (laser->laserWarningAttackHeight > laser->laserWarningAttackHeightMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		{
+			laser->laserWarningAttackHeight = laser->laserWarningAttackHeightMax;
+		}
+
+		if (laser->warningAttackDuration <= laser->time)
+		{
+			laser->state = WAIT;
+			laser->time = 0;
+		}
 	}
-	else if (!LaserIsTimeout(laser->chargeTimer))
+
+	if (laser->state == WAIT)
 	{
-		laser->state = CHARGE;
-		laser->delayTimer.time += 0.f;
-		laser->chargeTimer.time += dt;
-		laser->laserChargeWidth += dt * 100.f;
-		laser->laserAlpha = (int)((laser->chargeTimer.time / laser->chargeTimer.timeMax) * laser->laserAlphaMax);
-		if (laser->laserAlpha > laser->laserAlphaMax) laser->laserAlpha = laser->laserAlphaMax;
-		if (laser->laserChargeWidth > laser->laserChargeWidthMax) laser->laserChargeWidth = laser->laserChargeWidthMax;
+		printf("WAIT 상태 \n");
+		laser->time += dt;
+
+		if (laser->waitDuration <= laser->time)	// 딜레이 시간이 다 되면
+		{
+			laser->state = ATTACK;
+			laser->time = 0;
+		}
 	}
-	else if (!LaserIsTimeout(laser->delayTimer))
+
+	if (laser->state == ATTACK)
 	{
-		laser->state = IDLE;
-		laser->delayTimer.time += dt;
-	}
-	else if (!LaserIsTimeout(laser->attackTimer))
-	{
-		laser->state = ATTACK;
-		laser->attackTimer.time += dt;
-	}
-	else
-	{
-		laser->state = WAIT;
+		printf("ATTACK 상태 \n");
+		laser->time += dt;
+
+		if (laser->attackDuration <= laser->time)
+		{
+			laser->state = IDLE;
+			laser->time = 0;
+		}
+
 	}
 }
 int LaserIsTimeout(Timer timer)
