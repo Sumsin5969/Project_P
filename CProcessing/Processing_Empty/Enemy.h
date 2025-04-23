@@ -31,19 +31,32 @@ typedef struct Bullet
 	CP_Vector direction;
 } Bullet;
 
+typedef struct Timer
+{
+	float time;
+	float timeMax;
+} Timer;
+
+int LaserIsTimeout(Timer);
+
+typedef enum LaserState
+{
+	ATTACK,
+	IDLE,
+	CHARGE
+}LaserState;
+
 typedef struct Laser
 {
 	CP_Vector pos;
-	int LaserAlpha;
-	int LaserAlphaMax;
-	float LaserChargeTime;
-	float LaserChargeTimeMax;
-	float LaserChargeWidth;
-	float LaserChargeWidthMax;
-	float LaserAttackTime;
-	float LaserAttackTimeMax;
-	float LaserDelayTime;
-	float LaserDelayTimeMax;
+	int laserAlpha;
+	int laserAlphaMax;
+	Timer chargeTimer;
+	Timer attackTimer;
+	Timer delayTimer;
+	float laserChargeWidth;
+	float laserChargeWidthMax;
+	LaserState state;
 } Laser;
 
 

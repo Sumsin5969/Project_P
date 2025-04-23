@@ -59,6 +59,7 @@ void GMUpdate()
 		{
 			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
 			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+			LaserAttack(&Lasers_StageTwo[i]);
 		}
 		CheckWall(wall);
 	}

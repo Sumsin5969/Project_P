@@ -93,19 +93,20 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 			_enemy[i].pos.y = 340;
 			break;
 		}
+		laser[i].pos.x = _enemy[i].pos.x + 500;
 		laser[i].pos.y = _enemy[i].pos.y;
-		laser[i].pos.x = _enemy[i].pos.x;
 
-		laser[i].LaserAlpha = 50; // 전조 알파값
-		laser[i].LaserAlphaMax = 125; // 전조 최대 알파값
-		laser[i].LaserChargeTime = 0.f; // 전조 시간
-		laser[i].LaserChargeTimeMax = 1.5f; // 전조 시간 cap
-		laser[i].LaserChargeWidth = 0.f; // 전조 범위
-		laser[i].LaserChargeWidthMax = enemies[1][0].size; // 전조 범위 cap
-		laser[i].LaserAttackTime = 0.f; // 공격 시간
-		laser[i].LaserAttackTimeMax = 1.f; // 공격 시간 cap
-		laser[i].LaserDelayTime = 0.f; // 사라질 시간
-		laser[i].LaserDelayTimeMax = 0.5f; // 전조 후 발사 전 사라질 시간 cap
+		laser[i].laserAlpha = 50; // 전조 알파값
+		laser[i].laserAlphaMax = 125; // 전조 최대 알파값
+		laser[i].chargeTimer.time = 0.f;
+		laser[i].chargeTimer.timeMax = 1.5f;
+		laser[i].attackTimer.time = 0.f;
+		laser[i].attackTimer.timeMax = 2.f;
+		laser[i].delayTimer.time = 0.f;
+		laser[i].delayTimer.timeMax = 0.5f;
+		laser[i].laserChargeWidth = 0.f; // 전조 범위
+		laser[i].laserChargeWidthMax = enemies[1][0].size; // 전조 범위 cap
+		laser[i].state = IDLE;
 	}
 }
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
@@ -233,38 +234,46 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 void LaserAttack(Laser* laser)
 {
 	float dt = GetDt();
-	int reverser = 1;
-	if (laser->LaserChargeTime > laser->LaserChargeTimeMax && laser->LaserAttackTime >= laser->LaserAttackTimeMax)
+	if (LaserIsTimeout(laser->chargeTimer) && LaserIsTimeout(laser->attackTimer))
 	{
-		laser->LaserChargeTime = 0.f;
-		laser->LaserDelayTime = 0.f;
-		laser->LaserAttackTime = 0.f;
-		laser->LaserChargeWidth = 0.f;
+		laser->state = IDLE;
+		laser->chargeTimer.time = 0.f;
+		laser->delayTimer.time = 0.f;
+		laser->attackTimer.time = 0.f;
+		laser->laserChargeWidth = 0.f;
 	}
-	if (laser->LaserChargeTime < laser->LaserChargeTimeMax)
+
+	if (!LaserIsTimeout(laser->chargeTimer))
 	{
-		laser->LaserChargeTime += dt * 1.5f;
-		laser->LaserChargeWidth += dt * 100.f;
-		laser->LaserAlpha = (int)(laser->LaserChargeTimeMax / laser->LaserChargeTime * laser->LaserAlphaMax);
-		if (laser->LaserAlpha > laser->LaserAlphaMax) laser->LaserAlpha = laser->LaserAlphaMax;
-		if (laser->LaserChargeWidth > laser->LaserChargeWidthMax) laser->LaserChargeWidth = laser->LaserChargeWidthMax;
+		laser->state = CHARGE;
+		laser->chargeTimer.time += dt;
+		laser->laserChargeWidth += dt * 100.f;
+		laser->laserAlpha = (int)(laser->chargeTimer.timeMax / laser->chargeTimer.time * laser->laserAlphaMax);
+		if (laser->laserAlpha > laser->laserAlphaMax) laser->laserAlpha = laser->laserAlphaMax;
+		if (laser->laserChargeWidth > laser->laserChargeWidthMax) laser->laserChargeWidth = laser->laserChargeWidthMax;
 	}
-	else if (laser->LaserDelayTime < laser->LaserDelayTimeMax)
+	else if (!LaserIsTimeout(laser->delayTimer))
 	{
-		laser->LaserDelayTime += dt;
+		laser->state = IDLE;
+		laser->delayTimer.time += dt;
 	}
 	else
 	{
-		laser->LaserAttackTime += dt;
+		laser->state = ATTACK;
+		laser->attackTimer.time += dt;
 
-		if (laser->LaserAttackTimeMax <= laser->LaserAttackTime)
+		if (laser->attackTimer.timeMax <= laser->attackTimer.time)
 		{
-			laser->LaserAttackTime = 0;
+			laser->attackTimer.time = 0;
 		}
 	}
-	reverser *= -1;
 }
-
+int LaserIsTimeout(Timer timer)
+{
+	if (timer.time >= timer.timeMax)
+		return 1;
+	return 0;
+}
 void DisableEnemy(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
