@@ -33,19 +33,31 @@ typedef struct Bullet
 
 typedef struct Laser
 {
-	int a;
+	CP_Vector pos;
+	int LaserAlpha;
+	int LaserAlphaMax;
+	float LaserChargeTime;
+	float LaserChargeTimeMax;
+	float LaserChargeWidth;
+	float LaserChargeWidthMax;
+	float LaserAttackTime;
+	float LaserAttackTimeMax;
+	float LaserDelayTime;
+	float LaserDelayTimeMax;
 } Laser;
 
 
 Enemy enemies[StageLastIndex][MAX_ENEMIES];
 Bullet CircleBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
-Bullet PDBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Laser Lasers_StageTwo[MAX_ENEMIES];
 //void BulletInit(Bullet* bullets);
 void EnemyInit_StageOne(Enemy*);
+void EnemyInit_StageTwo(Enemy*, Laser*);
+void LaserInit_StageTwo(Laser*);
 void EnemyMove_StageOne(Enemy*);
-void EnemyInit_StageTwo(Enemy*);
-void DisableEnemy(Enemy*);
 void BulletConditioner(Enemy*, Bullet*);
 void CircleBulletFire(Enemy*, Bullet*);
 void DirectBulletFire(Enemy*, Bullet*);
-void LaserAttack();
+void LaserAttack(Laser*);
+void DisableEnemy(Enemy*);

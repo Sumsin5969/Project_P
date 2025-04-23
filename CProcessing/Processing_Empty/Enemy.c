@@ -48,10 +48,10 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			PDBullets[i][j].projSpd = 200.f;
-			PDBullets[i][j].projTime = 0.f;
-			PDBullets[i][j].active = 0;
-			PDBullets[i][j].size = 15.f;
+			Bullets_StageOne[i][j].projSpd = 200.f;
+			Bullets_StageOne[i][j].projTime = 0.f;
+			Bullets_StageOne[i][j].active = 0;
+			Bullets_StageOne[i][j].size = 15.f;
 			CircleBullets[i][j].projSpd = 100.f;
 			CircleBullets[i][j].projTime = 0.f;
 			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
@@ -63,12 +63,12 @@ void EnemyInit_StageOne(Enemy* _enemy)
 // 스테이지 2로 넘어갈 시 출현할 적을 gameinit에서 초기화
 // Enemy속성들 2행의 1차원 배열로 초기화 할 거임
 // todo: 스테이지별 적에게 할당할 탄환 배열 또 만들기
-void EnemyInit_StageTwo(Enemy* _enemy)
+void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 {
 	// pos x,y는 switch-case로 할 거임
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		_enemy[i].spd = 150.f;
+		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 3.f;
 		_enemy[i].size = 50.f;
@@ -77,26 +77,35 @@ void EnemyInit_StageTwo(Enemy* _enemy)
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -650;
-			_enemy[i].pos.y = -350;
-			_enemy[i].enemyPosition = TOPLEFT;
+			_enemy[i].pos.x = -1020;
+			_enemy[i].pos.y = -320;
+			break;
 		case 1:
-			_enemy[i].pos.x = -650;
-			_enemy[i].pos.y = 350;
-			_enemy[i].enemyPosition = BOTTOMLEFT;
+			_enemy[i].pos.x = -1020;
+			_enemy[i].pos.y = 120;
+			break;
 		case 2:
-			_enemy[i].pos.x = 650;
-			_enemy[i].pos.y = 350;
-			_enemy[i].enemyPosition = BOTTOMRIGHT;
+			_enemy[i].pos.x = 1020;
+			_enemy[i].pos.y = -100;
+			break;
 		case 3:
-			_enemy[i].pos.x = 650;
-			_enemy[i].pos.y = -350;
-			_enemy[i].enemyPosition = TOPRIGHT;
+			_enemy[i].pos.x = 1020;
+			_enemy[i].pos.y = 340;
+			break;
 		}
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
-		{
-			
-		}
+		laser[i].pos.y = _enemy[i].pos.y;
+		laser[i].pos.x = _enemy[i].pos.x;
+
+		laser[i].LaserAlpha = 50; // 전조 알파값
+		laser[i].LaserAlphaMax = 125; // 전조 최대 알파값
+		laser[i].LaserChargeTime = 0.f; // 전조 시간
+		laser[i].LaserChargeTimeMax = 1.5f; // 전조 시간 cap
+		laser[i].LaserChargeWidth = 0.f; // 전조 범위
+		laser[i].LaserChargeWidthMax = enemies[1][0].size; // 전조 범위 cap
+		laser[i].LaserAttackTime = 0.f; // 공격 시간
+		laser[i].LaserAttackTimeMax = 1.f; // 공격 시간 cap
+		laser[i].LaserDelayTime = 0.f; // 사라질 시간
+		laser[i].LaserDelayTimeMax = 0.5f; // 전조 후 발사 전 사라질 시간 cap
 	}
 }
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
@@ -104,8 +113,9 @@ void EnemyInit_StageTwo(Enemy* _enemy)
 void EnemyMove_StageOne(Enemy* enemy)
 {
 	float dt = GetDt() * (enemy->spd);
-	if (enemy->enemyPosition == TOPLEFT)
+	switch (enemy->enemyPosition)
 	{
+	case TOPLEFT:
 		enemy->pos.y += dt;
 		// Zoom level 1에서 BOTTOMLEFT 적의 y좌표가 450이라서 거기까지 이동
 		// 좌표에 zoom level을 곱해서 가변적인 좌표를 얻음
@@ -113,30 +123,28 @@ void EnemyMove_StageOne(Enemy* enemy)
 		{
 			enemy->enemyPosition = BOTTOMLEFT;
 		}
-	}
-	if (enemy->enemyPosition == BOTTOMLEFT)
-	{
-		enemy->pos.x += dt * (17.f/9.f);
+		break;
+	case BOTTOMLEFT:
+		enemy->pos.x += dt * (17.f / 9.f);
 		if (enemy->pos.x >= 850)
 		{
 			enemy->enemyPosition = BOTTOMRIGHT;
 		}
-	}
-	if (enemy->enemyPosition == BOTTOMRIGHT)
-	{
+		break;
+	case BOTTOMRIGHT:
 		enemy->pos.y -= dt;
 		if (enemy->pos.y <= -450)
 		{
 			enemy->enemyPosition = TOPRIGHT;
 		}
-	}
-	if (enemy->enemyPosition == TOPRIGHT)
-	{
+		break;
+	case TOPRIGHT:
 		enemy->pos.x -= dt * (17.f / 9.f);
 		if (enemy->pos.x <= -850)
 		{
 			enemy->enemyPosition = TOPLEFT;
 		}
+		break;
 	}
 }
 
@@ -222,62 +230,39 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 	}
 }
 
-void LaserInit()
+void LaserAttack(Laser* laser)
 {
-
-}
-
-int LaserAlpha = 50; // 전조 알파값
-int LaserAlphaMax = 125; // 전조 최대 알파값
-float LaserTimer = 0.f; // 전조 시간
-float LaserChargeTime = 1.5f; // 전조 시간 cap
-float LaserChargeWidth = 0.f; // 전조 범위
-float LaserWidth = 150.f; // 전조 범위 cap
-float LaserAttackTimer = 0.f; // 공격 시간
-float LaserTime = 1.f; // 공격 시간 cap
-float LaserDelay = 0.5f; // 전조 후 발사 전 사라질 시간 cap
-float LaserDelayTimer = 0.f; // 사라질 시간
-
-void LaserAttack()
-{
-	CamInfo* cam = GetCamera();
-	CP_Matrix pcS;
-	pcS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	CP_Matrix pcT;
-	pcT = CP_Matrix_Translate(cam->camPos);
-
-	float dt = CP_System_GetDt();
-	if (LaserTimer > LaserChargeTime && LaserAttackTimer > LaserTime)
+	float dt = GetDt();
+	int reverser = 1;
+	if (laser->LaserChargeTime > laser->LaserChargeTimeMax && laser->LaserAttackTime >= laser->LaserAttackTimeMax)
 	{
-		LaserTimer = 0.f;
-		LaserAttackTimer = 0.f;
-		LaserChargeWidth = 0.f;
-		LaserDelayTimer = 0.f;
+		laser->LaserChargeTime = 0.f;
+		laser->LaserDelayTime = 0.f;
+		laser->LaserAttackTime = 0.f;
+		laser->LaserChargeWidth = 0.f;
 	}
-	if (LaserTimer < LaserChargeTime)
+	if (laser->LaserChargeTime < laser->LaserChargeTimeMax)
 	{
-		LaserTimer += dt * 1.5f;
-		LaserChargeWidth += dt * 100.f;
-		LaserAlpha = (int)(LaserTimer / LaserChargeTime * LaserAlphaMax);
-		if (LaserAlpha > LaserAlphaMax) LaserAlpha = LaserAlphaMax;
-		if (LaserChargeWidth > LaserWidth) LaserChargeWidth = LaserWidth;
-		CP_Settings_Fill(CP_Color_Create(238, 1, 147, LaserAlpha));
-		CP_Settings_NoStroke();
-		CP_Graphics_DrawRect(WIDTH / 2, HEIGHT / 2, LaserChargeWidth * cam->camZoom, HEIGHT / cam->camZoom); // 레이저 위치
+		laser->LaserChargeTime += dt * 1.5f;
+		laser->LaserChargeWidth += dt * 100.f;
+		laser->LaserAlpha = (int)(laser->LaserChargeTimeMax / laser->LaserChargeTime * laser->LaserAlphaMax);
+		if (laser->LaserAlpha > laser->LaserAlphaMax) laser->LaserAlpha = laser->LaserAlphaMax;
+		if (laser->LaserChargeWidth > laser->LaserChargeWidthMax) laser->LaserChargeWidth = laser->LaserChargeWidthMax;
 	}
-	else if (LaserDelayTimer < LaserDelay)
+	else if (laser->LaserDelayTime < laser->LaserDelayTimeMax)
 	{
-		LaserDelayTimer += dt;
+		laser->LaserDelayTime += dt;
 	}
 	else
 	{
-		LaserAttackTimer += dt;
-		if (LaserAttackTimer < LaserTime)
+		laser->LaserAttackTime += dt;
+
+		if (laser->LaserAttackTimeMax <= laser->LaserAttackTime)
 		{
-			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-			CP_Graphics_DrawRect(WIDTH / 2, HEIGHT / 2, 100 * cam->camZoom, HEIGHT / cam->camZoom);
+			laser->LaserAttackTime = 0;
 		}
 	}
+	reverser *= -1;
 }
 
 void DisableEnemy(Enemy* _enemy)

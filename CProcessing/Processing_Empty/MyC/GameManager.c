@@ -22,6 +22,8 @@ void InitGameManager()
 	PlayerInit();
 
 	EnemyInit_StageOne(enemies[StageOne]);
+	
+	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 
 	InitDebuging();
 
@@ -45,13 +47,17 @@ void GMUpdate()
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			EnemyMove_StageOne(&enemies[StageOne][i]);
+			if (stageState > StageOne)
+			{
+				LaserAttack(Lasers_StageTwo);
+			}
 		}
 		PlayerMove();
 		Dash();
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
-			BulletConditioner(&enemies[StageOne][i], PDBullets[i]);
-			DirectBulletFire(&enemies[StageOne][i], PDBullets[i]);
+			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
+			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
 		}
 		CheckWall(wall);
 	}
@@ -63,9 +69,9 @@ void GMUpdate()
 	{
 		if (!player->isDashing)
 		{
-			CheckBullet(PDBullets[i]);
+			CheckBullet(Bullets_StageOne[i]);
 		}
-		CheckWallBullet(wall, PDBullets[i]);
+		CheckWallBullet(wall, Bullets_StageOne[i]);
 	}
 
 }
@@ -74,25 +80,31 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	//LaserAttack();
-
 	RenderWall(wall);
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		RenderEnemy(&enemies[StageOne][i]);
+		if (stageState > StageOne)
+		{
+			RenderEnemy(&enemies[StageTwo][i]);
+		}
 	}
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			if (PDBullets[i][j].active)
+			if (Bullets_StageOne[i][j].active)
 			{
-				RenderBullet(&PDBullets[i][j]);
+				RenderBullet(&Bullets_StageOne[i][j]);
 			}
 			if (CircleBullets[i][j].active)
 			{
 				RenderBullet(&CircleBullets[i][j]);
 			}
+		}
+		if (stageState > StageOne)
+		{
+			RenderLaser(enemies[StageTwo], &Lasers_StageTwo[i]);
 		}
 	}
 
@@ -174,7 +186,7 @@ void CheckPlayerState()
 
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			AllBulletInit(PDBullets[i]);
+			AllBulletInit(Bullets_StageOne[i]);
 		}
 
 		if (stageState < StageOne)

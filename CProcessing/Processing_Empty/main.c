@@ -47,7 +47,7 @@ void PrintMainMenu()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(153, 255, 255, 0));
 
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_TOP);
+	//CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_TOP);
 	CP_Settings_Fill(CP_Color_Create(238, 200, 200, 255));
 
 	sprintf_s(buffer, sizeof(buffer), "Press [Enter] key To Play");

@@ -11,7 +11,7 @@ void RenderWall(Obstacle* _obstacles)
 {
 
 	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
-	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+	CP_Settings_NoStroke();
 
 	for (int i = 0; i < MAX; ++i)
 	{
@@ -51,6 +51,7 @@ void RenderEnemy(Enemy* _enemy)
 
 	float _enemySize = _enemy->size * cam->camZoom;
 
+	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _enemySize, _enemySize);
 }
 
@@ -77,6 +78,19 @@ void RenderObstacle(Obstacle* _obstacle)
 	CP_Settings_Fill(CP_Color_Create(20, 10, 147, 150));
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
+}
+
+void RenderLaser(Enemy* enemy, Laser* laser)
+{
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, laser->pos);
+	float LaserWidth = enemy[0].size * cam->camZoom;
+	CP_Settings_Fill(CP_Color_Create(20, 10, 147, 150));
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, cam->camZoom, LaserWidth*cam->camZoom);
 }
 
 void RenderBoss()
