@@ -17,7 +17,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		_enemy[i].spd = 100.f;
 		_enemy[i].size = 50.f;
 		_enemy[i].active = 0;
-		_enemy[i].fireDelay = 1.f;
+		_enemy[i].fireDelay = 0.7f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].magazine = 0;
 		switch (i)
@@ -48,7 +48,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			PDBullets[i][j].projSpd = 200.f;
+			PDBullets[i][j].projSpd = 400.f;
 			PDBullets[i][j].projTime = 0.f;
 			PDBullets[i][j].active = 0;
 			PDBullets[i][j].size = 15.f;

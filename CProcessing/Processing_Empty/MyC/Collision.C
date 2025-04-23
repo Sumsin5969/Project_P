@@ -23,12 +23,15 @@ void CheckBullet(Bullet* _bullet)
 		dy = player->pos.y - _bullet[i].projPos.y;
 		distance = sqrtf(dx * dx + dy * dy);
 
-		radiusSum = player->size/2.f + _bullet[i].size/2.f;
+		radiusSum = player->size / 2.f + _bullet[i].size / 2.f;
 
 		if (distance <= radiusSum)
 		{
-			player->playerState = HIT;
-			printf("플레이어 쳐맞음");
+			if (player->playerState != INVINCIBLE)
+			{
+				player->playerState = HIT;
+				printf("플레이어 쳐맞음");
+			}
 		}
 	}
 }
@@ -59,9 +62,12 @@ void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		printf("⭕️ 충돌 감지! 원이 박스와 겹칩니다.\n");
+		printf("장애물과 충돌!.\n");
 
-		// 충돌 반응 처리를 여기에 추가 가능
+		if (player->playerState != INVINCIBLE)
+		{
+			player->playerState = HIT;
+		}
 	}
 }
 
@@ -97,33 +103,43 @@ void CheckWall(Obstacle* _obstacle)
 			if (playerLeft < wallLeft)
 			{
 				printf("왼쪽벽에 부딪힘\n");
-				player->playerState = HIT;
+				if (player->playerState != INVINCIBLE)
+				{
+					player->playerState = HIT;
+				}
 			}
 			break;
 		case WALL_RIGHT:
 			if (wallRight < playerRight)
 			{
 				printf("오른쪽벽에 부딪힘\n");
-				player->playerState = HIT;
+				if (player->playerState != INVINCIBLE)
+				{
+					player->playerState = HIT;
+				}
 			}
 			break;
 		case WALL_TOP:
 			if (playerTop < wallTop)
 			{
 				printf("위쪽벽에 부딪힘\n");
-				player->playerState = HIT;
+				if (player->playerState != INVINCIBLE)
+				{
+					player->playerState = HIT;
+				}
 			}
 			break;
 		case WALL_BOTTOM:
 			if (wallBottom < playerBottom)
 			{
 				printf("아래벽에 부딪힘\n");
-				player->playerState = HIT;
-
+				if (player->playerState != INVINCIBLE)
+				{
+					player->playerState = HIT;
+				}
 			}
 			break;
 		}
-
 	}
 }
 

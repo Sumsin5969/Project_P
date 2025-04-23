@@ -4,6 +4,7 @@
 #include "MyC/GameManager.h"
 #include "Defines.h"
 
+
 #define UP CP_Input_KeyDown(KEY_UP)
 #define DOWN CP_Input_KeyDown(KEY_DOWN)
 #define LEFT CP_Input_KeyDown(KEY_LEFT)
@@ -80,6 +81,8 @@ void Dash(void)
 		player->originalSpd = player->spd;
 		player->spd += player->dashSpeedBoost;
 		player->dashDecayRate = player->dashSpeedBoost / player->dashTimer;
+
+		player->playerState = INVINCIBLE;
 	}
 
 	if (player->isDashing)
@@ -87,13 +90,24 @@ void Dash(void)
 		player->dashTimer -= dt;
 		player->spd -= player->dashDecayRate * dt;
 
+		// 주기적으로 위치 저장
+		static float saveTimer = 0.0f;
+		saveTimer += dt;
+		if (saveTimer > 0.02f) // 0.02초마다 저장
+		{
+			SavePlayerPos();
+			saveTimer = 0.0f;
+		}
+
 		if (player->dashTimer <= 0.f)
 		{
 			player->spd = player->originalSpd;
 			player->isDashing = 0;
+			player->playerState = NORMAL;
+
+			shadowIndex = 0; // 잔상 초기화
 		}
 	}
-
 }
 
 void DestroyPlayer()

@@ -9,6 +9,9 @@
 
 #define STAGECLEARTIME 30
 #define ZOOMSPEED 1
+#define ENEMY_COLOR() CP_Color_Create(200,1,147,255)	// 이렇게도 함수를 디파인할 수 있다.
+//CP_Color defaultColor = { 200,1,147,255 };			// 사실 이렇게 쓰는게 더 깔끔하겠지 하지만 include하기 싫으니까 
+
 
 typedef enum ObstacleType
 {
@@ -73,3 +76,4 @@ typedef enum
 	BOTTOMLEFT,
 	BOTTOMRIGHT
 } EnemyPosition;
+
