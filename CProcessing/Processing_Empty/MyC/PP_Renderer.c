@@ -171,15 +171,13 @@ void RenderLaser(Enemy* enemy, Laser* laser)
 	{
 	case CHARGE:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserChargeWidthMax * cam->camZoom, enemy->size * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x += 500, targetVector.y, 3000.f / cam->camZoom, laser->laserChargeWidthMax * cam->camZoom);
 		break;
 	case ATTACK:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserChargeWidthMax * cam->camZoom, enemy->size * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x += 500,targetVector.y, 3000.f / cam->camZoom, laser->laserChargeWidthMax * cam->camZoom);
 		break;
 	}
-
-	CP_Settings_RectMode(CP_POSITION_CENTER);
 }
 
 void RenderBoss()
