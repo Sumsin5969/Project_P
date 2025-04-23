@@ -3,7 +3,7 @@
 #include "Defines.h"
 
 
-
+// 플레이어 위치로 발사할 적
 typedef struct Enemy
 {
 	CP_Vector pos;
@@ -37,14 +37,15 @@ typedef struct Laser
 } Laser;
 
 
-Enemy enemies[MAX_ENEMIES];
+Enemy enemies[StageLastIndex][MAX_ENEMIES];
 Bullet CircleBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet PDBullets[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 //void BulletInit(Bullet* bullets);
-void EnemyInit();
-void DisableEnemy();
-void EnemyMove(Enemy* );
+void EnemyInit_StageOne(Enemy*);
+void EnemyMove_StageOne(Enemy*);
+void EnemyInit_StageTwo(Enemy*);
+void DisableEnemy(Enemy*);
 void BulletConditioner(Enemy*, Bullet*);
-void CircleBulletFire(Enemy* e, Bullet* bullets);
-void DirectBulletFire(Enemy* e, Bullet* bullets);
+void CircleBulletFire(Enemy*, Bullet*);
+void DirectBulletFire(Enemy*, Bullet*);
 void LaserAttack();

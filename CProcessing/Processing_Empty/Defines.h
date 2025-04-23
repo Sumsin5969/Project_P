@@ -55,7 +55,8 @@ typedef enum StageState
 	StageThree,
 	StageFour,
 	StageFive,
-	StageBoss
+	StageLastIndex,
+	StageBoss,
 } StageState;
 
 typedef enum

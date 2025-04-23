@@ -22,4 +22,3 @@ StageState stageState;
 GameState gameState;
 
 PlayerCharacter* player;
-

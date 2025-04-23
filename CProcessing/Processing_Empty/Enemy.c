@@ -5,41 +5,42 @@
 #include "Defines.h"
 #include "MyC/GameManager.h"
 #include "MyC/ZoomCamera.h"
+#include "MyC/Collision.h"
 
 // 적과 탄환 초기화
 // 
-void EnemyInit()
+void EnemyInit_StageOne(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		enemies[i].isAttack = 0;
-		enemies[i].spd = 100.f;
-		enemies[i].size = 50.f;
-		enemies[i].active = 0;
-		enemies[i].fireDelay = .1f;
-		enemies[i].fireTime = 0.f;
-		enemies[i].magazine = 0;
+		_enemy[i].isAttack = 0;
+		_enemy[i].spd = 100.f;
+		_enemy[i].size = 50.f;
+		_enemy[i].active = 0;
+		_enemy[i].fireDelay = 1.f;
+		_enemy[i].fireTime = 0.f;
+		_enemy[i].magazine = 0;
 		switch (i)
 		{
 		case 0:
-			enemies[i].pos.x = -850;
-			enemies[i].pos.y = -450;
-			enemies[i].enemyPosition = TOPLEFT;
+			_enemy[i].pos.x = -850;
+			_enemy[i].pos.y = -450;
+			_enemy[i].enemyPosition = TOPLEFT;
 			break;
 		case 1:
-			enemies[i].pos.x = 850;
-			enemies[i].pos.y = -450;
-			enemies[i].enemyPosition = TOPRIGHT;
+			_enemy[i].pos.x = 850;
+			_enemy[i].pos.y = -450;
+			_enemy[i].enemyPosition = TOPRIGHT;
 			break;
 		case 2:
-			enemies[i].pos.x = -850;
-			enemies[i].pos.y = 450;
-			enemies[i].enemyPosition = BOTTOMLEFT;
+			_enemy[i].pos.x = -850;
+			_enemy[i].pos.y = 450;
+			_enemy[i].enemyPosition = BOTTOMLEFT;
 			break;
 		case 3:
-			enemies[i].pos.x = 850;
-			enemies[i].pos.y = 450;
-			enemies[i].enemyPosition = BOTTOMRIGHT;
+			_enemy[i].pos.x = 850;
+			_enemy[i].pos.y = 450;
+			_enemy[i].enemyPosition = BOTTOMRIGHT;
 			break;
 		}
 
@@ -47,11 +48,11 @@ void EnemyInit()
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			PDBullets[i][j].projSpd = 500.f;
+			PDBullets[i][j].projSpd = 200.f;
 			PDBullets[i][j].projTime = 0.f;
 			PDBullets[i][j].active = 0;
 			PDBullets[i][j].size = 15.f;
-			CircleBullets[i][j].projSpd = 1000.f;
+			CircleBullets[i][j].projSpd = 100.f;
 			CircleBullets[i][j].projTime = 0.f;
 			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
 			CircleBullets[i][j].active = 0;
@@ -59,10 +60,48 @@ void EnemyInit()
 		}
 	}
 }
-
+// 스테이지 2로 넘어갈 시 출현할 적을 gameinit에서 초기화
+// Enemy속성들 2행의 1차원 배열로 초기화 할 거임
+// todo: 스테이지별 적에게 할당할 탄환 배열 또 만들기
+void EnemyInit_StageTwo(Enemy* _enemy)
+{
+	// pos x,y는 switch-case로 할 거임
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		_enemy[i].spd = 150.f;
+		_enemy[i].fireTime = 0.f;
+		_enemy[i].fireDelay = 3.f;
+		_enemy[i].size = 50.f;
+		_enemy[i].magazine = 0;
+		_enemy[i].active = 0;
+		switch (i)
+		{
+		case 0:
+			_enemy[i].pos.x = -650;
+			_enemy[i].pos.y = -350;
+			_enemy[i].enemyPosition = TOPLEFT;
+		case 1:
+			_enemy[i].pos.x = -650;
+			_enemy[i].pos.y = 350;
+			_enemy[i].enemyPosition = BOTTOMLEFT;
+		case 2:
+			_enemy[i].pos.x = 650;
+			_enemy[i].pos.y = 350;
+			_enemy[i].enemyPosition = BOTTOMRIGHT;
+		case 3:
+			_enemy[i].pos.x = 650;
+			_enemy[i].pos.y = -350;
+			_enemy[i].enemyPosition = TOPRIGHT;
+		}
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			
+		}
+	}
+}
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
 
-void EnemyMove(Enemy* enemy)
+void EnemyMove_StageOne(Enemy* enemy)
 {
 	float dt = GetDt() * (enemy->spd);
 	if (enemy->enemyPosition == TOPLEFT)
@@ -241,10 +280,10 @@ void LaserAttack()
 	}
 }
 
-void DisableEnemy()
+void DisableEnemy(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		enemies[i].active = 0;
+		_enemy[i].active = 0;
 	}
 }

@@ -21,7 +21,7 @@ void InitGameManager()
 
 	PlayerInit();
 
-	EnemyInit();
+	EnemyInit_StageOne(enemies[StageOne]);
 
 	InitDebuging();
 
@@ -44,18 +44,14 @@ void GMUpdate()
 	{
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			EnemyMove(&enemies[i]);
+			EnemyMove_StageOne(&enemies[StageOne][i]);
 		}
 		PlayerMove();
 		Dash();
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			CircleBulletFire(&enemies[i], CircleBullets[i]);
-		}
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
-			BulletConditioner(&enemies[i], PDBullets[i]);
-			DirectBulletFire(&enemies[i], PDBullets[i]);
+			BulletConditioner(&enemies[StageOne][i], PDBullets[i]);
+			DirectBulletFire(&enemies[StageOne][i], PDBullets[i]);
 		}
 		CheckWall(wall);
 	}
@@ -83,7 +79,7 @@ void GMLateUpdate()
 	RenderWall(wall);
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		RenderEnemy(&enemies[i]);
+		RenderEnemy(&enemies[StageOne][i]);
 	}
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
