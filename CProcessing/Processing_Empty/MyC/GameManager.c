@@ -172,16 +172,19 @@ void CheckPlayerState()
 	switch (player->playerState)
 	{
 	case HIT:
+		stageState--;
 
-		if (stageState == StageOne)
-		{
-			gameState = GameOver;
-		}
 		PlayerInit();
 
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			AllBulletInit(PDBullets[i]);
+		}
+
+		if (stageState < StageOne)
+		{
+			gameState = GameOver;
+			return;
 		}
 
 		SetZoomInTargetRate();

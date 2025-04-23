@@ -79,6 +79,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 		stageTime = 30.f;
 		timeAcc = 0.f;
 
+		stageState++;
 		ZoomOutForce();
 		SetGameState(Play);
 	}
