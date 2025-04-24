@@ -58,7 +58,7 @@ void GMUpdate()
 				LaserAttack(&Lasers_StageTwo[i]);
 			}
 		}
-		
+
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
 			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
@@ -70,10 +70,11 @@ void GMUpdate()
 			CheckBullet(Bullets_StageOne[i]);
 
 			CheckWallBullet(wall, Bullets_StageOne[i]);
-			
+
 			//CheckLaser(&Lasers_StageTwo[i]);
 		}
 		CheckLaser(&Lasers_StageTwo[0]);
+
 		CheckWall(wall);
 		CheckObstacle(&obstacles[0][0]);
 	}
@@ -107,10 +108,10 @@ void GMLateUpdate()
 		}
 		if (stageState > StageOne)
 		{
-			RenderLaser(enemies[StageTwo], &Lasers_StageTwo[i]);
 		}
 	}
 
+	RenderLaser(&Lasers_StageTwo[0]);
 
 
 	RenderObstacle(&obstacles[0][0]);

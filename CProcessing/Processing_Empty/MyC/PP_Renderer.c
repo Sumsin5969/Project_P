@@ -135,7 +135,6 @@ void RenderEnemy(Enemy* _enemy)
 
 void RenderBullet(Bullet* _bullet)
 {
-
 	CamInfo* cam = GetCamera();
 	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
@@ -160,23 +159,26 @@ void RenderObstacle(Obstacle* _obstacle)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
 
-void RenderLaser(Enemy* enemy, Laser* laser)
+void RenderLaser(Laser* laser)
 {
 	CamInfo* cam = GetCamera();
 	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
-	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, enemy->pos);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, laser->pos);
+
+	float _laserWidth = laser->laserWidth * cam->camZoom;
+	float _laserHeight = laser->laserHeight * cam->camZoom;
 
 	switch (laser->state)
 	{
 	case WARNING:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackWidth +1000, laser->laserWarningAttackHeightMax);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth * (cam->camZoom), _laserHeight * cam->camZoom);
 		break;
 	case ATTACK:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackWidth + 1000, laser->laserWarningAttackHeightMax);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth * (cam->camZoom), _laserHeight * cam->camZoom);
 		break;
 	}
 }
