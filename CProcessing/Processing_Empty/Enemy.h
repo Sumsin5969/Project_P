@@ -72,7 +72,7 @@ typedef struct Laser
 
 
 Enemy enemies[StageLastIndex][MAX_ENEMIES];
-Bullet CircleBullets_StageThree[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet CircleBullets_StageThree[MAX_ENEMIES][MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 //void BulletInit(Bullet* bullets);

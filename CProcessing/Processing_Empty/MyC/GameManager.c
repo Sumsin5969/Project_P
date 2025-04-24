@@ -38,9 +38,14 @@ void InitGameManager()
 
 void GMUpdate()
 {
+	// 플레이어 -> 게임 -> 적 순으로 업데이트
 	CheckPlayerState();
 
 	CheckGameState();
+
+	// 벽과 장애물 체크
+	CheckWall(wall);
+	CheckObstacle(&obstacles[0][0]);
 
 	StageTimer();
 
@@ -75,17 +80,23 @@ void GMUpdate()
 		}
 
 		// 스테이지3 관리
-		for (int i = 0; i < MAX_ENEMIES; i++)
+		if (stageState > StageTwo)
 		{
-			if (stageState > StageTwo)
+			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
-				CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+				for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+				{
+					BulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
+				}
+				for (int j = 0;j < MAX_ENEMIES;j++)
+				{
+					for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
+					{
+						CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
+					}
+				}
 			}
 		}
-
-		// 벽과 장애물 체크
-		CheckWall(wall);
-		CheckObstacle(&obstacles[0][0]);
 	}
 }
 
@@ -108,6 +119,8 @@ void GMLateUpdate()
 			RenderEnemy(&enemies[StageThree][i]);
 		}
 	}
+
+	// 적 공격 렌더링
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
@@ -116,9 +129,15 @@ void GMLateUpdate()
 			{
 				RenderBullet(&Bullets_StageOne[i][j]);
 			}
-			if (CircleBullets_StageThree[i][j].active)
+		}
+		for (int j = 0; j < MAX_ENEMIES; j++)
+		{
+			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
-				RenderBullet(&CircleBullets_StageThree[i][j]);
+				if (CircleBullets_StageThree[i][j][k].active)
+				{
+					RenderBullet(CircleBullets_StageThree[i][j]);
+				}
 			}
 		}
 
@@ -128,12 +147,11 @@ void GMLateUpdate()
 		}
 	}
 
-
-
+	// 장애물 렌더링
 	RenderObstacle(&obstacles[0][0]);
 
+	// 플레이어 관련 렌더링
 	RenderPlayerShadow();
-
 	RenderPlayer();
 
 	DebugUpdate();

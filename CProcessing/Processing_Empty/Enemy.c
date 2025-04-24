@@ -72,19 +72,19 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -1020;
+			_enemy[i].pos.x = -1055;
 			_enemy[i].pos.y = -320;
 			break;
 		case 1:
-			_enemy[i].pos.x = -1020;
+			_enemy[i].pos.x = -1055;
 			_enemy[i].pos.y = 120;
 			break;
 		case 2:
-			_enemy[i].pos.x = 1020;
+			_enemy[i].pos.x = 1055;
 			_enemy[i].pos.y = -100;
 			break;
 		case 3:
-			_enemy[i].pos.x = 1020;
+			_enemy[i].pos.x = 1055;
 			_enemy[i].pos.y = 340;
 			break;
 		}
@@ -136,30 +136,30 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -1100;
-			_enemy[i].pos.y = -700;
+			_enemy[i].pos.x = -1320;
+			_enemy[i].pos.y = -720;
 			break;
 		case 1:
-			_enemy[i].pos.x = -1190;
-			_enemy[i].pos.y = 700;
+			_enemy[i].pos.x = -1320;
+			_enemy[i].pos.y = 720;
 			break;
 		case 2:
-			_enemy[i].pos.x = 1190;
-			_enemy[i].pos.y = -700;
+			_enemy[i].pos.x = 1320;
+			_enemy[i].pos.y = -720;
 			break;
 		case 3:
-			_enemy[i].pos.x = 1190;
-			_enemy[i].pos.y = 700;
+			_enemy[i].pos.x = 1320;
+			_enemy[i].pos.y = 720;
 			break;
 		}
 
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		for (int j = 0; j < MAX_ENEMIES; j++)
 		{
-			CircleBullets_StageThree[i][j].projSpd = 800.f;
-			CircleBullets_StageThree[i][j].projTime = 0.f;
-			CircleBullets_StageThree[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
-			CircleBullets_StageThree[i][j].active = 0;
-			CircleBullets_StageThree[i][j].size = 15.f;
+			CircleBullets_StageThree[i][j]->projSpd = 800.f;
+			CircleBullets_StageThree[i][j]->projTime = 0.f;
+			CircleBullets_StageThree[i][j]->degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+			CircleBullets_StageThree[i][j]->active = 0;
+			CircleBullets_StageThree[i][j]->size = 15.f;
 		}
 	}
 }
@@ -213,6 +213,23 @@ void BulletConditioner(Enemy* e, Bullet* b)
 		b[e->magazine].active = 1;
 		e->magazine++;
 
+	}
+	if (e->magazine >= MAX_BULLETS_PER_ENEMY)
+	{
+		e->magazine = 0;
+	}
+}
+
+// 위 함수와 비슷한 역할: 방사형 투사체에 사용됨
+void CircleBulletConditioner(Enemy* e, Bullet* b)
+{
+	float dt = GetDt();
+	e->fireTime += dt;
+	if (e->fireDelay <= e->fireTime)
+	{
+		e->fireTime = 0.f;
+		b[e->magazine].active = 1;
+		e->magazine++;
 	}
 	if (e->magazine >= MAX_BULLETS_PER_ENEMY)
 	{
