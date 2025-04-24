@@ -127,6 +127,9 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 
+	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
+
+
 	DefaultTimerUI();
 }
 // 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
