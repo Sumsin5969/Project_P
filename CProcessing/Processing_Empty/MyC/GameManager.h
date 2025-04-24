@@ -2,6 +2,7 @@
 #include "../Defines.h"
 #include "../player.h"
 #include "../Enemy.h"
+#include "../Obstacle.h"
 void InitGameManager();
 void GMUpdate();
 void GMLateUpdate();
@@ -29,4 +30,4 @@ PlayerCharacter* player;
 CP_Vector pcShadow[100]; // 잔상용
 int shadowIndex;
 
-extern Obstacle wall;
+extern Obstacle wall[MAX];

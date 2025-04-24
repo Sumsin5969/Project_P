@@ -14,7 +14,7 @@ typedef struct Enemy
 	float size;
 	int magazine;
 	int active;
-	EnemyPosition enemyDestination;
+	EnemyDestination enemyDestination;
 	FireType fireType;
 } Enemy;
 

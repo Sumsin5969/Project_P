@@ -174,7 +174,7 @@ void RenderLaser(Laser* laser)
 	{
 	case WARNING:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth * (cam->camZoom), _laserHeight * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth / (cam->camZoom * (float)2), laser->laserWarningAttackRange * cam->camZoom);
 		break;
 	case ATTACK:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));

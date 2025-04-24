@@ -52,11 +52,6 @@ void EnemyInit_StageOne(Enemy* _enemy)
 			Bullets_StageOne[i][j].projTime = 0.f;
 			Bullets_StageOne[i][j].active = 0;
 			Bullets_StageOne[i][j].size = 15.f;
-			CircleBullets[i][j].projSpd = 100.f;
-			CircleBullets[i][j].projTime = 0.f;
-			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
-			CircleBullets[i][j].active = 0;
-			CircleBullets[i][j].size = 3.f;
 		}
 	}
 }
@@ -129,8 +124,47 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].state = IDLE;
 	}
 }
-// Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
+void EnemyInin_StageThree(Enemy* _enemy)
+{
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		_enemy[i].spd = 0.f;
+		_enemy[i].fireTime = 0.f;
+		_enemy[i].fireDelay = 3.f;
+		_enemy[i].size = 50.f;
+		_enemy[i].magazine = 0;
+		_enemy[i].active = 0;
+		switch (i)
+		{
+		case 0:
+			_enemy[i].pos.x = -1020;
+			_enemy[i].pos.y = -320;
+			break;
+		case 1:
+			_enemy[i].pos.x = -1020;
+			_enemy[i].pos.y = 120;
+			break;
+		case 2:
+			_enemy[i].pos.x = 1020;
+			_enemy[i].pos.y = -100;
+			break;
+		case 3:
+			_enemy[i].pos.x = 1020;
+			_enemy[i].pos.y = 340;
+			break;
+		}
 
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			CircleBullets[i][j].projSpd = 100.f;
+			CircleBullets[i][j].projTime = 0.f;
+			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+			CircleBullets[i][j].active = 0;
+			CircleBullets[i][j].size = 3.f;
+		}
+	}
+}
+// Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
 void EnemyMove_StageOne(Enemy* enemy)
 {
 	float dt = GetDt() * (enemy->spd);
@@ -172,7 +206,7 @@ void EnemyMove_StageOne(Enemy* enemy)
 // 시간을 재서 Time > Delay면 탄을 발사하는 함수 만들거임
 void BulletConditioner(Enemy* e, Bullet* b)
 {
-	float dt = GetDt();
+	float dt = GetDt() / 4;
 	e->fireTime += dt;
 	if (e->fireDelay <= e->fireTime)
 	{
@@ -197,7 +231,6 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 	{
 		float originX = e->pos.x;
 		float originY = e->pos.y;
-		b[i].projTime += dt;
 		if (!b[i].active)
 		{
 			b[i].projPos.x = originX;

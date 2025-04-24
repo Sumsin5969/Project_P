@@ -83,5 +83,5 @@ typedef enum
 	TOPRIGHT,
 	BOTTOMLEFT,
 	BOTTOMRIGHT
-} EnemyPosition;
+} EnemyDestination;
 
