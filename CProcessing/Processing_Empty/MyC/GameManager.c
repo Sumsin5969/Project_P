@@ -65,12 +65,9 @@ void GMUpdate()
 		{
 			if (stageState > StageOne)
 			{
-				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 				LaserAttack(&Lasers_StageTwo[i]);
-				if (Lasers_StageTwo[i].state == ATTACK)
-				{
-					CheckLaser(&Lasers_StageTwo[i]);
-				}
+				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+				CheckLaser(&Lasers_StageTwo[i]);
 			}
 		}
 
