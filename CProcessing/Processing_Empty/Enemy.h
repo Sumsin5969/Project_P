@@ -65,6 +65,9 @@ typedef struct Laser
 	float laserWarningAttackWidthMax;
 	float laserWarningAttackHeight;
 	float laserWarningAttackHeightMax;
+
+	float laserWidth;
+	float laserHeight;
 	LaserDirection laserDirection;
 	LaserState state;
 } Laser;
