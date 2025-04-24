@@ -25,6 +25,8 @@ void InitGameManager()
 
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 
+	EnemyInit_StageThree(enemies[StageThree]);
+
 	InitDebuging();
 
 	SetWallType(wall);
@@ -48,32 +50,40 @@ void GMUpdate()
 
 		Dash();
 
-
-		if (stageState > StageOne)
-		{
-			LaserAttack(&Lasers_StageTwo[0]);
-		}
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			EnemyMove_StageOne(&enemies[StageOne][i]);
-		}
-
+		// 스테이지1 관리
 		for (int i = 0; i < MAX_ENEMIES;i++)
 		{
+			EnemyMove_StageOne(&enemies[StageOne][i]);
 			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
 			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+			CheckBullet(Bullets_StageOne[i]);
+			CheckWallBullet(wall, Bullets_StageOne[i]);
 		}
 
+		// 스테이지2 관리
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			CheckBullet(Bullets_StageOne[i]);
-
-			CheckWallBullet(wall, Bullets_StageOne[i]);
-
-			//CheckLaser(&Lasers_StageTwo[i]);
+			if (stageState > StageOne)
+			{
+				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+				LaserAttack(&Lasers_StageTwo[i]);
+				if (Lasers_StageTwo[i].state == ATTACK)
+				{
+					CheckLaser(&Lasers_StageTwo[i]);
+				}
+			}
 		}
-		CheckLaser(&Lasers_StageTwo[0]);
 
+		// 스테이지3 관리
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			if (stageState > StageTwo)
+			{
+				CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+			}
+		}
+
+		// 벽과 장애물 체크
 		CheckWall(wall);
 		CheckObstacle(&obstacles[0][0]);
 	}
@@ -84,12 +94,18 @@ void GMLateUpdate()
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
 	RenderWall(wall);
+
+	// 적 캐릭터 렌더링
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		RenderEnemy(&enemies[StageOne][i]);
 		if (stageState > StageOne)
 		{
 			RenderEnemy(&enemies[StageTwo][i]);
+		}
+		if (stageState > StageTwo)
+		{
+			RenderEnemy(&enemies[StageThree][i]);
 		}
 	}
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -100,17 +116,18 @@ void GMLateUpdate()
 			{
 				RenderBullet(&Bullets_StageOne[i][j]);
 			}
-			if (CircleBullets[i][j].active)
+			if (CircleBullets_StageThree[i][j].active)
 			{
-				RenderBullet(&CircleBullets[i][j]);
+				RenderBullet(&CircleBullets_StageThree[i][j]);
 			}
 		}
+
 		if (stageState > StageOne)
 		{
+			RenderLaser(&Lasers_StageTwo[i]);
 		}
 	}
 
-	RenderLaser(&Lasers_StageTwo[0]);
 
 
 	RenderObstacle(&obstacles[0][0]);

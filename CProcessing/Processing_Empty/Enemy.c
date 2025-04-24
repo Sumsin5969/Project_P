@@ -65,7 +65,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 	{
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].fireDelay = 3.f;
+		_enemy[i].fireDelay = 0.f;
 		_enemy[i].size = 50.f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
@@ -88,7 +88,6 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 			_enemy[i].pos.y = 340;
 			break;
 		}
-
 		switch (i)
 		{
 		case 0:
@@ -110,10 +109,10 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].laserAlphaMax = 200; // 전조 최대 알파값
 
 		laser[i].time = 0;
-		laser[i].idleDuration = 1.f;
+		laser[i].idleDuration = 2.f;
 		laser[i].warningAttackDuration = 1.5f;
 		laser[i].waitDuration = 0.5f;
-		laser[i].attackDuration = 2.f;
+		laser[i].attackDuration = 1.5f;
 
 		laser[i].laserWarningAttackRange = 0.f;
 		laser[i].laserWarningAttackRangeMax = _enemy[i].size;
@@ -124,7 +123,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].state = IDLE;
 	}
 }
-void EnemyInin_StageThree(Enemy* _enemy)
+void EnemyInit_StageThree(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
@@ -137,30 +136,30 @@ void EnemyInin_StageThree(Enemy* _enemy)
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -1020;
-			_enemy[i].pos.y = -320;
+			_enemy[i].pos.x = -1100;
+			_enemy[i].pos.y = -700;
 			break;
 		case 1:
-			_enemy[i].pos.x = -1020;
-			_enemy[i].pos.y = 120;
+			_enemy[i].pos.x = -1190;
+			_enemy[i].pos.y = 700;
 			break;
 		case 2:
-			_enemy[i].pos.x = 1020;
-			_enemy[i].pos.y = -100;
+			_enemy[i].pos.x = 1190;
+			_enemy[i].pos.y = -700;
 			break;
 		case 3:
-			_enemy[i].pos.x = 1020;
-			_enemy[i].pos.y = 340;
+			_enemy[i].pos.x = 1190;
+			_enemy[i].pos.y = 700;
 			break;
 		}
 
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			CircleBullets[i][j].projSpd = 100.f;
-			CircleBullets[i][j].projTime = 0.f;
-			CircleBullets[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
-			CircleBullets[i][j].active = 0;
-			CircleBullets[i][j].size = 3.f;
+			CircleBullets_StageThree[i][j].projSpd = 800.f;
+			CircleBullets_StageThree[i][j].projTime = 0.f;
+			CircleBullets_StageThree[i][j].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+			CircleBullets_StageThree[i][j].active = 0;
+			CircleBullets_StageThree[i][j].size = 15.f;
 		}
 	}
 }
@@ -206,7 +205,7 @@ void EnemyMove_StageOne(Enemy* enemy)
 // 시간을 재서 Time > Delay면 탄을 발사하는 함수 만들거임
 void BulletConditioner(Enemy* e, Bullet* b)
 {
-	float dt = GetDt() / 4;
+	float dt = GetDt();
 	e->fireTime += dt;
 	if (e->fireDelay <= e->fireTime)
 	{
@@ -238,7 +237,6 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			b[i].fireAngle = CP_Math_Radians(b[i].degree);
 			b[i].fireDir.x = cosf(b[i].fireAngle);
 			b[i].fireDir.y = sinf(b[i].fireAngle);
-			b[i].active = 1;
 		}
 		else
 		{
@@ -246,13 +244,6 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 			b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
 			b[i].degree += 360.f / MAX_BULLETS_PER_ENEMY;
 			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
-		}
-		if (b[i].projTime > e->fireDelay)
-		{
-			b[i].active = 0;
-			b[i].projTime = 0;
-			b[i].projPos.x = originX;
-			b[i].projPos.y = originY;
 		}
 	}
 }
@@ -341,10 +332,6 @@ void LaserAttack(Laser* laser)
 	{
 		printf("ATTACK 상태 \n");
 		laser->time += dt;
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			CreateLaser(&enemies[StageTwo][i], &laser[i]);
-		}
 
 		if (laser->attackDuration <= laser->time)
 		{
@@ -382,11 +369,8 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 	case LD_RIGHT:
 		laserStartX = _enemy->pos.x + _enemy->size * 0.5f;
 		laserEndX = cam->camPos.x + halfWorldW;
-		
 		laserLength = laserEndX - laserStartX;
 		laser->pos.x = laserEndX - laserLength * 0.5f;
-		laser->pos.y = _enemy->pos.y;
-
 		laser->laserWidth = laserLength;
 		laser->laserHeight = _enemy->size;
 		break;
