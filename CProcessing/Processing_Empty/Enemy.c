@@ -109,6 +109,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 			laser[i].laserDirection = LD_LEFT;
 			break;
 		}
+		laser[i].pos.x = _enemy[i].pos.x;
 		laser[i].pos.y = _enemy[i].pos.y;
 		laser[i].laserAlpha = 50; // 전조 알파값
 		laser[i].laserAlphaMax = 125; // 전조 최대 알파값
@@ -335,16 +336,18 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 		laserEndX = WALLWIDTHSIZE;
 		laserLength = laserStartX - laserEndX;
 		laser->pos.x = laserStartX - laserLength / 2;
+		laser->laserWidth = laserLength;
+		laser->laserHeight = _enemy->size;
 		break;
 	case LD_RIGHT:
 		laserStartX = _enemy->pos.x + _enemy->size / 2;
 		laserEndX = WIDTH - WALLWIDTHSIZE;
 		laserLength = laserEndX - laserStartX;
 		laser->pos.x = laserEndX - laserLength / 2;
+		laser->laserWidth = laserLength;
+		laser->laserHeight = _enemy->size;
 		break;
 	}
-	laser->laserWidth = laserLength;
-	laser->laserHeight = _enemy->size;
 
 
 
