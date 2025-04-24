@@ -25,22 +25,22 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		case 0:
 			_enemy[i].pos.x = -850;
 			_enemy[i].pos.y = -450;
-			_enemy[i].enemyPosition = TOPLEFT;
+			_enemy[i].enemyDestination = TOPLEFT;
 			break;
 		case 1:
 			_enemy[i].pos.x = 850;
 			_enemy[i].pos.y = -450;
-			_enemy[i].enemyPosition = TOPRIGHT;
+			_enemy[i].enemyDestination = TOPRIGHT;
 			break;
 		case 2:
 			_enemy[i].pos.x = -850;
 			_enemy[i].pos.y = 450;
-			_enemy[i].enemyPosition = BOTTOMLEFT;
+			_enemy[i].enemyDestination = BOTTOMLEFT;
 			break;
 		case 3:
 			_enemy[i].pos.x = 850;
 			_enemy[i].pos.y = 450;
-			_enemy[i].enemyPosition = BOTTOMRIGHT;
+			_enemy[i].enemyDestination = BOTTOMRIGHT;
 			break;
 		}
 
@@ -93,9 +93,23 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 			_enemy[i].pos.y = 340;
 			break;
 		}
-		laser[i].pos.x = _enemy[i].pos.x + 500;
-		laser[i].pos.y = _enemy[i].pos.y;
 
+		switch (i)
+		{
+		case 0:
+			laser[i].laserDirection = LD_RIGHT;
+			break;
+		case 1:
+			laser[i].laserDirection = LD_LEFT;
+			break;
+		case 2:
+			laser[i].laserDirection = LD_RIGHT;
+			break;
+		case 3:
+			laser[i].laserDirection = LD_LEFT;
+			break;
+		}
+		laser[i].pos.y = _enemy[i].pos.y;
 		laser[i].laserAlpha = 50; // 전조 알파값
 		laser[i].laserAlphaMax = 125; // 전조 최대 알파값
 
@@ -106,10 +120,12 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].attackDuration = 2.f;
 
 		laser[i].laserWarningAttackWidth = 0;
-		laser[i].laserWarningAttackWidthMax = 50;
+		laser[i].laserWarningAttackWidthMax = _enemy[i].size;
 		laser[i].laserWarningAttackHeight = 0;
-		laser[i].laserWarningAttackHeightMax = 50;
+		laser[i].laserWarningAttackHeightMax = _enemy[i].size;
 
+		laser[i].laserWidth = 0.f;
+		laser[i].laserHeight = 0.f;
 
 		laser[i].state = IDLE;
 	}
@@ -119,7 +135,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 void EnemyMove_StageOne(Enemy* enemy)
 {
 	float dt = GetDt() * (enemy->spd);
-	switch (enemy->enemyPosition)
+	switch (enemy->enemyDestination)
 	{
 	case TOPLEFT:
 		enemy->pos.y += dt;
@@ -127,28 +143,28 @@ void EnemyMove_StageOne(Enemy* enemy)
 		// 좌표에 zoom level을 곱해서 가변적인 좌표를 얻음
 		if (enemy->pos.y >= 450)
 		{
-			enemy->enemyPosition = BOTTOMLEFT;
+			enemy->enemyDestination = BOTTOMLEFT;
 		}
 		break;
 	case BOTTOMLEFT:
 		enemy->pos.x += dt * (17.f / 9.f);
 		if (enemy->pos.x >= 850)
 		{
-			enemy->enemyPosition = BOTTOMRIGHT;
+			enemy->enemyDestination = BOTTOMRIGHT;
 		}
 		break;
 	case BOTTOMRIGHT:
 		enemy->pos.y -= dt;
 		if (enemy->pos.y <= -450)
 		{
-			enemy->enemyPosition = TOPRIGHT;
+			enemy->enemyDestination = TOPRIGHT;
 		}
 		break;
 	case TOPRIGHT:
 		enemy->pos.x -= dt * (17.f / 9.f);
 		if (enemy->pos.x <= -850)
 		{
-			enemy->enemyPosition = TOPLEFT;
+			enemy->enemyDestination = TOPLEFT;
 		}
 		break;
 	}
@@ -293,6 +309,10 @@ void LaserAttack(Laser* laser)
 	{
 		printf("ATTACK 상태 \n");
 		laser->time += dt;
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CreateLaser(&enemies[StageTwo][i], &laser[i]);
+		}
 
 		if (laser->attackDuration <= laser->time)
 		{
@@ -302,6 +322,34 @@ void LaserAttack(Laser* laser)
 
 	}
 }
+
+void CreateLaser(Enemy* _enemy, Laser* laser)
+{
+	float laserStartX;
+	float laserEndX;
+	float laserLength;
+	switch (laser->laserDirection)
+	{
+	case LD_LEFT:
+		laserStartX = _enemy->pos.x - _enemy->size / 2;
+		laserEndX = WALLWIDTHSIZE;
+		laserLength = laserStartX - laserEndX;
+		laser->pos.x = laserStartX - laserLength / 2;
+		break;
+	case LD_RIGHT:
+		laserStartX = _enemy->pos.x + _enemy->size / 2;
+		laserEndX = WIDTH - WALLWIDTHSIZE;
+		laserLength = laserEndX - laserStartX;
+		laser->pos.x = laserEndX - laserLength / 2;
+		break;
+	}
+	laser->laserWidth = laserLength;
+	laser->laserHeight = _enemy->size;
+
+
+
+}
+
 int LaserIsTimeout(Timer timer)
 {
 	if (timer.time >= timer.timeMax)

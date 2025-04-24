@@ -14,7 +14,7 @@ typedef struct Enemy
 	float size;
 	int magazine;
 	int active;
-	EnemyPosition enemyPosition;
+	EnemyPosition enemyDestination;
 	FireType fireType;
 } Enemy;
 
@@ -65,7 +65,7 @@ typedef struct Laser
 	float laserWarningAttackWidthMax;
 	float laserWarningAttackHeight;
 	float laserWarningAttackHeightMax;
-
+	LaserDirection laserDirection;
 	LaserState state;
 } Laser;
 

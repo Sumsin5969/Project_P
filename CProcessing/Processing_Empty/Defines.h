@@ -71,6 +71,14 @@ typedef enum
 
 typedef enum
 {
+	LD_UP,
+	LD_DOWN,
+	LD_LEFT,
+	LD_RIGHT,
+} LaserDirection;
+
+typedef enum
+{
 	TOPLEFT,
 	TOPRIGHT,
 	BOTTOMLEFT,

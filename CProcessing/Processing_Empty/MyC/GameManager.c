@@ -49,14 +49,14 @@ void GMUpdate()
 
 		Dash();
 
-		if (stageState > StageOne)
-		{
-			LaserAttack(Lasers_StageTwo);
-		}
 
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			EnemyMove_StageOne(&enemies[StageOne][i]);
+			if (stageState > StageOne)
+			{
+				LaserAttack(&Lasers_StageTwo[i]);
+			}
 		}
 		
 		for (int i = 0; i < MAX_ENEMIES;i++)
@@ -103,12 +103,12 @@ void GMLateUpdate()
 				RenderBullet(&CircleBullets[i][j]);
 			}
 		}
+		if (stageState > StageOne)
+		{
+			RenderLaser(enemies[StageTwo], &Lasers_StageTwo[i]);
+		}
 	}
 
-	if (stageState > StageOne)
-	{
-		RenderLaser(enemies[StageTwo], Lasers_StageTwo);
-	}
 
 
 	RenderObstacle(&obstacles[0][0]);
