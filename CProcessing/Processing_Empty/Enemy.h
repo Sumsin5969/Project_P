@@ -87,3 +87,4 @@ void CircleBulletFire(Enemy*, Bullet*);
 void DirectBulletFire(Enemy*, Bullet*);
 void LaserAttack(Laser*);
 void DisableEnemy(Enemy*);
+void CreateLaser(Enemy*, Laser*);

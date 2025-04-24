@@ -70,8 +70,10 @@ void GMUpdate()
 			CheckBullet(Bullets_StageOne[i]);
 
 			CheckWallBullet(wall, Bullets_StageOne[i]);
+			
+			//CheckLaser(&Lasers_StageTwo[i]);
 		}
-
+		CheckLaser(&Lasers_StageTwo[0]);
 		CheckWall(wall);
 		CheckObstacle(&obstacles[0][0]);
 	}

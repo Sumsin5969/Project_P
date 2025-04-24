@@ -252,7 +252,6 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 		}
 	}
 }
-
 void LaserAttack(Laser* laser)
 {
 	float dt = GetDt();
@@ -326,11 +325,11 @@ void LaserAttack(Laser* laser)
 
 void CreateLaser(Enemy* _enemy, Laser* laser)
 {
-	float laserStartX;
-	float laserStartY;
-	float laserEndX;
-	float laserEndY;
-	float laserLength;
+	float laserStartX = 0.f;
+	float laserStartY = 0.f;
+	float laserEndX = 0.f;
+	float laserEndY = 0.f;
+	float laserLength = 0.f;
 	switch (laser->laserDirection)
 	{
 	case LD_LEFT:
