@@ -97,10 +97,10 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 			laser[i].laserDirection = LD_LEFT;
 			break;
 		case 2:
-			laser[i].laserDirection = LD_RIGHT;
+			laser[i].laserDirection = LD_UP;
 			break;
 		case 3:
-			laser[i].laserDirection = LD_LEFT;
+			laser[i].laserDirection = LD_DOWN;
 			break;
 		}
 		laser[i].pos.x = _enemy[i].pos.x;
@@ -359,56 +359,65 @@ void LaserAttack(Laser* laser)
 	}
 }
 
-void CreateLaser(Enemy* _enemy, Laser* laser)
+void CreateLaser(Enemy* e, Laser* laser)
 {
-
 	CamInfo* cam = GetCamera();
-	float halfWorldW = (WIDTH * 0.5f) / cam->camZoom;
-	float halfWorldH = (HEIGHT * 0.5f) / cam->camZoom;
+	float z = cam->camZoom;
 
+	// 화면 경계(스크린 좌표) → 월드 좌표 역변환
+	float worldLeft = (0 - cam->camPos.x) / z;
+	float worldRight = (WIDTH - cam->camPos.x) / z;
+	float worldTop = (HEIGHT - cam->camPos.y) / z;
+	float worldBottom = (0 - cam->camPos.y) / z;
 
-	float laserStartX = 0.f;
-	float laserStartY = 0.f;
-	float laserEndX = 0.f;
-	float laserEndY = 0.f;
-	float laserLength = 0.f;
+	float sx = 0.f, sy = 0.f, ex = 0.f, ey = 0.f, len = 0.f;
 
 	switch (laser->laserDirection)
 	{
 	case LD_LEFT:
-		laserStartX = _enemy->pos.x - _enemy->size * 0.5f;
-		laserEndX = cam->camPos.x - halfWorldW;
-		laserLength = laserStartX - laserEndX;
-		laser->pos.x = laserStartX - laserLength * 0.5f;
-		laser->laserWidth = laserLength;
-		laser->laserHeight = _enemy->size;
+		sx = e->pos.x - e->size * 0.5f;
+		ex = worldLeft;        // 진짜 왼쪽 끝
+		sy = ey = e->pos.y;
+		len = sx - ex;
 		break;
+
 	case LD_RIGHT:
-		laserStartX = _enemy->pos.x + _enemy->size * 0.5f;
-		laserEndX = cam->camPos.x + halfWorldW;
-		laserLength = laserEndX - laserStartX;
-		laser->pos.x = laserEndX - laserLength * 0.5f;
-		laser->laserWidth = laserLength;
-		laser->laserHeight = _enemy->size;
+		sx = e->pos.x + e->size * 0.5f;
+		ex = worldRight;       // 진짜 오른쪽 끝
+		sy = ey = e->pos.y;
+		len = ex - sx;
 		break;
+
 	case LD_UP:
-		laserStartY = _enemy->pos.y - _enemy->size * 0.5f;
-		laserEndX = cam->camPos.y - halfWorldH;
-		laserLength = laserStartY - laserEndY;
-		laser->pos.y = laserEndY + laserLength *0.5f;
-		laser->laserWidth = _enemy->size;
-		laser->laserHeight = laserLength;
+		sy = e->pos.y + e->size * 0.5f;
+		ey = worldTop;         // 진짜 위쪽 끝
+		sx = ex = e->pos.x;
+		len = ey - sy;
 		break;
+
 	case LD_DOWN:
-		laserStartY = _enemy->pos.y + _enemy->size * 0.5f;
-		laserEndX = cam->camPos.y + halfWorldH;
-		laserLength = laserEndY - laserStartY;
-		laser->pos.y = laserStartY + laserLength * 0.5f;
-		laser->laserWidth = _enemy->size;
-		laser->laserHeight = laserLength;
+		sy = e->pos.y - e->size * 0.5f;
+		ey = worldBottom;      // 진짜 아래쪽 끝
+		sx = ex = e->pos.x;
+		len = sy - ey;
 		break;
 	}
 
+	// 중앙 위치 & 크기 설정
+	laser->pos.x = (sx + ex) * 0.5f;
+	laser->pos.y = (sy + ey) * 0.5f;
+
+	if (laser->laserDirection == LD_LEFT ||
+		laser->laserDirection == LD_RIGHT)
+	{
+		laser->laserWidth = len;
+		laser->laserHeight = e->size;
+	}
+	else
+	{
+		laser->laserWidth = e->size;
+		laser->laserHeight = len;
+	}
 }
 
 int LaserIsTimeout(Timer timer)
