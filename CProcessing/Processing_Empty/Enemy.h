@@ -61,10 +61,8 @@ typedef struct Laser
 	float attackDuration;
 
 
-	float laserWarningAttackWidth;
-	float laserWarningAttackWidthMax;
-	float laserWarningAttackHeight;
-	float laserWarningAttackHeightMax;
+	float laserWarningAttackRange;
+	float laserWarningAttackRangeMax;
 
 	float laserWidth;
 	float laserHeight;

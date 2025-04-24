@@ -112,7 +112,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].pos.x = _enemy[i].pos.x;
 		laser[i].pos.y = _enemy[i].pos.y;
 		laser[i].laserAlpha = 50; // 전조 알파값
-		laser[i].laserAlphaMax = 125; // 전조 최대 알파값
+		laser[i].laserAlphaMax = 200; // 전조 최대 알파값
 
 		laser[i].time = 0;
 		laser[i].idleDuration = 1.f;
@@ -120,10 +120,8 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].waitDuration = 0.5f;
 		laser[i].attackDuration = 2.f;
 
-		laser[i].laserWarningAttackWidth = 0;
-		laser[i].laserWarningAttackWidthMax = _enemy[i].size;
-		laser[i].laserWarningAttackHeight = 0;
-		laser[i].laserWarningAttackHeightMax = _enemy[i].size;
+		laser[i].laserWarningAttackRange = 0.f;
+		laser[i].laserWarningAttackRangeMax = _enemy[i].size;
 
 		laser[i].laserWidth = 0.f;
 		laser[i].laserHeight = 0.f;
@@ -259,6 +257,7 @@ void LaserAttack(Laser* laser)
 	if (laser->state == IDLE) // 기본상태
 	{
 		printf("IDLE 상태 \n");
+		laser->laserWarningAttackRange = 0.f;
 		laser->time += dt;
 
 		if (laser->idleDuration < laser->time)	// 전조를 쏘겠다.
@@ -273,7 +272,7 @@ void LaserAttack(Laser* laser)
 	{
 		printf("WARNING 상태 \n");
 		laser->time += dt;
-		laser->laserWarningAttackHeight += dt * 100.f;
+		laser->laserWarningAttackRange += dt * 30.f;
 		laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
 
 		if (laser->laserAlpha > laser->laserAlphaMax) // 알파 최대값 넘어가는 것 방지하기위함
@@ -281,9 +280,9 @@ void LaserAttack(Laser* laser)
 			laser->laserAlpha = laser->laserAlphaMax;
 		}
 
-		if (laser->laserWarningAttackHeight > laser->laserWarningAttackHeightMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		if (laser->laserWarningAttackRange > laser->laserWarningAttackRangeMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
 		{
-			laser->laserWarningAttackHeight = laser->laserWarningAttackHeightMax;
+			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;
 		}
 
 		if (laser->warningAttackDuration <= laser->time)
@@ -325,16 +324,19 @@ void LaserAttack(Laser* laser)
 
 void CreateLaser(Enemy* _enemy, Laser* laser)
 {
+
+	CamInfo* cam = GetCamera();
 	float laserStartX = 0.f;
 	float laserStartY = 0.f;
 	float laserEndX = 0.f;
 	float laserEndY = 0.f;
 	float laserLength = 0.f;
+
 	switch (laser->laserDirection)
 	{
 	case LD_LEFT:
 		laserStartX = _enemy->pos.x - _enemy->size / 2;
-		laserEndX = WALLWIDTHSIZE;
+		laserEndX = -(WIDTH/2);
 		laserLength = laserStartX - laserEndX;
 		laser->pos.x = laserStartX - laserLength / 2;
 		laser->laserWidth = laserLength;
@@ -342,7 +344,7 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 		break;
 	case LD_RIGHT:
 		laserStartX = _enemy->pos.x + _enemy->size / 2;
-		laserEndX = WIDTH - WALLWIDTHSIZE;
+		laserEndX = WIDTH / 2 - WALLWIDTHSIZE / cam->camZoom;
 		laserLength = laserEndX - laserStartX;
 		laser->pos.x = laserEndX - laserLength / 2;
 		laser->laserWidth = laserLength;
@@ -358,15 +360,13 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 		break;
 	case LD_DOWN:
 		laserStartY = _enemy->pos.y + _enemy->size / 2;
-		laserEndX = HEIGHT - WALLHEIGHTSIZE;
+		laserEndX = HEIGHT / 2  - WALLHEIGHTSIZE;
 		laserLength = laserEndY - laserStartY;
 		laser->pos.y = laserStartY + laserLength / 2;
 		laser->laserWidth = _enemy->size;
 		laser->laserHeight = laserLength;
 		break;
 	}
-
-
 
 }
 
@@ -376,6 +376,7 @@ int LaserIsTimeout(Timer timer)
 		return 1;
 	return 0;
 }
+
 void DisableEnemy(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
