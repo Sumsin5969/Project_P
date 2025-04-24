@@ -327,7 +327,9 @@ void LaserAttack(Laser* laser)
 void CreateLaser(Enemy* _enemy, Laser* laser)
 {
 	float laserStartX;
+	float laserStartY;
 	float laserEndX;
+	float laserEndY;
 	float laserLength;
 	switch (laser->laserDirection)
 	{
@@ -346,6 +348,22 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 		laser->pos.x = laserEndX - laserLength / 2;
 		laser->laserWidth = laserLength;
 		laser->laserHeight = _enemy->size;
+		break;
+	case LD_UP:
+		laserStartY = _enemy->pos.y - _enemy->size / 2;
+		laserEndX = WALLHEIGHTSIZE;
+		laserLength = laserStartY - laserEndY;
+		laser->pos.y = laserEndY + laserLength / 2;
+		laser->laserWidth = _enemy->size;
+		laser->laserHeight = laserLength;
+		break;
+	case LD_DOWN:
+		laserStartY = _enemy->pos.y + _enemy->size / 2;
+		laserEndX = HEIGHT - WALLHEIGHTSIZE;
+		laserLength = laserEndY - laserStartY;
+		laser->pos.y = laserStartY + laserLength / 2;
+		laser->laserWidth = _enemy->size;
+		laser->laserHeight = laserLength;
 		break;
 	}
 
