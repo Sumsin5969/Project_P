@@ -172,11 +172,11 @@ void RenderLaser(Enemy* enemy, Laser* laser)
 	{
 	case WARNING:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackWidth * 1000 * cam->camZoom, laser->laserWarningAttackHeightMax * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackWidth +1000, laser->laserWarningAttackHeightMax);
 		break;
 	case ATTACK:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
-		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackWidth * 1000 * cam->camZoom, laser->laserWarningAttackHeightMax * cam->camZoom);
+		CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackWidth + 1000, laser->laserWarningAttackHeightMax);
 		break;
 	}
 }
