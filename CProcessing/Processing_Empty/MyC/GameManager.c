@@ -7,7 +7,6 @@
 #include "JhDebug.h"
 #include "Collision.h"
 #include "../Enemy.h"
-#include "../Obstacle.h"
 #include "../StageManager.h"
 
 Obstacle wall[MAX];

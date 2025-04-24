@@ -326,6 +326,10 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 {
 
 	CamInfo* cam = GetCamera();
+	float halfWorldW = (WIDTH * 0.5f) / cam->camZoom;
+	float halfWorldH = (HEIGHT * 0.5f) / cam->camZoom;
+
+
 	float laserStartX = 0.f;
 	float laserStartY = 0.f;
 	float laserEndX = 0.f;
@@ -335,34 +339,37 @@ void CreateLaser(Enemy* _enemy, Laser* laser)
 	switch (laser->laserDirection)
 	{
 	case LD_LEFT:
-		laserStartX = _enemy->pos.x - _enemy->size / 2;
-		laserEndX = -(WIDTH/2);
+		laserStartX = _enemy->pos.x - _enemy->size * 0.5f;
+		laserEndX = cam->camPos.x - halfWorldW;
 		laserLength = laserStartX - laserEndX;
-		laser->pos.x = laserStartX - laserLength / 2;
+		laser->pos.x = laserStartX - laserLength * 0.5f;
 		laser->laserWidth = laserLength;
 		laser->laserHeight = _enemy->size;
 		break;
 	case LD_RIGHT:
-		laserStartX = _enemy->pos.x + _enemy->size / 2;
-		laserEndX = WIDTH / 2 - WALLWIDTHSIZE / cam->camZoom;
+		laserStartX = _enemy->pos.x + _enemy->size * 0.5f;
+		laserEndX = cam->camPos.x + halfWorldW;
+		
 		laserLength = laserEndX - laserStartX;
-		laser->pos.x = laserEndX - laserLength / 2;
+		laser->pos.x = laserEndX - laserLength * 0.5f;
+		laser->pos.y = _enemy->pos.y;
+
 		laser->laserWidth = laserLength;
 		laser->laserHeight = _enemy->size;
 		break;
 	case LD_UP:
-		laserStartY = _enemy->pos.y - _enemy->size / 2;
-		laserEndX = WALLHEIGHTSIZE;
+		laserStartY = _enemy->pos.y - _enemy->size * 0.5f;
+		laserEndX = cam->camPos.y - halfWorldH;
 		laserLength = laserStartY - laserEndY;
-		laser->pos.y = laserEndY + laserLength / 2;
+		laser->pos.y = laserEndY + laserLength *0.5f;
 		laser->laserWidth = _enemy->size;
 		laser->laserHeight = laserLength;
 		break;
 	case LD_DOWN:
-		laserStartY = _enemy->pos.y + _enemy->size / 2;
-		laserEndX = HEIGHT / 2  - WALLHEIGHTSIZE;
+		laserStartY = _enemy->pos.y + _enemy->size * 0.5f;
+		laserEndX = cam->camPos.y + halfWorldH;
 		laserLength = laserEndY - laserStartY;
-		laser->pos.y = laserStartY + laserLength / 2;
+		laser->pos.y = laserStartY + laserLength * 0.5f;
 		laser->laserWidth = _enemy->size;
 		laser->laserHeight = laserLength;
 		break;
