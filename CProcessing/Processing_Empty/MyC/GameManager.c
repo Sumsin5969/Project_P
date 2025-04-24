@@ -50,13 +50,13 @@ void GMUpdate()
 		Dash();
 
 
+		if (stageState > StageOne)
+		{
+			LaserAttack(&Lasers_StageTwo[0]);
+		}
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			EnemyMove_StageOne(&enemies[StageOne][i]);
-			if (stageState > StageOne)
-			{
-				LaserAttack(&Lasers_StageTwo[i]);
-			}
 		}
 
 		for (int i = 0; i < MAX_ENEMIES;i++)
