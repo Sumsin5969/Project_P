@@ -71,9 +71,39 @@ void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 	}
 }
 
-void CheckLaser()
+void CheckLaser(Laser* _laser)
 {
+	float radius = player->size / 2;
 
+	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
+	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
+
+	// 2. 박스 AABB 좌표
+	float boxLeft = _laser->pos.x - _laser->laserWidth / 2;
+	float boxRight = _laser->pos.x + _laser->laserWidth / 2;
+	float boxTop = _laser->pos.y - _laser->laserHeight / 2;
+	float boxBottom = _laser->pos.y + _laser->laserHeight / 2;
+
+	// 3. 가장 가까운 박스 안 점 계산 (클램핑)
+	float closestX = CP_Math_ClampFloat(circleCenter.x, boxLeft, boxRight);
+	float closestY = CP_Math_ClampFloat(circleCenter.y, boxTop, boxBottom);
+
+	// 4. 거리 계산 (원 중심 → 가장 가까운 점)
+	float dx = circleCenter.x - closestX;
+	float dy = circleCenter.y - closestY;
+	float distanceSq = dx * dx + dy * dy;
+	float radiusSq = radius * radius;
+
+	// 5. 충돌 여부 판단
+	if (distanceSq < radiusSq)
+	{
+		printf("레이저에 캐릭터가 아파한다!.\n");
+
+		if (player->playerState != INVINCIBLE)
+		{
+			player->playerState = HIT;
+		}
+	}
 }
 
 void CheckWall(Obstacle* _obstacle)
