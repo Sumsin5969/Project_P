@@ -152,14 +152,16 @@ void EnemyInit_StageThree(Enemy* _enemy)
 			_enemy[i].pos.y = 720;
 			break;
 		}
-
 		for (int j = 0; j < MAX_ENEMIES; j++)
 		{
-			CircleBullets_StageThree[i][j]->projSpd = 800.f;
-			CircleBullets_StageThree[i][j]->projTime = 0.f;
-			CircleBullets_StageThree[i][j]->degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
-			CircleBullets_StageThree[i][j]->active = 0;
-			CircleBullets_StageThree[i][j]->size = 15.f;
+			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
+			{
+				CircleBullets_StageThree[i][j][k].projSpd = 800.f;
+				CircleBullets_StageThree[i][j][k].projTime = 0.f;
+				CircleBullets_StageThree[i][j][k].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+				CircleBullets_StageThree[i][j][k].active = 0;
+				CircleBullets_StageThree[i][j][k].size = 15.f;
+			}
 		}
 	}
 }
@@ -225,15 +227,18 @@ void CircleBulletConditioner(Enemy* e, Bullet* b)
 {
 	float dt = GetDt();
 	e->fireTime += dt;
-	if (e->fireDelay <= e->fireTime)
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
-		e->fireTime = 0.f;
-		b[e->magazine].active = 1;
-		e->magazine++;
-	}
-	if (e->magazine >= MAX_BULLETS_PER_ENEMY)
-	{
-		e->magazine = 0;
+		if (e->fireDelay <= e->fireTime)
+		{
+			e->fireTime = 0.f;
+			b[e->magazine].active = 1;
+			e->magazine++;
+		}
+		if (e->magazine >= MAX_ENEMIES)
+		{
+			e->magazine = 0;
+		}
 	}
 }
 
