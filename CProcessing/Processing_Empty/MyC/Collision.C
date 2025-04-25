@@ -73,6 +73,8 @@ void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 
 void CheckLaser(Laser* _laser)
 {
+	if (_laser->state != ATTACK) return;
+
 	float radius = player->size / 2;
 
 	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)

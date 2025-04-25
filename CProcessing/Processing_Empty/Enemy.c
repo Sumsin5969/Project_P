@@ -94,13 +94,13 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 			laser[i].laserDirection = LD_RIGHT;
 			break;
 		case 1:
-			laser[i].laserDirection = LD_LEFT;
+			laser[i].laserDirection = LD_RIGHT;
 			break;
 		case 2:
-			laser[i].laserDirection = LD_UP;
+			laser[i].laserDirection = LD_LEFT;
 			break;
 		case 3:
-			laser[i].laserDirection = LD_DOWN;
+			laser[i].laserDirection = LD_LEFT;
 			break;
 		}
 		laser[i].pos.x = _enemy[i].pos.x;
@@ -109,7 +109,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].laserAlphaMax = 200; // 전조 최대 알파값
 
 		laser[i].time = 0;
-		laser[i].idleDuration = 2.f;
+		laser[i].idleDuration = 3.f;
 		laser[i].warningAttackDuration = 1.5f;
 		laser[i].waitDuration = 0.5f;
 		laser[i].attackDuration = 1.5f;
@@ -308,8 +308,10 @@ void LaserAttack(Laser* laser)
 
 		if (laser->idleDuration < laser->time)	// 전조를 쏘겠다.
 		{
-			laser->state = WARNING;
+			laser->laserAlpha = 0;
+			laser->laserWarningAttackRange = 0;
 			laser->time = 0;
+			laser->state = WARNING;
 		}
 
 	}
@@ -352,6 +354,7 @@ void LaserAttack(Laser* laser)
 
 	if (laser->state == ATTACK)
 	{
+		laser->laserAlpha = 0;
 		printf("ATTACK 상태 \n");
 		laser->time += dt;
 

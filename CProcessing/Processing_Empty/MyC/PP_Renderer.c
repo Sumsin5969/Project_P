@@ -176,22 +176,23 @@ void RenderLaser(Laser* laser)
 		switch (laser->laserDirection)
 		{
 		case LD_UP:
-			CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
+			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
 			CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackRange, _laserHeight);
 			break;
 		case LD_DOWN:
-			CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
+			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
 			CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackRange, _laserHeight);
 			break;
 		case LD_LEFT:
-			CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
+			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
 			CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, laser->laserWarningAttackRange);
 			break;
 		case LD_RIGHT:
-			CP_Settings_Fill(CP_Color_Create(200, 1, 147, laser->laserAlpha));
+			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
 			CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, laser->laserWarningAttackRange);
 			break;
 		}
+		break; // <- 이자식이 없어서 레이저가 이상했다
 	case ATTACK:
 		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
 		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, _laserHeight);
