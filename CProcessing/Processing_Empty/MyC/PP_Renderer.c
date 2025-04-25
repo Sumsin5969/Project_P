@@ -177,19 +177,19 @@ void RenderLaser(Laser* laser)
 		{
 		case LD_UP:
 			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
-			CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackRange, _laserHeight);
+			CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackRange * cam->camZoom, _laserHeight);
 			break;
 		case LD_DOWN:
 			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
-			CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackRange, _laserHeight);
+			CP_Graphics_DrawRect(targetVector.x, targetVector.y, laser->laserWarningAttackRange * cam->camZoom, _laserHeight);
 			break;
 		case LD_LEFT:
 			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
-			CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, laser->laserWarningAttackRange);
+			CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, laser->laserWarningAttackRange * cam->camZoom);
 			break;
 		case LD_RIGHT:
 			CP_Settings_Fill(CP_Color_Create(150, 1, 147, laser->laserAlpha));
-			CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, laser->laserWarningAttackRange);
+			CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, laser->laserWarningAttackRange * cam->camZoom);
 			break;
 		}
 		break; // <- 이자식이 없어서 레이저가 이상했다

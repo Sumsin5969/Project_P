@@ -74,6 +74,10 @@ void GMUpdate()
 				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 				CheckLaser(&Lasers_StageTwo[i]);
 			}
+			else
+			{
+				Lasers_StageTwo[i].state = IDLE;
+			}
 		}
 
 		// 스테이지3 관리
@@ -129,7 +133,7 @@ void GMLateUpdate()
 		{
 			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
-				if (CircleBullets_StageThree[i][j][k].active)
+				if (CircleBullets_StageThree[i][j]->active)
 				{
 					RenderBullet(&CircleBullets_StageThree[i][j][k]);
 				}
@@ -149,6 +153,7 @@ void GMLateUpdate()
 	RenderPlayerShadow();
 	RenderPlayer();
 
+	// 디버그 UI
 	DebugUpdate();
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
@@ -161,16 +166,11 @@ void GMLateUpdate()
 
 	DefaultTimerUI();
 }
-// 바로 아래 FreeAll 작성 시 찾기 편하도록 동적할당 할 때마다 그 목록을 여기에 적겠음.
-// cam, EnemyInit, 
+
 void FreeAll()
 {
 	DestroyPlayer();
 	DestroyCam();
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		//free(&CircleBullets[i]);
-	}
 }
 
 float GetDt()

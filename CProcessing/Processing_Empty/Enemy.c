@@ -227,17 +227,20 @@ void CircleBulletConditioner(Enemy* e, Bullet* b)
 {
 	float dt = GetDt();
 	e->fireTime += dt;
-	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		if (e->fireDelay <= e->fireTime)
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			e->fireTime = 0.f;
-			b[e->magazine].active = 1;
-			e->magazine++;
-		}
-		if (e->magazine >= MAX_ENEMIES)
-		{
-			e->magazine = 0;
+			if (e->fireDelay <= e->fireTime)
+			{
+				e->fireTime = 0.f;
+				b[e->magazine].active = 1;
+				e->magazine++;
+			}
+			if (e->magazine >= MAX_BULLETS_PER_ENEMY)
+			{
+				e->magazine = 0;
+			}
 		}
 	}
 }
@@ -320,15 +323,21 @@ void LaserAttack(Laser* laser)
 	{
 		printf("WARNING 상태 \n");
 		laser->time += dt;
-		laser->laserWarningAttackRange += dt * 30.f;
-		laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
 
-		if (laser->laserAlpha > laser->laserAlphaMax) // 알파 최대값 넘어가는 것 방지하기위함
+		if (laser->laserAlpha < laser->laserAlphaMax) // 알파 최대값 넘어가는 것 방지하기위함
+		{
+			laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
+		}
+		else
 		{
 			laser->laserAlpha = laser->laserAlphaMax;
 		}
 
-		if (laser->laserWarningAttackRange > laser->laserWarningAttackRangeMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		{
+			laser->laserWarningAttackRange += dt * 50.f;
+		}
+		else
 		{
 			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;
 		}
