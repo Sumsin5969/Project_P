@@ -155,13 +155,13 @@ void EnemyInit_StageThree(Enemy* _enemy)
 			_enemy[i].pos.y = 720;
 			break;
 		}
-		for (int j = 0; j < MAX_ENEMIES; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
 			{
 				CircleBullets_StageThree[i][j][k].projSpd = 800.f;
 				CircleBullets_StageThree[i][j][k].projTime = 0.f;
-				CircleBullets_StageThree[i][j][k].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
 				CircleBullets_StageThree[i][j][k].active = 0;
 				CircleBullets_StageThree[i][j][k].size = 15.f;
 			}
@@ -230,26 +230,19 @@ void CircleBulletConditioner(Enemy* e, Bullet* b)
 {
 	float dt = GetDt();
 	e->fireTime += dt;
-	for (int i = 0; i < 4; i++)
+	if (e->fireTime >= e->fireDelay)
 	{
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		e->fireTime = 0.f;
+
+		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 		{
-			if (e->fireDelay <= e->fireTime)
-			{
-				e->fireTime = 0.f;
-				b[e->magazine].active = 1;
-				e->magazine++;
-			}
-			if (e->magazine >= MAX_BULLETS_PER_ENEMY)
-			{
-				e->magazine = 0;
-			}
+			b[i].active = 1;  // 발사 시점에 한 번만 활성화
 		}
 	}
 }
 
 // 원형 발사 패턴
-// 탄환의 position을 업데이트 해주고 Draw도 해줌
+// 탄환의 position을 업데이트
 // 탄환의 개수는 MAX_BULLETS_PER_ENEMY 만큼 있어야 함 
 void CircleBulletFire(Enemy* e, Bullet* b)
 {
@@ -277,7 +270,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 }
 
 // 발사 시점 플레이어 위치로 직진하는 탄환 발사
-// 탄환의 position 업데이트 및 탄환 Draw
+// 탄환의 position 업데이트
 // e: 탄환의 origin position, 발사 방향을 구하기 위한 Enemy 정보
 // b: Enemy.c에서 초기화한 탄환 배열: 탄환의 position 업데이트, position 기반 렌더링에 사용할
 //탄환 정보
@@ -292,11 +285,11 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 			b[i].projPos.x = e->pos.x;
 			b[i].projPos.y = e->pos.y;
 			b[i].fireDir = CP_Vector_Subtract(player->pos, e->pos);
+			// 방향 정규화 할 거임
 			b[i].direction = CP_Vector_Normalize(b[i].fireDir);
 		}
 		if (b[i].active)
 		{
-			// 방향 정규화 할 거임
 			b[i].projPos.x += b[i].projSpd * b[i].direction.x * dt;
 			b[i].projPos.y += b[i].projSpd * b[i].direction.y * dt;
 		}
@@ -327,22 +320,22 @@ void LaserAttack(Laser* laser)
 		printf("WARNING 상태 \n");
 		laser->time += dt;
 
-		if (laser->laserAlpha < laser->laserAlphaMax) // 알파 최대값 넘어가는 것 방지하기위함
+		if (laser->laserAlpha < laser->laserAlphaMax)
 		{
 			laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
 		}
 		else
 		{
-			laser->laserAlpha = laser->laserAlphaMax;
+			laser->laserAlpha = laser->laserAlphaMax; // 알파 최대값 넘어가는 것 방지하기위함
 		}
 
-		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)
 		{
 			laser->laserWarningAttackRange += dt * 50.f;
 		}
 		else
 		{
-			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;
+			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;	// 두께가 최대보다 높으면 최대로 만들어주겠다.
 		}
 
 		if (laser->warningAttackDuration <= laser->time)

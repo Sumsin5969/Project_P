@@ -85,13 +85,9 @@ void GMUpdate()
 		{
 			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
-				for (int j = 0; j < 4/*4*/; j++)
+				for (int j = 0; j < 4; j++)
 				{
 					CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
-				}
-
-				for (int j = 0;j < MAX_ENEMIES;j++)
-				{
 					CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
 				}
 			}
@@ -133,11 +129,11 @@ void GMLateUpdate()
 				RenderBullet(&Bullets_StageOne[i][j]);
 			}
 		}
-		for (int j = 0; j < MAX_ENEMIES; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
-				if (CircleBullets_StageThree[i][j]->active)
+				if (CircleBullets_StageThree[i][j][k].active)
 				{
 					RenderBullet(&CircleBullets_StageThree[i][j][k]);
 				}
