@@ -9,6 +9,10 @@ CamInfo* cam;
 
 float targetZoomSize = 1;
 float nowZoomSize;
+float cameraShakeTimer = 1;
+float shakingTime = 0.5f;
+int shakeIndex = 0;
+
 
 void InitCamera()
 {
@@ -107,3 +111,39 @@ void DestroyCam() //todo 게임매니저 혹은 메인에 넣을것
 	cam = NULL;
 }
 
+void ResetCameraShakeTime()
+{
+	cameraShakeTimer = 0;
+}
+
+void CameraShaking()
+{
+	if (cameraShakeTimer < shakingTime)
+	{
+		cameraShakeTimer += GetDt();
+
+		if (shakeIndex == 0)
+		{
+			cam->camPos.x += 15;
+		}
+		if (shakeIndex == 1)
+		{
+			cam->camPos.y += 15;
+		}
+		if (shakeIndex == 2)
+		{
+			cam->camPos.y -= 15;
+		}
+		if (shakeIndex == 3)
+		{
+			cam->camPos.x -= 15;
+		}
+		shakeIndex++;
+
+		if (3 < shakeIndex) shakeIndex = 0;
+	}
+	else
+	{
+		cam->camPos = CP_Vector_Set(WIDTH * 0.5f, HEIGHT * 0.5f);
+	}
+}

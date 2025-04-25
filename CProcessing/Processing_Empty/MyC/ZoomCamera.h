@@ -20,3 +20,6 @@ void SetZoomInTargetRate();
 void ZoomInForce();
 void ZoomOutForce();
 
+void CameraShaking();
+void ResetCameraShakeTime();
+
