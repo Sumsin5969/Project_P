@@ -16,6 +16,8 @@ typedef struct Enemy
 	int active;
 	EnemyDestination enemyDestination;
 	FireType fireType;
+	int sniper;
+
 } Enemy;
 
 typedef struct Bullet
@@ -29,6 +31,7 @@ typedef struct Bullet
 	int active;
 	float size;
 	CP_Vector direction;
+	int sniper;
 } Bullet;
 
 typedef struct Timer
@@ -68,6 +71,7 @@ typedef struct Laser
 	float laserHeight;
 	LaserDirection laserDirection;
 	LaserState state;
+	int sniper;
 } Laser;
 
 

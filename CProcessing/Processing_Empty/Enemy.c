@@ -52,6 +52,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 			Bullets_StageOne[i][j].projTime = 0.f;
 			Bullets_StageOne[i][j].active = 0;
 			Bullets_StageOne[i][j].size = 15.f;
+			Bullets_StageOne[i][j].sniper = 0;
 		}
 	}
 }
@@ -121,6 +122,8 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].laserHeight = 0.f;
 
 		laser[i].state = IDLE;
+		laser[i].sniper = 0;
+
 	}
 }
 void EnemyInit_StageThree(Enemy* _enemy)
