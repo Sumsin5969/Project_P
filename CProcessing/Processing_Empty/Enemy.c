@@ -155,13 +155,13 @@ void EnemyInit_StageThree(Enemy* _enemy)
 			_enemy[i].pos.y = 720;
 			break;
 		}
-		for (int j = 0; j < MAX_ENEMIES; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
 			{
 				CircleBullets_StageThree[i][j][k].projSpd = 800.f;
 				CircleBullets_StageThree[i][j][k].projTime = 0.f;
-				CircleBullets_StageThree[i][j][k].degree = j * (360.f / MAX_BULLETS_PER_ENEMY);
+				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
 				CircleBullets_StageThree[i][j][k].active = 0;
 				CircleBullets_StageThree[i][j][k].size = 15.f;
 			}
@@ -230,20 +230,13 @@ void CircleBulletConditioner(Enemy* e, Bullet* b)
 {
 	float dt = GetDt();
 	e->fireTime += dt;
-	for (int i = 0; i < 4; i++)
+	if (e->fireTime >= e->fireDelay)
 	{
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		e->fireTime = 0.f;
+
+		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 		{
-			if (e->fireDelay <= e->fireTime)
-			{
-				e->fireTime = 0.f;
-				b[e->magazine].active = 1;
-				e->magazine++;
-			}
-			if (e->magazine >= MAX_BULLETS_PER_ENEMY)
-			{
-				e->magazine = 0;
-			}
+			b[i].active = 1;  // 발사 시점에 한 번만 활성화
 		}
 	}
 }
@@ -292,11 +285,11 @@ void DirectBulletFire(Enemy* e, Bullet* b)
 			b[i].projPos.x = e->pos.x;
 			b[i].projPos.y = e->pos.y;
 			b[i].fireDir = CP_Vector_Subtract(player->pos, e->pos);
+			// 방향 정규화 할 거임
 			b[i].direction = CP_Vector_Normalize(b[i].fireDir);
 		}
 		if (b[i].active)
 		{
-			// 방향 정규화 할 거임
 			b[i].projPos.x += b[i].projSpd * b[i].direction.x * dt;
 			b[i].projPos.y += b[i].projSpd * b[i].direction.y * dt;
 		}

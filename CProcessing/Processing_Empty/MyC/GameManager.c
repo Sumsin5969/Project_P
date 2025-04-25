@@ -85,13 +85,9 @@ void GMUpdate()
 		{
 			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
-				for (int j = 0; j < 4/*4*/; j++)
+				for (int j = 0; j < 4; j++)
 				{
 					CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
-				}
-
-				for (int j = 0;j < MAX_ENEMIES;j++)
-				{
 					CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
 				}
 			}
