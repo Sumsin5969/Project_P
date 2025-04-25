@@ -105,6 +105,10 @@ void GMLateUpdate()
 
 	RenderWall(wall);
 
+	// 플레이어 관련 렌더링
+	RenderPlayerShadow();
+	RenderPlayer();
+
 	// 적 캐릭터 렌더링
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
@@ -149,9 +153,7 @@ void GMLateUpdate()
 	// 장애물 렌더링
 	RenderObstacle(&obstacles[0][0]);
 
-	// 플레이어 관련 렌더링
-	RenderPlayerShadow();
-	RenderPlayer();
+
 
 	// 디버그 UI
 	DebugUpdate();
@@ -221,16 +223,11 @@ void CheckPlayerState()
 	case HIT:
 		stageState--;
 
-		PlayerInit();
-
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			AllBulletInit(Bullets_StageOne[i]);
-		}
-
 		if (stageState < StageOne)
 		{
-			StageTimerReset();
+			// x초간 연출 후 게임오버시키기
+			InitAll();
+
 			gameState = GameOver;
 			return;
 		}
@@ -256,8 +253,23 @@ void AllBulletInit(Bullet* _bullet)
 	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
 		_bullet[i].active = 0;
+
+		_bullet[i].sniper = 0;
 	}
 }
+
+void InitAll()
+{
+	PlayerInit();
+	StageTimerReset();
+
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		AllBulletInit(Bullets_StageOne[i]);
+	}
+
+}
+
 void SavePlayerPos()
 {
 	pcShadow[shadowIndex] = player->pos;

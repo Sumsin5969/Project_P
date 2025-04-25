@@ -8,6 +8,7 @@ typedef struct Obstacle
 	float width;
 	float height;
 	ObstacleType type;
+	int sniper;
 } Obstacle;
 
 void InitWall(Obstacle* _wall);

@@ -20,6 +20,7 @@ void AllBulletInit(Bullet* _bullet);
 void CheckPlayerState();
 
 void SavePlayerPos();
+void InitAll();
 
 
 StageState stageState;

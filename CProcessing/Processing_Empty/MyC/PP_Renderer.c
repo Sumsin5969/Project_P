@@ -17,7 +17,8 @@ void RenderWall(Obstacle* _obstacles)
 
 	for (int i = 0; i < MAX; ++i)
 	{
-		CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
+		if (_obstacles->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞췄다면
+		else CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
 	}
 }
 
@@ -129,7 +130,9 @@ void RenderEnemy(Enemy* _enemy)
 
 	float _enemySize = _enemy->size * cam->camZoom;
 
-	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+	if (_enemy->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
+	else CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _enemySize, _enemySize);
 }
 
@@ -142,7 +145,10 @@ void RenderBullet(Bullet* _bullet)
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _bullet->projPos);
 
 	float _bulletSize = _bullet->size * cam->camZoom;
-	CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+
+	if (_bullet->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
+	else CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
 
@@ -154,7 +160,8 @@ void RenderObstacle(Obstacle* _obstacle)
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacle->pos);
 
-	CP_Settings_Fill(ENEMY_COLOR());
+	if (_obstacle->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
+	else CP_Settings_Fill(ENEMY_COLOR());
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
@@ -194,7 +201,10 @@ void RenderLaser(Laser* laser)
 		}
 		break; // <- 이자식이 없어서 레이저가 이상했다
 	case ATTACK:
-		CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+
+		if (laser->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
+		else CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+
 		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, _laserHeight);
 		break;
 	}

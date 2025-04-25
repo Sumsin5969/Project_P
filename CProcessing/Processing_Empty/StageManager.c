@@ -119,6 +119,9 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		stageTime = 30.f;
 		timeAcc = 0.f;
 		ZoomInForce();
+		
+		InitAll();
+
 		SetGameState(Play);
 	}
 
