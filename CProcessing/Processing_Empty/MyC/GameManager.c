@@ -38,6 +38,7 @@ void InitGameManager()
 
 void GMUpdate()
 {
+	float dt = GetDt();
 	// 플레이어 -> 게임 -> 적 순으로 업데이트
 	CheckPlayerState();
 
@@ -68,15 +69,11 @@ void GMUpdate()
 		// 스테이지2 관리
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			if (stageState > StageOne)
+			if (stageState > StageOne || gameState == StageDown)
 			{
 				LaserAttack(&Lasers_StageTwo[i]);
 				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 				CheckLaser(&Lasers_StageTwo[i]);
-			}
-			else
-			{
-				Lasers_StageTwo[i].state = IDLE;
 			}
 		}
 
@@ -85,10 +82,11 @@ void GMUpdate()
 		{
 			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				for (int j = 0; j < MAGAZINE; j++)
 				{
-					CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
+					CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i][j], dt);
 					CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
+					CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
 				}
 			}
 		}
@@ -264,6 +262,8 @@ void InitAll()
 		AllBulletInit(Bullets_StageOne[i]);
 	}
 
+
+	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 }
 
 void SavePlayerPos()

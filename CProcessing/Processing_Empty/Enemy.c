@@ -132,9 +132,8 @@ void EnemyInit_StageThree(Enemy* _enemy)
 	{
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].fireDelay = 3.f;
+		_enemy[i].fireDelay = 5.f;
 		_enemy[i].size = 50.f;
-		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		switch (i)
 		{
@@ -155,7 +154,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 			_enemy[i].pos.y = 720;
 			break;
 		}
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < MAGAZINE; j++)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
 			{
@@ -226,9 +225,8 @@ void BulletConditioner(Enemy* e, Bullet* b)
 }
 
 // 위 함수와 비슷한 역할: 방사형 투사체에 사용됨
-void CircleBulletConditioner(Enemy* e, Bullet* b)
+void CircleBulletConditioner(Enemy* e, Bullet* b, float dt)
 {
-	float dt = GetDt();
 	e->fireTime += dt;
 	if (e->fireTime >= e->fireDelay)
 	{
