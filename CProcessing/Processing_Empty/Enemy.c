@@ -246,7 +246,7 @@ void CircleBulletConditioner(Enemy* e, Bullet* b)
 }
 
 // 원형 발사 패턴
-// 탄환의 position을 업데이트 해주고 Draw도 해줌
+// 탄환의 position을 업데이트
 // 탄환의 개수는 MAX_BULLETS_PER_ENEMY 만큼 있어야 함 
 void CircleBulletFire(Enemy* e, Bullet* b)
 {
@@ -274,7 +274,7 @@ void CircleBulletFire(Enemy* e, Bullet* b)
 }
 
 // 발사 시점 플레이어 위치로 직진하는 탄환 발사
-// 탄환의 position 업데이트 및 탄환 Draw
+// 탄환의 position 업데이트
 // e: 탄환의 origin position, 발사 방향을 구하기 위한 Enemy 정보
 // b: Enemy.c에서 초기화한 탄환 배열: 탄환의 position 업데이트, position 기반 렌더링에 사용할
 //탄환 정보
@@ -324,22 +324,22 @@ void LaserAttack(Laser* laser)
 		printf("WARNING 상태 \n");
 		laser->time += dt;
 
-		if (laser->laserAlpha < laser->laserAlphaMax) // 알파 최대값 넘어가는 것 방지하기위함
+		if (laser->laserAlpha < laser->laserAlphaMax)
 		{
 			laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
 		}
 		else
 		{
-			laser->laserAlpha = laser->laserAlphaMax;
+			laser->laserAlpha = laser->laserAlphaMax; // 알파 최대값 넘어가는 것 방지하기위함
 		}
 
-		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)
 		{
 			laser->laserWarningAttackRange += dt * 50.f;
 		}
 		else
 		{
-			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;
+			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;	// 두께가 최대보다 높으면 최대로 만들어주겠다.
 		}
 
 		if (laser->warningAttackDuration <= laser->time)
