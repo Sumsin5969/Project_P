@@ -18,6 +18,7 @@ void InitObstacle(Obstacle _obstacle[7][2])
 			_obstacle[i][j].pos = CP_Vector_Set(10000, 10000);
 			_obstacle[i][j].width = 100;
 			_obstacle[i][j].height = 100;
+			_obstacle[i][j].sniper = 0;
 		}
 	}
 
@@ -39,21 +40,25 @@ void InitWall(Obstacle* _wall)
 			_wall[i].pos = CP_Vector_Set(WALLWIDTHSIZE / 2, HEIGHT / 2);
 			_wall[i].width = WALLWIDTHSIZE;
 			_wall[i].height = HEIGHT;
+			_wall[i].sniper = 0;
 			break;
 		case WALL_RIGHT:
 			_wall[i].pos = CP_Vector_Set(WIDTH - (WALLWIDTHSIZE / 2), HEIGHT / 2);
 			_wall[i].width = WALLWIDTHSIZE;
 			_wall[i].height = HEIGHT;
+			_wall[i].sniper = 0;
 			break;
 		case WALL_TOP:
 			_wall[i].pos = CP_Vector_Set(WIDTH / 2, WALLHEIGHTSIZE / 2);
 			_wall[i].width = WIDTH;
 			_wall[i].height = WALLHEIGHTSIZE;
+			_wall[i].sniper = 0;
 			break;
 		case WALL_BOTTOM:
 			_wall[i].pos = CP_Vector_Set(WIDTH / 2, HEIGHT - (WALLHEIGHTSIZE / 2));
 			_wall[i].width = WIDTH;
 			_wall[i].height = WALLHEIGHTSIZE;
+			_wall[i].sniper = 0;
 			break;
 
 		default:

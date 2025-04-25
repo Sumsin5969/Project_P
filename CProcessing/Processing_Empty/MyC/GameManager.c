@@ -259,6 +259,8 @@ void InitAll()
 	PlayerInit();
 	StageTimerReset();
 
+	InitWall();
+
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		AllBulletInit(Bullets_StageOne[i]);
