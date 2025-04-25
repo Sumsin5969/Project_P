@@ -45,13 +45,13 @@ void GMUpdate()
 	CheckGameState();
 
 	// 벽과 장애물 체크
-	CheckWall(wall);
-	CheckObstacle(&obstacles[0][0]);
 
 	StageTimer();
 
 	if (gameState == Play)
 	{
+		CheckWall(wall);
+		//CheckObstacle(&obstacles[0][0]);
 		PlayerMove();
 
 		Dash();
@@ -145,9 +145,7 @@ void GMLateUpdate()
 	}
 
 	// 장애물 렌더링
-	RenderObstacle(&obstacles[0][0]);
-
-
+	//RenderObstacle(&obstacles[0][0]);
 
 	// 디버그 UI
 	DebugUpdate();
@@ -257,13 +255,16 @@ void InitAll()
 	PlayerInit();
 	StageTimerReset();
 
+	InitWall(wall);
+
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		AllBulletInit(Bullets_StageOne[i]);
 	}
 
-
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
+
+	EnemyInit_StageThree(enemies[StageThree]);
 }
 
 void SavePlayerPos()

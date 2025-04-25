@@ -67,7 +67,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 0.f;
-		_enemy[i].size = 50.f;
+		_enemy[i].size = 50.f * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		switch (i)
@@ -132,8 +132,9 @@ void EnemyInit_StageThree(Enemy* _enemy)
 	{
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].fireDelay = 5.f;
-		_enemy[i].size = 50.f;
+		_enemy[i].fireDelay = 3.f;
+		_enemy[i].size = (50.f * 1.25f) * 1.25f;
+		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		switch (i)
 		{
@@ -162,7 +163,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 				CircleBullets_StageThree[i][j][k].projTime = 0.f;
 				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
 				CircleBullets_StageThree[i][j][k].active = 0;
-				CircleBullets_StageThree[i][j][k].size = 15.f;
+				CircleBullets_StageThree[i][j][k].size = _enemy->size / 3;
 			}
 		}
 	}
