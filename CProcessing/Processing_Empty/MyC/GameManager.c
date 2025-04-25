@@ -69,11 +69,11 @@ void GMUpdate()
 		// 스테이지2 관리
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			if (stageState > StageOne || gameState == StageDown)
+			if (stageState > StageOne)
 			{
-				LaserAttack(&Lasers_StageTwo[i]);
 				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 				CheckLaser(&Lasers_StageTwo[i]);
+				LaserAttack(&Lasers_StageTwo[i]);
 			}
 		}
 
@@ -97,8 +97,6 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	RenderWall(wall);
-
 	// 플레이어 관련 렌더링
 	RenderPlayerShadow();
 	RenderPlayer();
@@ -107,14 +105,8 @@ void GMLateUpdate()
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		RenderEnemy(&enemies[StageOne][i]);
-		if (stageState > StageOne)
-		{
-			RenderEnemy(&enemies[StageTwo][i]);
-		}
-		if (stageState > StageTwo)
-		{
-			RenderEnemy(&enemies[StageThree][i]);
-		}
+		RenderEnemy(&enemies[StageTwo][i]);
+		RenderEnemy(&enemies[StageThree][i]);
 	}
 
 	// 적 공격 렌더링
@@ -137,26 +129,23 @@ void GMLateUpdate()
 				}
 			}
 		}
-
-		if (stageState > StageOne)
-		{
-			RenderLaser(&Lasers_StageTwo[i]);
-		}
+		RenderLaser(&Lasers_StageTwo[i]);
 	}
+
+	RenderWall(wall);
 
 	// 장애물 렌더링
 	//RenderObstacle(&obstacles[0][0]);
 
 	// 디버그 UI
 	DebugUpdate();
+
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
-
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
-
 
 	DefaultTimerUI();
 }

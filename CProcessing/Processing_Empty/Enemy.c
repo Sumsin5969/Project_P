@@ -371,6 +371,7 @@ void LaserAttack(Laser* laser)
 	}
 }
 
+// 레이저 위치, 크기 등 설정해주는 함수
 void CreateLaser(Enemy* e, Laser* laser)
 {
 	CamInfo* cam = GetCamera();
