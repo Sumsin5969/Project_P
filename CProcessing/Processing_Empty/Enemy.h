@@ -76,6 +76,7 @@ typedef struct Laser
 } Laser;
 
 Boss boss;
+Enemy enemies[MAX_ENEMIES][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][MAGAZINE][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
