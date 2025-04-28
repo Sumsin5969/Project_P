@@ -6,6 +6,8 @@
 #include "GameManager.h"
 #include <math.h>
 #include "Collision.h"
+#include "JhDebug.h"
+#include "../StageManager.h"
 
 int invincibleColorIndex = 0;
 
@@ -17,8 +19,9 @@ void RenderWall(Obstacle* _obstacles)
 
 	for (int i = 0; i < MAX; ++i)
 	{
-		if (_obstacles->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞췄다면
-		else CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
+		if (_obstacles->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이어를 맞췄다면
+		else CP_Settings_Fill(ENEMY_COLOR());
+		CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
 	}
 }
 
@@ -130,8 +133,8 @@ void RenderEnemy(Enemy* _enemy)
 
 	float _enemySize = _enemy->size * cam->camZoom;
 
-	if (_enemy->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
-	else CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+	if (_enemy->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	else CP_Settings_Fill(ENEMY_COLOR());
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _enemySize, _enemySize);
 }
@@ -146,8 +149,8 @@ void RenderBullet(Bullet* _bullet)
 
 	float _bulletSize = _bullet->size * cam->camZoom;
 
-	if (_bullet->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
-	else CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+	if (_bullet->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	else CP_Settings_Fill(ENEMY_COLOR());
 
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
@@ -160,7 +163,7 @@ void RenderObstacle(Obstacle* _obstacle)
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _obstacle->pos);
 
-	if (_obstacle->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
+	if (_obstacle->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
@@ -203,21 +206,79 @@ void RenderLaser(Laser* laser)
 	case ATTACK:
 
 		if (laser->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
-		else CP_Settings_Fill(CP_Color_Create(200, 1, 147, 255));
+		else CP_Settings_Fill(ENEMY_COLOR());
 
 		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, _laserHeight);
 		break;
 	}
 }
 
-void RenderBoss()
+void RenderBoss(Boss* _boss)
 {
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _boss->pos);
 
+	float _bossSize = _boss->size * cam->camZoom;
+	if (_boss->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
+	else CP_Settings_Fill(ENEMY_COLOR());
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
 void RenderAll()
 {
+	RenderWall(wall);
 
+	// 적 캐릭터 렌더링
+	if (stageState < StageBoss)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			RenderEnemy(&enemies[StageOne][i]);
+			RenderEnemy(&enemies[StageTwo][i]);
+			RenderEnemy(&enemies[StageThree][i]);
+		}
+
+		// 적 공격 렌더링
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+			{
+				if (Bullets_StageOne[i][j].active)
+				{
+					RenderBullet(&Bullets_StageOne[i][j]);
+				}
+			}
+			for (int j = 0; j < MAGAZINE; j++)
+			{
+				for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
+				{
+					if (CircleBullets_StageThree[i][j][k].active)
+					{
+						RenderBullet(&CircleBullets_StageThree[i][j][k]);
+					}
+				}
+			}
+			RenderLaser(&Lasers_StageTwo[i]);
+		}
+	}
+	// 보스 스테이지면
+	if (boss.active == 1) RenderBoss(&boss);
+
+	// 플레이어 관련 렌더링
+	RenderPlayerShadow();
+	RenderPlayer();
+
+	// 장애물 렌더링
+	//RenderObstacle(&obstacles[0][0]);
+
+	// 디버그 UI
+	DebugUpdate();
+	// 타이머 UI
+	DefaultTimerUI();
 }
 
 

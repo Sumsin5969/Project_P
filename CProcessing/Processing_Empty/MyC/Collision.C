@@ -232,3 +232,77 @@ void CheckWallBullet(Obstacle* _obstacle, Bullet* b)
 		}
 	}
 }
+
+void CheckEnemy(Enemy* _enemy) // AABB - Circle collision
+{
+	float radius = player->size / 2;
+
+	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
+	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
+
+	// 2. 박스 AABB 좌표
+	float _enemyLeft = _enemy->pos.x - _enemy->size / 2;
+	float _enemyRight = _enemy->pos.x + _enemy->size / 2;
+	float _enemyTop = _enemy->pos.y - _enemy->size / 2;
+	float _enemyBottom = _enemy->pos.y + _enemy->size / 2;
+
+	// 3. 가장 가까운 박스 안 점 계산 (클램핑)
+	float closestX = CP_Math_ClampFloat(circleCenter.x, _enemyLeft, _enemyRight);
+	float closestY = CP_Math_ClampFloat(circleCenter.y, _enemyTop, _enemyBottom);
+
+	// 4. 거리 계산 (원 중심 → 가장 가까운 점)
+	float dx = circleCenter.x - closestX;
+	float dy = circleCenter.y - closestY;
+	float distanceSq = dx * dx + dy * dy;
+	float radiusSq = radius * radius;
+
+	// 5. 충돌 여부 판단
+	if (distanceSq < radiusSq)
+	{
+		printf("적과 충돌!.\n");
+
+		if (player->playerState != INVINCIBLE)
+		{
+			_enemy->sniper = 1;
+
+			player->playerState = HIT;
+		}
+	}
+}
+
+void CheckBoss(Boss* _boss) // AABB - Circle collision
+{
+	float radius = player->size / 2;
+
+	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
+	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
+
+	// 2. 박스 AABB 좌표
+	float _bossLeft = _boss->pos.x - _boss->size / 2;
+	float _bossRight = _boss->pos.x + _boss->size / 2;
+	float _bossTop = _boss->pos.y - _boss->size / 2;
+	float _bossBottom = _boss->pos.y + _boss->size / 2;
+
+	// 3. 가장 가까운 박스 안 점 계산 (클램핑)
+	float closestX = CP_Math_ClampFloat(circleCenter.x, _bossLeft, _bossRight);
+	float closestY = CP_Math_ClampFloat(circleCenter.y, _bossTop, _bossBottom);
+
+	// 4. 거리 계산 (원 중심 → 가장 가까운 점)
+	float dx = circleCenter.x - closestX;
+	float dy = circleCenter.y - closestY;
+	float distanceSq = dx * dx + dy * dy;
+	float radiusSq = radius * radius;
+
+	// 5. 충돌 여부 판단
+	if (distanceSq < radiusSq)
+	{
+		printf("적과 충돌!.\n");
+
+		if (player->playerState != INVINCIBLE)
+		{
+			_boss->sniper = 1;
+
+			player->playerState = HIT;
+		}
+	}
+}

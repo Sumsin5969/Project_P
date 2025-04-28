@@ -11,3 +11,4 @@ void StageTimerReset();
 void SetStageTime(float _time);
 void DefaultTimerUI();
 
+extern float stageTime;

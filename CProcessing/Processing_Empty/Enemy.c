@@ -6,9 +6,27 @@
 #include "MyC/GameManager.h"
 #include "MyC/ZoomCamera.h"
 #include "MyC/Collision.h"
+#include "StageManager.h"
 
-// 적과 탄환 초기화
-// 
+void EnemyInit_BossStage(Boss* _boss)
+{
+	//CamInfo* cam = GetCamera();
+	//float z = cam->camZoom;
+
+	// 화면 경계(스크린 좌표) → 월드 좌표 역변환
+	//float worldLeft = (0 - cam->camPos.x) / z;
+	//float worldRight = (WIDTH - cam->camPos.x) / z;
+	//float worldTop = (HEIGHT - cam->camPos.y) / z;
+	//float worldBottom = (0 - cam->camPos.y) / z;
+	_boss->pos.x = 50.f;
+	_boss->pos.y = 0.f;
+	_boss->size = 200.f;
+	_boss->active = 0;
+	_boss->sniper = 0;
+	_boss->unitType = BOSSCHARACTER;
+}
+
+// 스테이지 1 적과 탄환 초기화
 void EnemyInit_StageOne(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -17,9 +35,10 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		_enemy[i].spd = 100.f;
 		_enemy[i].size = 50.f;
 		_enemy[i].active = 0;
-		_enemy[i].fireDelay = 0.7f;
+		_enemy[i].fireDelay = 1.5f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].magazine = 0;
+		_enemy[i].sniper = 0;
 		switch (i)
 		{
 		case 0:
@@ -48,7 +67,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			Bullets_StageOne[i][j].projSpd = 200.f;
+			Bullets_StageOne[i][j].projSpd = 500.f;
 			Bullets_StageOne[i][j].projTime = 0.f;
 			Bullets_StageOne[i][j].active = 0;
 			Bullets_StageOne[i][j].size = 15.f;
@@ -56,9 +75,8 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		}
 	}
 }
-// 스테이지 2로 넘어갈 시 출현할 적을 gameinit에서 초기화
-// Enemy속성들 2행의 1차원 배열로 초기화 할 거임
-// todo: 스테이지별 적에게 할당할 탄환 배열 또 만들기
+
+// 스테이지 2 적과 레이저 초기화
 void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 {
 	// pos x,y는 switch-case로 할 거임
@@ -70,6 +88,7 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		_enemy[i].size = 50.f * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
+		_enemy[i].sniper = 0;
 		switch (i)
 		{
 		case 0:
@@ -126,6 +145,8 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 
 	}
 }
+
+// 스테이지 3 적과 탄환 초기화
 void EnemyInit_StageThree(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -136,6 +157,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		_enemy[i].size = (50.f * 1.25f) * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
+		_enemy[i].sniper = 0;
 		switch (i)
 		{
 		case 0:
@@ -159,15 +181,17 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
 			{
-				CircleBullets_StageThree[i][j][k].projSpd = 800.f;
+				CircleBullets_StageThree[i][j][k].projSpd = 400.f;
 				CircleBullets_StageThree[i][j][k].projTime = 0.f;
 				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
 				CircleBullets_StageThree[i][j][k].active = 0;
 				CircleBullets_StageThree[i][j][k].size = _enemy->size / 3;
+				CircleBullets_StageThree[i][j][k].sniper = 0;
 			}
 		}
 	}
 }
+
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
 void EnemyMove_StageOne(Enemy* enemy)
 {
@@ -226,17 +250,22 @@ void BulletConditioner(Enemy* e, Bullet* b)
 }
 
 // 위 함수와 비슷한 역할: 방사형 투사체에 사용됨
-void CircleBulletConditioner(Enemy* e, Bullet* b, float dt)
+void CircleBulletConditioner(Enemy* e, Bullet b[MAGAZINE][MAX_BULLETS_PER_ENEMY])
 {
+	float dt = GetDt();
 	e->fireTime += dt;
 	if (e->fireTime >= e->fireDelay)
 	{
+		e->magazine++;
 		e->fireTime = 0.f;
-
 		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 		{
-			b[i].active = 1;  // 발사 시점에 한 번만 활성화
+			b[e->magazine][i].active = 1;  // 발사 시점에 한 번만 활성화
 		}
+	}
+	if (e->magazine >= MAGAZINE)
+	{
+		e->magazine = 0;
 	}
 }
 
@@ -370,8 +399,7 @@ void LaserAttack(Laser* laser)
 
 	}
 }
-
-// 레이저 위치, 크기 등 설정해주는 함수
+// 레이저 위치 설정해주는 함수
 void CreateLaser(Enemy* e, Laser* laser)
 {
 	CamInfo* cam = GetCamera();
@@ -433,17 +461,28 @@ void CreateLaser(Enemy* e, Laser* laser)
 	}
 }
 
-int LaserIsTimeout(Timer timer)
-{
-	if (timer.time >= timer.timeMax)
-		return 1;
-	return 0;
-}
-
 void DisableEnemy(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		_enemy[i].active = 0;
 	}
+}
+
+void AppearBoss(Boss* _boss)
+{
+	_boss->active = 1;
+}
+
+void DisappearBoss(Boss* _boss)
+{
+	_boss->active = 0;
+}
+
+void BossStage(Boss* _boss)
+{
+	if (stageTime == 27.f)
+	{
+		DisappearBoss(&boss);
+	}	
 }

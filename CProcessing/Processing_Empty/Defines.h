@@ -28,8 +28,8 @@ typedef enum UnitType
 	PLAYERCHARACTER = 0,
 	ENEMYCHARACTER,
 	OBSTACLE,
-	BOSS,
-} E_UnitType;
+	BOSSCHARACTER,
+} UnitType;
 
 typedef enum PlayerState
 {
@@ -56,18 +56,8 @@ typedef enum StageState
 	StageOne,
 	StageTwo,
 	StageThree,
-	StageFour,
-	StageFive,
-	StageLastIndex,
 	StageBoss,
 } StageState;
-
-typedef enum
-{
-	B_PlayerDirection,
-	B_Circle,
-	B_Laser,
-} FireType;
 
 typedef enum
 {

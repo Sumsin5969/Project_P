@@ -27,6 +27,8 @@ void InitGameManager()
 
 	EnemyInit_StageThree(enemies[StageThree]);
 
+	EnemyInit_BossStage(&boss);
+
 	InitDebuging();
 
 	SetWallType(wall);
@@ -38,7 +40,6 @@ void InitGameManager()
 
 void GMUpdate()
 {
-	float dt = GetDt();
 	// 플레이어 -> 게임 -> 적 순으로 업데이트
 	CheckPlayerState();
 
@@ -57,20 +58,25 @@ void GMUpdate()
 		Dash();
 
 		// 스테이지1 관리
-		for (int i = 0; i < MAX_ENEMIES;i++)
+		if (stageState >= StageOne && stageState < StageBoss)
 		{
-			EnemyMove_StageOne(&enemies[StageOne][i]);
-			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
-			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-			CheckBullet(Bullets_StageOne[i]);
-			CheckWallBullet(wall, Bullets_StageOne[i]);
+			for (int i = 0; i < MAX_ENEMIES;i++)
+			{
+				CheckEnemy(&enemies[StageOne][i]);
+				EnemyMove_StageOne(&enemies[StageOne][i]);
+				BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
+				DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+				CheckBullet(Bullets_StageOne[i]);
+				CheckWallBullet(wall, Bullets_StageOne[i]);
+			}
 		}
 
 		// 스테이지2 관리
-		for (int i = 0; i < MAX_ENEMIES; i++)
+		if (stageState > StageOne && stageState < StageBoss)
 		{
-			if (stageState > StageOne)
+			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
+				CheckEnemy(&enemies[StageTwo][i]);
 				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 				CheckLaser(&Lasers_StageTwo[i]);
 				LaserAttack(&Lasers_StageTwo[i]);
@@ -78,17 +84,34 @@ void GMUpdate()
 		}
 
 		// 스테이지3 관리
-		if (stageState > StageTwo)
+		if (stageState > StageTwo && stageState < StageBoss)
 		{
 			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
+				CheckEnemy(&enemies[StageThree][i]);
+				CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
 				for (int j = 0; j < MAGAZINE; j++)
 				{
-					CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i][j], dt);
 					CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
+					CheckBullet(CircleBullets_StageThree[i][j]);
 					CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
 				}
 			}
+		}
+
+		// 보스 스테이지 관리
+		if (stageState == StageBoss)
+		{
+			boss.active = 1;
+		}
+		if (boss.active == 1)
+		{
+			CheckBoss(&boss);
+			AppearBoss(&boss);
+		}
+		else
+		{
+			DisappearBoss(&boss);
 		}
 	}
 }
@@ -97,57 +120,13 @@ void GMLateUpdate()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
 
-	// 플레이어 관련 렌더링
-	RenderPlayerShadow();
-	RenderPlayer();
-
-	// 적 캐릭터 렌더링
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		RenderEnemy(&enemies[StageOne][i]);
-		RenderEnemy(&enemies[StageTwo][i]);
-		RenderEnemy(&enemies[StageThree][i]);
-	}
-
-	// 적 공격 렌더링
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
-		{
-			if (Bullets_StageOne[i][j].active)
-			{
-				RenderBullet(&Bullets_StageOne[i][j]);
-			}
-		}
-		for (int j = 0; j < 4; j++)
-		{
-			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
-			{
-				if (CircleBullets_StageThree[i][j][k].active)
-				{
-					RenderBullet(&CircleBullets_StageThree[i][j][k]);
-				}
-			}
-		}
-		RenderLaser(&Lasers_StageTwo[i]);
-	}
-
-	RenderWall(wall);
-
-	// 장애물 렌더링
-	//RenderObstacle(&obstacles[0][0]);
-
-	// 디버그 UI
-	DebugUpdate();
+	RenderAll();
 
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
-
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
-
-	DefaultTimerUI();
 }
 
 void FreeAll()
@@ -234,7 +213,6 @@ void AllBulletInit(Bullet* _bullet)
 	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
 		_bullet[i].active = 0;
-
 		_bullet[i].sniper = 0;
 	}
 }
@@ -246,14 +224,10 @@ void InitAll()
 
 	InitWall(wall);
 
-	for (int i = 0; i < MAX_ENEMIES; i++)
-	{
-		AllBulletInit(Bullets_StageOne[i]);
-	}
-
+	EnemyInit_StageOne(enemies[StageOne]);
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
-
 	EnemyInit_StageThree(enemies[StageThree]);
+	EnemyInit_BossStage(&boss);
 }
 
 void SavePlayerPos()

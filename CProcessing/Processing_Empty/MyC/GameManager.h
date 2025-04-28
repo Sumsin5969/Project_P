@@ -30,3 +30,5 @@ PlayerCharacter* player;
 
 CP_Vector pcShadow[100]; // 잔상용
 int shadowIndex;
+
+extern Obstacle wall[MAX];
