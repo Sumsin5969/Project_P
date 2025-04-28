@@ -230,30 +230,18 @@ void RenderBoss(Boss* _boss)
 
 void RenderAll()
 {
-	RenderWall(wall);
-
-	// 적 캐릭터 렌더링
-	if (stageState < StageBoss)
+	// 적 관련 렌더링
+	if (stageState < StageBoss && (gameState != StageDown || gameState == Play))
 	{
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			RenderEnemy(&enemies[StageOne][i]);
-			RenderEnemy(&enemies[StageTwo][i]);
-			RenderEnemy(&enemies[StageThree][i]);
-		}
+			RenderLaser(&Lasers_StageTwo[i]);
 
-		// 적 공격 렌더링
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+			for (int j = 0; j < MAX_ENEMIES; j++)
 			{
-				if (Bullets_StageOne[i][j].active)
-				{
-					RenderBullet(&Bullets_StageOne[i][j]);
-				}
-			}
-			for (int j = 0; j < MAGAZINE; j++)
-			{
+				if(&enemies[i][j].active)
+				RenderEnemy(&enemies[i][j]);
+
 				for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 				{
 					if (CircleBullets_StageThree[i][j][k].active)
@@ -261,12 +249,25 @@ void RenderAll()
 						RenderBullet(&CircleBullets_StageThree[i][j][k]);
 					}
 				}
+				for (int f = 0; f < MAX_BULLETS_PER_ENEMY; f++)
+				{
+					RenderBullet(&Bullets_StageOne[i][f]);
+				}
 			}
-			RenderLaser(&Lasers_StageTwo[i]);
 		}
 	}
+	else
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			Lasers_StageTwo->state = IDLE;
+		}
+	}
+
 	// 보스 스테이지면
 	if (boss.active == 1) RenderBoss(&boss);
+
+	RenderWall(wall);
 
 	// 플레이어 관련 렌더링
 	RenderPlayerShadow();

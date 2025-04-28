@@ -107,11 +107,11 @@ void GMUpdate()
 		if (boss.active == 1)
 		{
 			CheckBoss(&boss);
-			AppearBoss(&boss);
+			EnableBoss(&boss);
 		}
 		else
 		{
-			DisappearBoss(&boss);
+			DisableBoss(&boss);
 		}
 	}
 }

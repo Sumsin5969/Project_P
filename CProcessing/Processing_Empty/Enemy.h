@@ -76,7 +76,6 @@ typedef struct Laser
 } Laser;
 
 Boss boss;
-Enemy enemies[3][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][MAGAZINE][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
@@ -89,13 +88,14 @@ void EnemyInit_StageThree(Enemy*);
 void LaserInit_StageTwo(Laser*);
 
 void BulletConditioner(Enemy*, Bullet*);
-void CircleBulletConditioner(Enemy*, Bullet[MAGAZINE][MAX_BULLETS_PER_ENEMY]);
+void CircleBulletConditioner(Enemy*, Bullet [MAGAZINE][MAX_BULLETS_PER_ENEMY]);
 void CircleBulletFire(Enemy*, Bullet*);
 void DirectBulletFire(Enemy*, Bullet*);
 
 void CreateLaser(Enemy*, Laser*);
 void LaserAttack(Laser*);
 
-void AppearBoss(Boss*);
+void EnableBoss(Boss*);
+void EnableEnemy(Enemy*);
 void DisableEnemy(Enemy*);
-void DisappearBoss(Boss*);
+void DisableBoss(Boss*);

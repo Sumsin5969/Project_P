@@ -93,19 +93,19 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		{
 		case 0:
 			_enemy[i].pos.x = -1055;
-			_enemy[i].pos.y = -320;
+			_enemy[i].pos.y = -420;
 			break;
 		case 1:
 			_enemy[i].pos.x = -1055;
-			_enemy[i].pos.y = 120;
+			_enemy[i].pos.y = 220;
 			break;
 		case 2:
 			_enemy[i].pos.x = 1055;
-			_enemy[i].pos.y = -100;
+			_enemy[i].pos.y = -200;
 			break;
 		case 3:
 			_enemy[i].pos.x = 1055;
-			_enemy[i].pos.y = 340;
+			_enemy[i].pos.y = 440;
 			break;
 		}
 		switch (i)
@@ -329,7 +329,6 @@ void LaserAttack(Laser* laser)
 
 	if (laser->state == IDLE) // 기본상태
 	{
-		printf("IDLE 상태 \n");
 		laser->laserWarningAttackRange = 0.f;
 		laser->time += dt;
 
@@ -345,7 +344,6 @@ void LaserAttack(Laser* laser)
 
 	if (laser->state == WARNING)	// 
 	{
-		printf("WARNING 상태 \n");
 		laser->time += dt;
 
 		if (laser->laserAlpha < laser->laserAlphaMax)
@@ -375,7 +373,6 @@ void LaserAttack(Laser* laser)
 
 	if (laser->state == WAIT)
 	{
-		printf("WAIT 상태 \n");
 		laser->time += dt;
 
 		if (laser->waitDuration <= laser->time)	// 딜레이 시간이 다 되면
@@ -388,7 +385,6 @@ void LaserAttack(Laser* laser)
 	if (laser->state == ATTACK)
 	{
 		laser->laserAlpha = 0;
-		printf("ATTACK 상태 \n");
 		laser->time += dt;
 
 		if (laser->attackDuration <= laser->time)
@@ -461,6 +457,14 @@ void CreateLaser(Enemy* e, Laser* laser)
 	}
 }
 
+void EnableEnemy(Enemy* _enemy)
+{
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		_enemy[i].active = 1;
+	}
+}
+
 void DisableEnemy(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -469,12 +473,12 @@ void DisableEnemy(Enemy* _enemy)
 	}
 }
 
-void AppearBoss(Boss* _boss)
+void EnableBoss(Boss* _boss)
 {
 	_boss->active = 1;
 }
 
-void DisappearBoss(Boss* _boss)
+void DisableBoss(Boss* _boss)
 {
 	_boss->active = 0;
 }
@@ -483,6 +487,6 @@ void BossStage(Boss* _boss)
 {
 	if (stageTime == 27.f)
 	{
-		DisappearBoss(&boss);
+		DisableBoss(&boss);
 	}	
 }
