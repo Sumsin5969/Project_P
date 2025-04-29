@@ -35,7 +35,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		_enemy[i].spd = 100.f;
 		_enemy[i].size = 50.f;
 		_enemy[i].active = 0;
-		_enemy[i].fireDelay = 1.5f;
+		_enemy[i].fireDelay = 2.f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].magazine = 0;
 		_enemy[i].sniper = 0;
@@ -67,7 +67,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			Bullets_StageOne[i][j].projSpd = 500.f;
+			Bullets_StageOne[i][j].projSpd = 300.f;
 			Bullets_StageOne[i][j].projTime = 0.f;
 			Bullets_StageOne[i][j].active = 0;
 			Bullets_StageOne[i][j].size = 15.f;
@@ -129,10 +129,10 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		laser[i].laserAlphaMax = 200; // 전조 최대 알파값
 
 		laser[i].time = 0;
-		laser[i].idleDuration = 3.f;
+		laser[i].idleDuration = 4.f;
 		laser[i].warningAttackDuration = 1.5f;
 		laser[i].waitDuration = 0.5f;
-		laser[i].attackDuration = 1.5f;
+		laser[i].attackDuration = 1.0f;
 
 		laser[i].laserWarningAttackRange = 0.f;
 		laser[i].laserWarningAttackRangeMax = _enemy[i].size;
@@ -153,7 +153,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 	{
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].fireDelay = .3f;
+		_enemy[i].fireDelay = 5.f;
 		_enemy[i].size = (50.f * 1.25f) * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
@@ -181,7 +181,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
 			{
-				CircleBullets_StageThree[i][j][k].projSpd = 400.f;
+				CircleBullets_StageThree[i][j][k].projSpd = 200.f;
 				CircleBullets_StageThree[i][j][k].projTime = 0.f;
 				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
 				CircleBullets_StageThree[i][j][k].active = 0;
