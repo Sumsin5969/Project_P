@@ -21,13 +21,7 @@ void InitGameManager()
 
 	PlayerInit();
 
-	EnemyInit_StageOne(enemies[StageOne]);
-
-	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
-
-	EnemyInit_StageThree(enemies[StageThree]);
-
-	EnemyInit_BossStage(&boss);
+	InitEnemies();
 
 	InitDebuging();
 
@@ -161,6 +155,7 @@ void InitEnemies()
 	EnemyInit_StageOne(enemies[StageOne]);
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 	EnemyInit_StageThree(enemies[StageThree]);
+	EnemyInit_StageFour(enemies[StageFour]);
 	EnemyInit_BossStage(&boss);
 }
 
@@ -187,10 +182,6 @@ void Update_StageOne()
 		{
 			CheckEnemy(&enemies[StageOne][i]);
 			EnemyMove_StageOne(&enemies[StageOne][i]);
-			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
-			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-			CheckBullet(Bullets_StageOne[i]);
-			CheckWallBullet(wall, Bullets_StageOne[i]);
 		}
 	}
 }
@@ -221,7 +212,7 @@ void Update_StageThree()
 			CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
 			CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
 
-			for (int j = 0; j < MAGAZINE; j++)
+			for (int j = 0; j < CLIP; j++)
 			{
 				CheckBullet(CircleBullets_StageThree[i][j]);
 
@@ -236,8 +227,15 @@ void Update_StageFour()
 {
 	if (stageState >= StageFour)
 	{
-		// 스테이지4 제작할거임
-		return;
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CheckEnemy(&enemies[StageFour][i]);
+			EnemyMove_StageFour(&enemies[StageFour][i]);
+			BulletConditioner(&enemies[StageFour][i], Bullets_StageFour[i]);
+			DirectBulletFire(&enemies[StageFour][i], Bullets_StageFour[i]);
+			CheckBullet(Bullets_StageFour[i]);
+			CheckWallBullet(wall, Bullets_StageFour[i]);
+		}
 	}
 }
 

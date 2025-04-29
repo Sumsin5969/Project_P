@@ -15,10 +15,14 @@ void RenderPlayerShadow();
 
 void RenderEnemy_StageOne();
 void RenderBullet_StageOne();
+
 void RenderEnemy_StageTwo();
 void RenderLaser_StageTwo();
+
 void RenderEnemy_StageThree();
 void RenderBullet_StageThree();
+
+void RenderEnemy_StageFour();
 
 void RenderEnemyAll();
 void RenderAttackAll();
