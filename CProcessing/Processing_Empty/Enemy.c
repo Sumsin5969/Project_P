@@ -1,17 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "Defines.h"
 #include "Enemy.h"
+#include "Defines.h"
 #include "MyC/GameManager.h"
 #include "MyC/ZoomCamera.h"
 #include "MyC/Collision.h"
 #include "StageManager.h"
-
-// 사이징 관련
-static float pulse = 0.f;
-static int shrinking = 1;
-const float PERIOD = 1.f;
 
 void EnemyInit_BossStage(Boss* _boss)
 {
@@ -32,42 +27,51 @@ void EnemyInit_BossStage(Boss* _boss)
 	_boss->unitType = BOSSCHARACTER;
 }
 
-// 스테이지 1 적 초기화
+// 스테이지 1 적과 탄환 초기화
 void EnemyInit_StageOne(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
+		_enemy[i].spd = 100.f;
 		_enemy[i].size = 50.f;
-		_enemy[i].oriSize = 50.f;
 		_enemy[i].active = 0;
-		_enemy[i].fireDelay = 1.f;
+		_enemy[i].fireDelay = 2.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].pos.x = 0.f;
-		_enemy[i].pos.y = 0.f;
-		_enemy[i].spd = 200.f;
+		_enemy[i].magazine = 0;
 		_enemy[i].sniper = 0;
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -740.f;
-			_enemy[i].pos.y = -390.f;
+			_enemy[i].pos.x = -835;
+			_enemy[i].pos.y = -450;
 			_enemy[i].enemyDestination = TOPLEFT;
 			break;
 		case 1:
-			_enemy[i].pos.x = 740.f;
-			_enemy[i].pos.y = -390.f;
+			_enemy[i].pos.x = 835;
+			_enemy[i].pos.y = -450;
 			_enemy[i].enemyDestination = TOPRIGHT;
 			break;
 		case 2:
-			_enemy[i].pos.x = -740.f;
-			_enemy[i].pos.y = 390.f;
+			_enemy[i].pos.x = -835;
+			_enemy[i].pos.y = 450;
 			_enemy[i].enemyDestination = BOTTOMLEFT;
 			break;
 		case 3:
-			_enemy[i].pos.x = 740.f;
-			_enemy[i].pos.y = 390.f;
+			_enemy[i].pos.x = 835;
+			_enemy[i].pos.y = 450;
 			_enemy[i].enemyDestination = BOTTOMRIGHT;
 			break;
+		}
+
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
+			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
+			Bullets_StageOne[i][j].projSpd = 300.f;
+			Bullets_StageOne[i][j].projTime = 0.f;
+			Bullets_StageOne[i][j].active = 0;
+			Bullets_StageOne[i][j].size = 15.f;
+			Bullets_StageOne[i][j].sniper = 0;
 		}
 	}
 }
@@ -82,8 +86,6 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 0.f;
 		_enemy[i].size = 50.f * 1.25f;
-		_enemy[i].oriSize = 50.f * 1.25f;
-
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		_enemy[i].sniper = 0;
@@ -153,27 +155,26 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 5.f;
 		_enemy[i].size = (50.f * 1.25f) * 1.25f;
-		_enemy[i].oriSize = (50.f * 1.25f) * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		_enemy[i].sniper = 0;
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -1320;
-			_enemy[i].pos.y = -720;
+			_enemy[i].pos.x = -1310;
+			_enemy[i].pos.y = -710;
 			break;
 		case 1:
-			_enemy[i].pos.x = -1320;
-			_enemy[i].pos.y = 720;
+			_enemy[i].pos.x = -1310;
+			_enemy[i].pos.y = 710;
 			break;
 		case 2:
-			_enemy[i].pos.x = 1320;
-			_enemy[i].pos.y = -720;
+			_enemy[i].pos.x = 1310;
+			_enemy[i].pos.y = -710;
 			break;
 		case 3:
-			_enemy[i].pos.x = 1320;
-			_enemy[i].pos.y = 720;
+			_enemy[i].pos.x = 1310;
+			_enemy[i].pos.y = 710;
 			break;
 		}
 		for (int j = 0; j < CLIP; j++)
@@ -192,17 +193,19 @@ void EnemyInit_StageThree(Enemy* _enemy)
 	}
 }
 
-// 스테이지4 적과 탄환 초기화
+// 스테이지 3 적과 탄환 초기화
 void EnemyInit_StageFour(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		_enemy[i].spd = 100.f;
-		_enemy[i].size = 50.f * 1.25f * 1.25f * 1.25f;
 		_enemy[i].active = 0;
-		_enemy[i].fireDelay = 2.f;
+		_enemy[i].fireDelay = 1.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].magazine = 0;
+		_enemy[i].pos.x = 0.f;
+		_enemy[i].pos.y = 0.f;
+		_enemy[i].size = ((50.f * 1.25f) * 1.25f) * 1.25f;
+		_enemy[i].oriSize = ((50.f * 1.25f) * 1.25f) * 1.25f;
+		_enemy[i].spd = 200.f;
 		_enemy[i].sniper = 0;
 		switch (i)
 		{
@@ -227,27 +230,56 @@ void EnemyInit_StageFour(Enemy* _enemy)
 			_enemy[i].enemyDestination = BOTTOMRIGHT;
 			break;
 		}
-
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
-		{
-			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
-			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
-			Bullets_StageFour[i][j].projPos = _enemy[i].pos;
-			Bullets_StageFour[i][j].projSpd = 300.f;
-			Bullets_StageFour[i][j].projTime = 0.f;
-			Bullets_StageFour[i][j].active = 0;
-			Bullets_StageFour[i][j].size = _enemy->size / 3;
-			Bullets_StageFour[i][j].sniper = 0;
-		}
 	}
 }
-
-// 스테이지1 적 움직임 담당 함수
+// Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
 void EnemyMove_StageOne(Enemy* _enemy)
 {
 	float dt = GetDt() * (_enemy->spd);
-	float leftEnd = -800.f;
-	float rightEnd = 800.f;
+	float leftEnd = -835.f;
+	float rightEnd = 835.f;
+	float topEnd = -450.f;
+	float bottomEnd = 450.f;
+	switch (_enemy->enemyDestination)
+	{
+	case TOPLEFT:
+		_enemy->pos.y += dt;
+		// Zoom level 1에서 BOTTOMLEFT 적의 y좌표가 450이라서 거기까지 이동
+		if (_enemy->pos.y >= bottomEnd)
+		{
+			_enemy->enemyDestination = BOTTOMLEFT;
+		}
+		break;
+	case BOTTOMLEFT:
+		_enemy->pos.x += dt * (17.f / 9.f);
+		if (_enemy->pos.x >= rightEnd)
+		{
+			_enemy->enemyDestination = BOTTOMRIGHT;
+		}
+		break;
+	case BOTTOMRIGHT:
+		_enemy->pos.y -= dt;
+		if (_enemy->pos.y <= topEnd)
+		{
+			_enemy->enemyDestination = TOPRIGHT;
+		}
+		break;
+	case TOPRIGHT:
+		_enemy->pos.x -= dt * (17.f / 9.f);
+		if (_enemy->pos.x <= leftEnd)
+		{
+			_enemy->enemyDestination = TOPLEFT;
+		}
+		break;
+	}
+}
+
+// 스테이지4 적 움직임 담당 함수
+void EnemyMove_StageFour(Enemy* _enemy)
+{
+	float dt = GetDt() * (_enemy->spd);
+	float leftEnd = -1600.f;
+	float rightEnd = 850.f;
 	switch (_enemy->enemyDestination)
 	{
 	case TOPLEFT:
@@ -281,49 +313,6 @@ void EnemyMove_StageOne(Enemy* _enemy)
 		// 왼쪽 위로
 		_enemy->pos.x -= dt * (17.f / 9.f);
 		_enemy->pos.y -= dt;
-		if (_enemy->pos.x <= leftEnd)
-		{
-			_enemy->enemyDestination = TOPLEFT;
-		}
-		break;
-	}
-}
-
-// 스테이지4 적 움직임 담당 함수
-void EnemyMove_StageFour(Enemy* _enemy)
-{
-	float dt = GetDt() * (_enemy->spd);
-	float leftEnd = -1700.f;
-	float rightEnd = 1700.f;
-	float topEnd = -900.f;
-	float bottomEnd = 900.f;
-
-	switch (_enemy->enemyDestination)
-	{
-	case TOPLEFT:
-		_enemy->pos.y += dt;
-		// Zoom level 1에서 BOTTOMLEFT 적의 y좌표가 450이라서 거기까지 이동
-		if (_enemy->pos.y >= bottomEnd)
-		{
-			_enemy->enemyDestination = BOTTOMLEFT;
-		}
-		break;
-	case BOTTOMLEFT:
-		_enemy->pos.x += dt * (17.f / 9.f);
-		if (_enemy->pos.x >= rightEnd)
-		{
-			_enemy->enemyDestination = BOTTOMRIGHT;
-		}
-		break;
-	case BOTTOMRIGHT:
-		_enemy->pos.y -= dt;
-		if (_enemy->pos.y <= topEnd)
-		{
-			_enemy->enemyDestination = TOPRIGHT;
-		}
-		break;
-	case TOPRIGHT:
-		_enemy->pos.x -= dt * (17.f / 9.f);
 		if (_enemy->pos.x <= leftEnd)
 		{
 			_enemy->enemyDestination = TOPLEFT;
@@ -612,41 +601,5 @@ void BossStage(Boss* _boss)
 	if (stageTime == 27.f)
 	{
 		DisableBoss(&boss);
-	}
-}
-
-void ChangeEnemySize()
-{
-	float dt = GetDt();
-	float half = PERIOD * 0.5f;
-	float delta = dt / half; // 0 -> 1 이 되는 시간을 half타임만에 완료한다.
-
-	if (shrinking == 1)
-	{
-		pulse -= delta;
-		if (pulse <= 0.f)
-		{
-			pulse = 0.f;
-			shrinking = 0;
-		}
-	}
-	else
-	{
-		pulse += delta;
-		if (1.0f <= pulse)
-		{
-			pulse = 1.f;
-			shrinking = 1;
-		}
-	}
-
-	float scale = 0.9f + 0.1f * pulse;	// 최소 0.9f / 최대 0.9f + 0.1f;
-
-	for (int i = 0; i < StageLastIndex; ++i)
-	{
-		for (int j = 0; j < MAX_ENEMIES; ++j)
-		{
-			enemies[i][j].size = enemies[i][j].oriSize * scale;
-		}
 	}
 }

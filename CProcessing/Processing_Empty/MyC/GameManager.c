@@ -46,13 +46,13 @@ void GMUpdate()
 	{
 		CheckWall(wall);
 
+		//CheckObstacle(&obstacles[0][0]);
+
 		PlayerMove();
 
 		ChangePlayerSize();
 		
 		Update_Enemy();
-
-		ChangeEnemySize();
 
 		Dash();
 	}
@@ -182,6 +182,10 @@ void Update_StageOne()
 		{
 			CheckEnemy(&enemies[StageOne][i]);
 			EnemyMove_StageOne(&enemies[StageOne][i]);
+			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
+			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+			CheckBullet(Bullets_StageOne[i]);
+			CheckWallBullet(wall, Bullets_StageOne[i]);
 		}
 	}
 }
@@ -231,10 +235,6 @@ void Update_StageFour()
 		{
 			CheckEnemy(&enemies[StageFour][i]);
 			EnemyMove_StageFour(&enemies[StageFour][i]);
-			BulletConditioner(&enemies[StageFour][i], Bullets_StageFour[i]);
-			DirectBulletFire(&enemies[StageFour][i], Bullets_StageFour[i]);
-			CheckBullet(Bullets_StageFour[i]);
-			CheckWallBullet(wall, Bullets_StageFour[i]);
 		}
 	}
 }

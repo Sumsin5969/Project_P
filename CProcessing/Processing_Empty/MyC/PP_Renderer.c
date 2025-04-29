@@ -232,74 +232,44 @@ void RenderBoss(Boss* _boss)
 
 void RenderEnemy_StageOne()
 {
-	if (stageState >= StageOne)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			if (&enemies[StageOne][i].active)
-			{
-				RenderEnemy(&enemies[StageOne][i]);
-			}
-		}
+		RenderEnemy(&enemies[StageOne][i]);
 	}
 }
 
 void RenderBullet_StageOne()
 {
-	if (stageState >= StageOne)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
-			{
-				if (&Bullets_StageFour[i][j].active)
-				{
-					RenderBullet(&Bullets_StageFour[i][j]);
-				}
-			}
+			RenderBullet(&Bullets_StageOne[i][j]);
 		}
 	}
 }
 
 void RenderEnemy_StageTwo()
 {
-	if (stageState >= StageTwo)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			if (&enemies[StageTwo][i].active)
-			{
-				RenderEnemy(&enemies[StageTwo][i]);
-			}
-		}
+		RenderEnemy(&enemies[StageTwo][i]);
 	}
 }
 
 void RenderLaser_StageTwo()
 {
-	if (stageState >= StageTwo)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			if (&Lasers_StageTwo[i].state != IDLE)
-			{
-				RenderLaser(&Lasers_StageTwo[i]);
-			}
-		}
+		RenderLaser(&Lasers_StageTwo[i]);
 	}
 }
 
 void RenderEnemy_StageThree()
 {
-	if (stageState >= StageThree)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			if (&enemies[StageThree][i].active)
-			{
-				RenderEnemy(&enemies[StageThree][i]);
-			}
-		}
+		RenderEnemy(&enemies[StageThree][i]);
 	}
 }
 
