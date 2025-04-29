@@ -529,7 +529,7 @@ void ChangeEnemySize()
 {
 	float dt = GetDt();
 	float half = PERIOD * 0.5f;
-	float delta = dt / half;
+	float delta = dt / half; // 0 -> 1 이 되는 시간을 half타임만에 완료한다.
 
 	if (shrinking == 1)
 	{
