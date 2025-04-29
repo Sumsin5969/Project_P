@@ -279,7 +279,7 @@ void EnemyMove_StageFour(Enemy* _enemy)
 {
 	float dt = GetDt() * (_enemy->spd);
 	float leftEnd = -1600.f;
-	float rightEnd = 850.f;
+	float rightEnd = 1600.f;
 	switch (_enemy->enemyDestination)
 	{
 	case TOPLEFT:
