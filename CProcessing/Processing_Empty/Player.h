@@ -8,13 +8,14 @@ typedef struct PlayerCharacter
 	CP_Vector pos;
 	float spd;
 	int isDashing;
-	float dashTime;
+	float dashTimeMax;
 	float dashTimer;
+	float dashInvincibleTimeMax;	// 대쉬 후 약간의 무적타임을 주기 위함.
+
 	float dashSpeedBoost;
 	float originalSpd;
 	float dashDecayRate;
 	float size;
-	float invTime;
 	CP_Vector direction;
 	PlayerState playerState;
 } PlayerCharacter;

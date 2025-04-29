@@ -27,6 +27,7 @@ void game_update(void)
 	}
 
 	GMUpdate();
+
 	GMLateUpdate();
 }
 

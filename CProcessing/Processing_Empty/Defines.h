@@ -33,19 +33,17 @@ typedef enum UnitType
 
 typedef enum PlayerState
 {
-	HIT,
+	HIT, // Is it really player state???
 	NORMAL,
-	INVINCIBLE // 무적
+	INVINCIBLE, // 무적
+	INVINCIBLEBONUS		// 무적보너스
 } PlayerState;
 
 typedef enum GameState
 {
 	Play,
-	Stop,
-	ChangingStage,
-	StageUp,
-	StageDown,
-	PlayerDead,
+	StageUp, // Play state에 종속된
+	StageDown, // Play state에 종속된
 	MainMenu,
 	GameOver,
 	GameClear,

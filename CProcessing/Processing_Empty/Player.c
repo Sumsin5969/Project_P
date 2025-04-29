@@ -20,13 +20,13 @@ void PlayerInit(void)
 	}
 	player->isDashing = 0;
 	player->playerState = NORMAL;
-	player->dashTime = 0.3f;
+	player->dashTimeMax = 0.3f;
 	player->dashSpeedBoost = 1000.f;
 	player->size = 50.f;
 	player->pos.x = 0;
 	player->pos.y = 0;
 	player->spd = 400.f;
-	player->invTime = 2.f;
+	player->dashInvincibleTimeMax = player->dashTimeMax + 0.05f; // 대쉬끝나고 n 초 무적시간 더주기위해
 }
 
 void PlayerMove(void) // 방향키를 입력받으면 플레이어를 이동시키는 함수
@@ -72,12 +72,13 @@ void Dash(void)
 
 	if (CP_Input_KeyTriggered(KEY_LEFT_SHIFT) && !player->isDashing)
 	{
-		if (player->direction.x == 0 && player->direction.y == 0)
+		if (player->direction.x == 0 && player->direction.y == 0) // 나중에 수정해야함 (방향키없을때 대쉬안됌)
 		{
 			return;
 		}
+
 		player->isDashing = 1;
-		player->dashTimer = player->dashTime;
+		player->dashTimer = player->dashTimeMax;
 		player->originalSpd = player->spd;
 		player->spd += player->dashSpeedBoost;
 		player->dashDecayRate = player->dashSpeedBoost / player->dashTimer;
@@ -90,9 +91,9 @@ void Dash(void)
 		player->dashTimer -= dt;
 		player->spd -= player->dashDecayRate * dt;
 
-		// 주기적으로 위치 저장
-		static float saveTimer = 0.0f;
+		static float saveTimer = 0.0f;	// 잔상용
 		saveTimer += dt;
+
 		if (saveTimer > 0.02f) // 0.02초마다 저장
 		{
 			SavePlayerPos();
@@ -102,10 +103,15 @@ void Dash(void)
 		if (player->dashTimer <= 0.f)
 		{
 			player->spd = player->originalSpd;
-			player->isDashing = 0;
-			player->playerState = NORMAL;
 
 			shadowIndex = 0; // 잔상 초기화
+			player->playerState = INVINCIBLEBONUS;
+		}
+
+		if (player->dashTimer <= -player->dashInvincibleTimeMax)	// 대쉬끝난 후 약간의 무적타임
+		{
+			player->isDashing = 0;
+			player->playerState = NORMAL;
 		}
 	}
 }

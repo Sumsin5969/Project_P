@@ -42,7 +42,7 @@ void StageTimer() // Play일때 기본적으로 작동되는 타이머
 {
 	float dt = CP_System_GetDt();
 
-	if (stageTime < 0)
+	if (stageTime < 0)		// 바뀌는곳 찾아가기 힘들다. 어디서 바뀌는지 뭘로바뀌는지 안명확하다!
 	{
 		gameState = StageUp;
 
@@ -119,7 +119,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		stageTime = 30.f;
 		timeAcc = 0.f;
 		ZoomInForce();
-		
+
 		InitAll();
 
 		SetGameState(Play);
