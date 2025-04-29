@@ -18,6 +18,7 @@ void EnemyInit_BossStage(Boss* _boss)
 	//float worldRight = (WIDTH - cam->camPos.x) / z;
 	//float worldTop = (HEIGHT - cam->camPos.y) / z;
 	//float worldBottom = (0 - cam->camPos.y) / z;
+
 	_boss->pos.x = 50.f;
 	_boss->pos.y = 0.f;
 	_boss->size = 200.f;

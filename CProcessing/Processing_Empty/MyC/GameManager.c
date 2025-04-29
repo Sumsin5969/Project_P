@@ -56,6 +56,8 @@ void GMUpdate()
 
 		PlayerMove();
 
+		ChangeSize();
+		
 		Update_Enemy();
 
 		Dash();
@@ -151,7 +153,6 @@ void CheckPlayerState()
 
 	case INVINCIBLE:
 		break;
-
 	}
 }
 

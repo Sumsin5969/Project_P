@@ -10,6 +10,10 @@
 #define LEFT CP_Input_KeyDown(KEY_LEFT)
 #define RIGHT CP_Input_KeyDown(KEY_RIGHT)
 
+float playerOriSize = 50.f;
+int playerSizeState = 0; // -1 작아짐 / 0 기본 / 1 커짐 
+float sizingSpeed = 50;
+
 void PlayerInit(void)
 {
 	player = (PlayerCharacter*)malloc(sizeof(PlayerCharacter));
@@ -120,4 +124,30 @@ void DestroyPlayer()
 {
 	free(player);
 	player = NULL;
+}
+
+void ChangeSize()
+{
+	float targetSize = playerOriSize * 0.9f;
+
+	if (playerSizeState == 0)
+	{
+		player->size -= GetDt() * sizingSpeed;
+		printf("작아진다");
+
+		if (player->size <= targetSize)
+		{
+			playerSizeState = -1;
+		}
+	}
+	else
+	{
+		player->size += GetDt() * sizingSpeed;
+		printf("커진다");
+
+		if (playerOriSize < player->size)
+		{
+			playerSizeState = 0;
+		}
+	}
 }
