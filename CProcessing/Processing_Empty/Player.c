@@ -4,7 +4,6 @@
 #include "MyC/GameManager.h"
 #include "Defines.h"
 
-
 #define UP CP_Input_KeyDown(KEY_UP)
 #define DOWN CP_Input_KeyDown(KEY_DOWN)
 #define LEFT CP_Input_KeyDown(KEY_LEFT)
@@ -12,6 +11,7 @@
 
 float playerOriSize = 50.f;
 int playerSizeState = 0; // -1 작아짐 / 0 기본 / 1 커짐 
+float sizingSpeed = 50.f;
 
 void PlayerInit(void)
 {
@@ -131,7 +131,7 @@ void ChangePlayerSize()
 
 	if (playerSizeState == 0)
 	{
-		player->size -= GetDt() * SIZINGSPEED;
+		player->size -= GetDt() * sizingSpeed;
 
 		if (player->size <= targetSize)
 		{
@@ -140,7 +140,7 @@ void ChangePlayerSize()
 	}
 	else
 	{
-		player->size += GetDt() * SIZINGSPEED;
+		player->size += GetDt() * sizingSpeed;
 
 		if (playerOriSize < player->size)
 		{
