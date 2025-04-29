@@ -55,6 +55,8 @@ void GMUpdate()
 		//CheckObstacle(&obstacles[0][0]);
 		PlayerMove();
 
+		ChangeSize();
+
 		Dash();
 
 		// 스테이지1 관리
@@ -208,7 +210,6 @@ void CheckPlayerState()
 
 	case INVINCIBLE:
 		break;
-
 	}
 }
 

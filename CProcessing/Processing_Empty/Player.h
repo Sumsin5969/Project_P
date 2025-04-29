@@ -25,3 +25,4 @@ void ChangeSpeed(void);
 void Dash(void);
 void PlayerInit(void);
 void DestroyPlayer();
+void ChangeSize();
