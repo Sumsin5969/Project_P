@@ -78,8 +78,8 @@ typedef struct Laser
 
 Boss boss;
 Enemy enemies[StageLastIndex][MAX_ENEMIES];
-Bullet CircleBullets_StageThree[MAX_ENEMIES][MAGAZINE][MAX_BULLETS_PER_ENEMY];
-Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
+Bullet Bullets_StageFour[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
 void EnemyInit_BossStage(Boss*);
