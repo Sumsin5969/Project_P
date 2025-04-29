@@ -46,75 +46,19 @@ void GMUpdate()
 	CheckGameState();
 
 	// 벽과 장애물 체크
-
 	StageTimer();
 
 	if (gameState == Play)
 	{
 		CheckWall(wall);
+
 		//CheckObstacle(&obstacles[0][0]);
+
 		PlayerMove();
 
+		Update_Enemy();
+
 		Dash();
-
-		// 스테이지1 관리
-		if (stageState >= StageOne)
-		{
-			for (int i = 0; i < MAX_ENEMIES;i++)
-			{
-				CheckEnemy(&enemies[StageOne][i]);
-				EnemyMove_StageOne(&enemies[StageOne][i]);
-				BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
-				DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-				CheckBullet(Bullets_StageOne[i]);
-				CheckWallBullet(wall, Bullets_StageOne[i]);
-			}
-		}
-
-		// 스테이지2 관리
-		if (stageState >= StageTwo)
-		{
-			for (int i = 0; i < MAX_ENEMIES; i++)
-			{
-				CheckEnemy(&enemies[StageTwo][i]);
-				CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
-				CheckLaser(&Lasers_StageTwo[i]);
-				LaserAttack(&Lasers_StageTwo[i]);
-			}
-		}
-
-		// 스테이지3 관리
-		if (stageState >= StageThree)
-		{
-			for (int i = 0; i < MAX_ENEMIES; i++)
-			{
-				CheckEnemy(&enemies[StageThree][i]);
-				CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
-				CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
-
-				for (int j = 0; j < MAGAZINE; j++)
-				{
-					CheckBullet(CircleBullets_StageThree[i][j]);
-
-					CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
-				}
-			}
-		}
-
-		// 보스 스테이지 관리
-		if (stageState == StageBoss)
-		{
-			boss.active = 1;
-		}
-		if (boss.active == 1)
-		{
-			CheckBoss(&boss);
-			EnableBoss(&boss);
-		}
-		else
-		{
-			DisableBoss(&boss);
-		}
 	}
 }
 
@@ -179,7 +123,6 @@ void CheckGameState()
 		break;
 	}
 }
-void AllBulletInit(Bullet* _bullet);
 void CheckPlayerState()
 {
 	switch (player->playerState)
@@ -212,30 +155,114 @@ void CheckPlayerState()
 	}
 }
 
-void AllBulletInit(Bullet* _bullet)
+void InitEnemies()
 {
-	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
-	{
-		_bullet[i].active = 0;
-		_bullet[i].sniper = 0;
-	}
-}
-
-void InitAll()
-{
-	PlayerInit();
-	StageTimerReset();
-
-	InitWall(wall);
-
 	EnemyInit_StageOne(enemies[StageOne]);
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 	EnemyInit_StageThree(enemies[StageThree]);
 	EnemyInit_BossStage(&boss);
 }
 
+void InitAll()
+{
+	PlayerInit();
+	StageTimerReset();
+	InitWall(wall);
+	InitEnemies();
+}
+
 void SavePlayerPos()
 {
 	pcShadow[shadowIndex] = player->pos;
 	shadowIndex++;
+}
+
+// 스테이지1 업데이트 관리
+void Update_StageOne()
+{
+	if (stageState >= StageOne)
+	{
+		for (int i = 0; i < MAX_ENEMIES;i++)
+		{
+			CheckEnemy(&enemies[StageOne][i]);
+			EnemyMove_StageOne(&enemies[StageOne][i]);
+			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
+			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+			CheckBullet(Bullets_StageOne[i]);
+			CheckWallBullet(wall, Bullets_StageOne[i]);
+		}
+	}
+}
+
+// 스테이지2 업데이트 관리
+void Update_StageTwo()
+{
+	if (stageState >= StageTwo)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CheckEnemy(&enemies[StageTwo][i]);
+			CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+			CheckLaser(&Lasers_StageTwo[i]);
+			LaserAttack(&Lasers_StageTwo[i]);
+		}
+	}
+}
+
+// 스테이지3 업데이트 관리
+void Update_StageThree()
+{
+	if (stageState >= StageThree)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CheckEnemy(&enemies[StageThree][i]);
+			CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+			CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+
+			for (int j = 0; j < MAGAZINE; j++)
+			{
+				CheckBullet(CircleBullets_StageThree[i][j]);
+
+				CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
+			}
+		}
+	}
+}
+
+// 스테이지4 업데이트 관리
+void Update_StageFour()
+{
+	if (stageState >= StageFour)
+	{
+		// 스테이지4 제작할거임
+		return;
+	}
+}
+
+// 보스 스테이지 관리
+void Update_StageBoss()
+{
+	if (stageState == StageBoss)
+	{
+		boss.active = 1;
+	}
+	if (boss.active == 1)
+	{
+		CheckBoss(&boss);
+		EnableBoss(&boss);
+	}
+	else
+	{
+		DisableBoss(&boss);
+	}
+}
+
+void Update_Enemy()
+{
+	Update_StageOne();
+	Update_StageTwo();
+	Update_StageThree();
+	Update_StageFour();
+	Update_StageBoss();
 }

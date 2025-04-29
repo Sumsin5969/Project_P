@@ -16,10 +16,10 @@ GameState GetGameState();
 void SetGameState(GameState targetGameState);
 
 void CheckGameState();
-void AllBulletInit(Bullet* _bullet);
 void CheckPlayerState();
 
 void SavePlayerPos();
+void InitEnemies();
 void InitAll();
 
 
@@ -32,3 +32,10 @@ CP_Vector pcShadow[100]; // 잔상용
 int shadowIndex;
 
 extern Obstacle wall[MAX];
+
+void Update_StageOne();
+void Update_StageTwo();
+void Update_StageThree();
+void Update_StageFour();
+void Update_StageBoss();
+void Update_Enemy();
