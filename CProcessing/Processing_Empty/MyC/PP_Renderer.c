@@ -252,9 +252,9 @@ void RenderBullet_StageOne()
 		{
 			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 			{
-				if (&Bullets_StageOne[i][j].active)
+				if (&Bullets_StageFour[i][j].active)
 				{
-					RenderBullet(&Bullets_StageOne[i][j]);
+					RenderBullet(&Bullets_StageFour[i][j]);
 				}
 			}
 		}
@@ -281,7 +281,10 @@ void RenderLaser_StageTwo()
 	{
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			RenderLaser(&Lasers_StageTwo[i]);
+			if (&Lasers_StageTwo[i].state != IDLE)
+			{
+				RenderLaser(&Lasers_StageTwo[i]);
+			}
 		}
 	}
 }
@@ -304,7 +307,7 @@ void RenderBullet_StageThree()
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int j = 0; j < MAGAZINE; j++)
+		for (int j = 0; j < CLIP; j++)
 		{
 			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
@@ -317,11 +320,20 @@ void RenderBullet_StageThree()
 	}
 }
 
+void RenderEnemy_StageFour()
+{
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		RenderEnemy(&enemies[StageFour][i]);
+	}
+}
+
 void RenderEnemyAll()
 {
 	RenderEnemy_StageOne();
 	RenderEnemy_StageTwo();
 	RenderEnemy_StageThree();
+	RenderEnemy_StageFour();
 }
 
 void RenderAttackAll()

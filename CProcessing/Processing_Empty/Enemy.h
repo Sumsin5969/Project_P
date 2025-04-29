@@ -6,15 +6,14 @@ typedef struct Enemy
 {
 	CP_Vector pos;
 	float spd;
-	int isAttack;
 	float fireTime;// 쿨타임
 	float fireDelay;// 쿨타임 cap
 	float size;
-	int magazine;
+	int magazine; // 탄창
 	int active;
-	EnemyDestination enemyDestination;
+	EnemyDestination enemyDestination; // 현재 위치
 	UnitType unitType;
-	int sniper;
+	int sniper; // 플레이어와 충돌한 적
 
 } Enemy;
 
@@ -40,7 +39,7 @@ typedef struct Bullet
 	int active;
 	float size;
 	CP_Vector direction;
-	int sniper;
+	int sniper; // 플레이어와 충돌한 미사일
 } Bullet;
 
 typedef enum LaserState
@@ -77,20 +76,27 @@ typedef struct Laser
 
 Boss boss;
 Enemy enemies[StageLastIndex/*Stage Number*/][MAX_ENEMIES/*Enemy Count*/];
-Bullet CircleBullets_StageThree[MAX_ENEMIES][MAGAZINE][MAX_BULLETS_PER_ENEMY];
-Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
+Bullet Bullets_StageFour[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
 void EnemyInit_BossStage(Boss*);
+
 void EnemyInit_StageOne(Enemy*);
-void EnemyMove_StageOne(Enemy*);
+
 void EnemyInit_StageTwo(Enemy*, Laser*);
-void EnemyInit_StageThree(Enemy*);
 void LaserInit_StageTwo(Laser*);
 
+void EnemyInit_StageThree(Enemy*);
+
+void EnemyInit_StageFour(Enemy*);
+
+void EnemyMove_StageOne(Enemy*);
+void EnemyMove_StageFour(Enemy*);
+
 void BulletConditioner(Enemy*, Bullet*);
-void CircleBulletConditioner(Enemy*, Bullet [MAGAZINE][MAX_BULLETS_PER_ENEMY]);
-void CircleBulletFire(Enemy*, Bullet [MAGAZINE][MAX_BULLETS_PER_ENEMY]);
+void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
+void CircleBulletFire(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
 
 void CreateLaser(Enemy*, Laser*);
