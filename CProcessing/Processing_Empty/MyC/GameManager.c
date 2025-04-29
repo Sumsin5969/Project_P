@@ -58,7 +58,7 @@ void GMUpdate()
 		Dash();
 
 		// 스테이지1 관리
-		if (stageState >= StageOne && stageState < StageBoss)
+		if (stageState >= StageOne)
 		{
 			for (int i = 0; i < MAX_ENEMIES;i++)
 			{
@@ -72,7 +72,7 @@ void GMUpdate()
 		}
 
 		// 스테이지2 관리
-		if (stageState > StageOne && stageState < StageBoss)
+		if (stageState > StageOne)
 		{
 			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
@@ -84,15 +84,15 @@ void GMUpdate()
 		}
 
 		// 스테이지3 관리
-		if (stageState > StageTwo && stageState < StageBoss)
+		if (stageState > StageTwo)
 		{
 			for (int i = 0; i < MAX_ENEMIES; i++)
 			{
 				CheckEnemy(&enemies[StageThree][i]);
 				CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+				CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
 				for (int j = 0; j < MAGAZINE; j++)
 				{
-					CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i][j]);
 					CheckBullet(CircleBullets_StageThree[i][j]);
 					CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
 				}

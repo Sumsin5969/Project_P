@@ -153,7 +153,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 	{
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
-		_enemy[i].fireDelay = 3.f;
+		_enemy[i].fireDelay = .3f;
 		_enemy[i].size = (50.f * 1.25f) * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
@@ -254,45 +254,65 @@ void CircleBulletConditioner(Enemy* e, Bullet b[MAGAZINE][MAX_BULLETS_PER_ENEMY]
 {
 	float dt = GetDt();
 	e->fireTime += dt;
-	if (e->fireTime >= e->fireDelay)
+
+	if (e->fireDelay <= e->fireTime)
 	{
-		e->magazine++;
-		e->fireTime = 0.f;
+		int allInactive = 1;
+
 		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 		{
-			b[e->magazine][i].active = 1;  // 발사 시점에 한 번만 활성화
+			if (b[e->magazine][i].active)
+			{
+				allInactive = 0;
+				break;
+			}
 		}
-	}
-	if (e->magazine >= MAGAZINE)
-	{
-		e->magazine = 0;
+
+		e->magazine++;
+
+		if (allInactive)
+		{
+			for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+			{
+				b[e->magazine][i].active = 1;
+				b[e->magazine][i].degree = i * (360.0f / MAX_BULLETS_PER_ENEMY);
+			}
+			if (e->magazine >= MAGAZINE)
+			{
+				e->magazine = 0;
+			}
+			e->fireTime = 0.0f;
+		}
 	}
 }
 
 // 원형 발사 패턴
 // 탄환의 position을 업데이트
 // 탄환의 개수는 MAX_BULLETS_PER_ENEMY 만큼 있어야 함 
-void CircleBulletFire(Enemy* e, Bullet* b)
+void CircleBulletFire(Enemy* e, Bullet b[MAGAZINE][MAX_BULLETS_PER_ENEMY])
 {
 	float dt = GetDt();
-	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	for (int i = 0; i < MAGAZINE; i++)
 	{
 		float originX = e->pos.x;
 		float originY = e->pos.y;
-		if (!b[i].active)
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			b[i].projPos.x = originX;
-			b[i].projPos.y = originY;
-			b[i].fireAngle = CP_Math_Radians(b[i].degree);
-			b[i].fireDir.x = cosf(b[i].fireAngle);
-			b[i].fireDir.y = sinf(b[i].fireAngle);
-		}
-		else
-		{
-			b[i].projPos.x += b[i].projSpd * b[i].fireDir.x * dt;
-			b[i].projPos.y += b[i].projSpd * b[i].fireDir.y * dt;
-			b[i].degree += 360.f / MAX_BULLETS_PER_ENEMY;
-			CP_Settings_Fill(CP_Color_Create(238, 1, 147, 255));
+			if (!b[i][j].active)
+			{
+				b[i][j].projPos.x = originX;
+				b[i][j].projPos.y = originY;
+
+				b[i][j].fireAngle = CP_Math_Radians(b[i][j].degree);
+				b[i][j].fireDir.x = cosf(b[i][j].fireAngle);
+				b[i][j].fireDir.y = sinf(b[i][j].fireAngle);
+			}
+			else
+			{
+				b[i][j].projPos.x += b[i][j].projSpd * b[i][j].fireDir.x * dt;
+				b[i][j].projPos.y += b[i][j].projSpd * b[i][j].fireDir.y * dt;
+				CP_Settings_Fill(ENEMY_COLOR());
+			}
 		}
 	}
 }

@@ -151,6 +151,8 @@ void RenderBullet(Bullet* _bullet)
 
 	if (_bullet->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_StrokeWeight(1.f);
 
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
@@ -231,36 +233,30 @@ void RenderBoss(Boss* _boss)
 void RenderAll()
 {
 	// 적 관련 렌더링
-	if (stageState < StageBoss && (gameState != StageDown || gameState == Play))
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
+		RenderLaser(&Lasers_StageTwo[i]);
+
+		for (int j = 0; j < MAX_ENEMIES; j++)
 		{
-			RenderLaser(&Lasers_StageTwo[i]);
-
-			for (int j = 0; j < MAX_ENEMIES; j++)
+			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
-				if(&enemies[i][j].active)
-				RenderEnemy(&enemies[i][j]);
-
-				for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
+				if (CircleBullets_StageThree[i][j][k].active)
 				{
-					if (CircleBullets_StageThree[i][j][k].active)
-					{
-						RenderBullet(&CircleBullets_StageThree[i][j][k]);
-					}
+					RenderBullet(&CircleBullets_StageThree[i][j][k]);
 				}
-				for (int f = 0; f < MAX_BULLETS_PER_ENEMY; f++)
+			}
+			for (int f = 0; f < MAX_BULLETS_PER_ENEMY; f++)
+			{
+				if (&Bullets_StageOne[i][f].active)
 				{
 					RenderBullet(&Bullets_StageOne[i][f]);
 				}
 			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			Lasers_StageTwo->state = IDLE;
+			if (&enemies[i][j].active)
+			{
+				RenderEnemy(&enemies[i][j]);
+			}
 		}
 	}
 

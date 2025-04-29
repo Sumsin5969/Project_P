@@ -90,7 +90,7 @@ void LaserInit_StageTwo(Laser*);
 
 void BulletConditioner(Enemy*, Bullet*);
 void CircleBulletConditioner(Enemy*, Bullet [MAGAZINE][MAX_BULLETS_PER_ENEMY]);
-void CircleBulletFire(Enemy*, Bullet*);
+void CircleBulletFire(Enemy*, Bullet [MAGAZINE][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
 
 void CreateLaser(Enemy*, Laser*);

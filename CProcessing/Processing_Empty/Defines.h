@@ -6,7 +6,7 @@
 #define MAX_ENEMIES 4
 #define MAX_CIRCLE_ENEMIES 4
 #define MAX_BULLETS_PER_ENEMY 50
-#define MAGAZINE 10
+#define MAGAZINE 100
 #define STAGECLEARTIME 30
 #define ZOOMSPEED 1
 #define ENEMY_COLOR() CP_Color_Create(200,1,147,255)	// 이렇게도 함수를 디파인할 수 있다.
