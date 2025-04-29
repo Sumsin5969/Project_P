@@ -230,37 +230,115 @@ void RenderBoss(Boss* _boss)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
-void RenderAll()
+void RenderEnemy_StageOne()
 {
-	// 적 관련 렌더링
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (stageState >= StageOne)
 	{
-		RenderLaser(&Lasers_StageTwo[i]);
-
-		for (int j = 0; j < MAGAZINE; j++)
+		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
+			if (&enemies[StageOne][i].active)
 			{
-				if (CircleBullets_StageThree[i][j][k].active)
-				{
-					RenderBullet(&CircleBullets_StageThree[i][j][k]);
-				}
-			}
-			for (int f = 0; f < MAX_BULLETS_PER_ENEMY; f++)
-			{
-				if (&Bullets_StageOne[i][f].active)
-				{
-					RenderBullet(&Bullets_StageOne[i][f]);
-				}
-			}
-			if (&enemies[i][j].active)
-			{
-				RenderEnemy(&enemies[i][j]);
+				RenderEnemy(&enemies[StageOne][i]);
 			}
 		}
 	}
+}
 
-	// 보스 스테이지면
+void RenderBullet_StageOne()
+{
+	if (stageState >= StageOne)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+			{
+				if (&Bullets_StageOne[i][j].active)
+				{
+					RenderBullet(&Bullets_StageOne[i][j]);
+				}
+			}
+		}
+	}
+}
+
+void RenderEnemy_StageTwo()
+{
+	if (stageState >= StageTwo)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			if (&enemies[StageTwo][i].active)
+			{
+				RenderEnemy(&enemies[StageTwo][i]);
+			}
+		}
+	}
+}
+
+void RenderLaser_StageTwo()
+{
+	if (stageState >= StageTwo)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			RenderLaser(&Lasers_StageTwo[i]);
+		}
+	}
+}
+
+void RenderEnemy_StageThree()
+{
+	if (stageState >= StageThree)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			if (&enemies[StageThree][i].active)
+			{
+				RenderEnemy(&enemies[StageThree][i]);
+			}
+		}
+	}
+}
+
+void RenderBullet_StageThree()
+{
+	if (stageState >= StageThree)
+	{
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+			{
+				for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
+				{
+					if (CircleBullets_StageThree[i][j][k].active)
+					{
+						RenderBullet(&CircleBullets_StageThree[i][j][k]);
+					}
+				}
+			}
+		}
+	}
+}
+
+void RenderEnemyAll()
+{
+	RenderEnemy_StageOne();
+	RenderEnemy_StageTwo();
+	RenderEnemy_StageThree();
+}
+
+void RenderAttackAll()
+{
+	RenderBullet_StageOne();
+	RenderLaser_StageTwo();
+	RenderBullet_StageThree();
+}
+void RenderAll()
+{
+	RenderEnemyAll();
+	RenderAttackAll();
+	// 보스 렌더링
+	// @todo: 나중에 완성 이후 함수 합쳐서 따로 빼기
 	if (boss.active == 1) RenderBoss(&boss);
 
 	RenderWall(wall);

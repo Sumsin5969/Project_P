@@ -42,7 +42,7 @@ void StageTimer() // Play일때 기본적으로 작동되는 타이머
 {
 	float dt = CP_System_GetDt();
 
-	if (stageTime < 0)		// 바뀌는곳 찾아가기 힘들다. 어디서 바뀌는지 뭘로바뀌는지 안명확하다!
+	if (stageTime <= 0)		// 바뀌는곳 찾아가기 힘들다. 어디서 바뀌는지 뭘로바뀌는지 안명확하다!
 	{
 		gameState = StageUp;
 
@@ -53,6 +53,10 @@ void StageTimer() // Play일때 기본적으로 작동되는 타이머
 
 	stageTime -= dt; // 타이머 흐르게
 
+	if (stageTime <= 0)
+	{
+		stageTime = 0.f;
+	}
 	/*CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);*/
 
