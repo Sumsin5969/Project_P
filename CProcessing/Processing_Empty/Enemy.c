@@ -1,12 +1,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "Enemy.h"
 #include "Defines.h"
+#include "Enemy.h"
 #include "MyC/GameManager.h"
 #include "MyC/ZoomCamera.h"
 #include "MyC/Collision.h"
 #include "StageManager.h"
+
+// 사이징 관련
+static float pulse = 0.f;
+static int shrinking = 1;
+const float PERIOD = 1.f;
 
 void EnemyInit_BossStage(Boss* _boss)
 {
@@ -32,12 +37,13 @@ void EnemyInit_StageOne(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
+		_enemy[i].size = 50.f;
+		_enemy[i].oriSize = 50.f;
 		_enemy[i].active = 0;
 		_enemy[i].fireDelay = 1.f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].pos.x = 0.f;
 		_enemy[i].pos.y = 0.f;
-		_enemy[i].size = 50.f;
 		_enemy[i].spd = 200.f;
 		_enemy[i].sniper = 0;
 		switch (i)
@@ -76,6 +82,8 @@ void EnemyInit_StageTwo(Enemy* _enemy, Laser* laser)
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 0.f;
 		_enemy[i].size = 50.f * 1.25f;
+		_enemy[i].oriSize = 50.f * 1.25f;
+
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		_enemy[i].sniper = 0;
@@ -145,6 +153,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 5.f;
 		_enemy[i].size = (50.f * 1.25f) * 1.25f;
+		_enemy[i].oriSize = (50.f * 1.25f) * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		_enemy[i].sniper = 0;
@@ -603,5 +612,41 @@ void BossStage(Boss* _boss)
 	if (stageTime == 27.f)
 	{
 		DisableBoss(&boss);
+	}
+}
+
+void ChangeEnemySize()
+{
+	float dt = GetDt();
+	float half = PERIOD * 0.5f;
+	float delta = dt / half;
+
+	if (shrinking == 1)
+	{
+		pulse -= delta;
+		if (pulse <= 0.f)
+		{
+			pulse = 0.f;
+			shrinking = 0;
+		}
+	}
+	else
+	{
+		pulse += delta;
+		if (1.0f <= pulse)
+		{
+			pulse = 1.f;
+			shrinking = 1;
+		}
+	}
+
+	float scale = 0.9f + 0.1f * pulse;	// 최소 0.9f / 최대 0.9f + 0.1f;
+
+	for (int i = 0; i < StageLastIndex; ++i)
+	{
+		for (int j = 0; j < MAX_ENEMIES; ++j)
+		{
+			enemies[i][j].size = enemies[i][j].oriSize * scale;
+		}
 	}
 }
