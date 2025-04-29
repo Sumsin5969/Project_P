@@ -90,7 +90,7 @@ void LaserInit_StageTwo(Laser*);
 
 void EnemyInit_StageThree(Enemy*);
 
-void EnemyInit_StageFour(Enemy* _);
+void EnemyInit_StageFour(Enemy*);
 
 void EnemyMove_StageOne(Enemy*);
 void EnemyMove_StageFour(Enemy*);
@@ -107,3 +107,5 @@ void EnableBoss(Boss*);
 void EnableEnemy(Enemy*);
 void DisableEnemy(Enemy*);
 void DisableBoss(Boss*);
+
+void ChangeEnemySize();

@@ -54,6 +54,8 @@ void GMUpdate()
 		
 		Update_Enemy();
 
+		ChangeEnemySize();
+
 		Dash();
 	}
 }
