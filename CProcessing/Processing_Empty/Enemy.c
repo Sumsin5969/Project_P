@@ -264,11 +264,11 @@ void CircleBulletConditioner(Enemy* e, Bullet b[MAGAZINE][MAX_BULLETS_PER_ENEMY]
 			if (b[e->magazine][i].active)
 			{
 				allInactive = 0;
+				e->magazine++;
 				break;
 			}
 		}
 
-		e->magazine++;
 
 		if (allInactive)
 		{
