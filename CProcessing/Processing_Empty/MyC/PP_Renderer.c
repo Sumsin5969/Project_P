@@ -302,18 +302,15 @@ void RenderEnemy_StageThree()
 
 void RenderBullet_StageThree()
 {
-	if (stageState >= StageThree)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
+		for (int j = 0; j < MAGAZINE; j++)
 		{
-			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
-				for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
+				if (CircleBullets_StageThree[i][j][k].active)
 				{
-					if (CircleBullets_StageThree[i][j][k].active)
-					{
-						RenderBullet(&CircleBullets_StageThree[i][j][k]);
-					}
+					RenderBullet(&CircleBullets_StageThree[i][j][k]);
 				}
 			}
 		}
@@ -339,7 +336,7 @@ void RenderAll()
 	RenderAttackAll();
 	// 보스 렌더링
 	// @todo: 나중에 완성 이후 함수 합쳐서 따로 빼기
-	if (boss.active == 1) RenderBoss(&boss);
+	//if (boss.active == 1) RenderBoss(&boss);
 
 	RenderWall(wall);
 

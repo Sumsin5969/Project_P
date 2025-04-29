@@ -181,6 +181,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
 			{
+				CircleBullets_StageThree[i][j][k].projPos = _enemy[i].pos;
 				CircleBullets_StageThree[i][j][k].projSpd = 200.f;
 				CircleBullets_StageThree[i][j][k].projTime = 0.f;
 				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
