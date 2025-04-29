@@ -257,32 +257,35 @@ void CircleBulletConditioner(Enemy* e, Bullet b[MAGAZINE][MAX_BULLETS_PER_ENEMY]
 
 	if (e->fireDelay <= e->fireTime)
 	{
-		int allInactive = 1;
+		//printf("%s %d enemy %p magazine %d\n", __FUNCTION__, __LINE__, e, e->magazine);
+		int allInactive = 1;	// 일단 allInactive로 만든다.
 
-		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)	// 한탄창의 max만큼 for문을 돌린다.
 		{
-			if (b[e->magazine][i].active)
+			if (b[e->magazine][i].active)	// 해당 탄창중 하나라도 active이면 그 탄창은 쓸수 없다.								  // b[enemy][magazine][bullet] / enemy의 magazin index 번째의 i번째의 탄환이 active라면! 
 			{
 				allInactive = 0;
-				e->magazine++;
-				break;
+				e->magazine++;	// 위에서 쓸 수 없으니까 다음탄창으로 가겠다.
+				return;
 			}
 		}
 
 
-		if (allInactive)
+		if (allInactive)		// (온전한탄창) 쓸 수 있는 탄창이라면
 		{
-			for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+			//printf("%s %d enemy %p magazine %d\n", __FUNCTION__, __LINE__, e, e->magazine);
+			for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)		// 탄창의 들어있는 탄환만큼 반복하겠다.
 			{
-				b[e->magazine][i].active = 1;
-				b[e->magazine][i].degree = i * (360.0f / MAX_BULLETS_PER_ENEMY);
+				b[e->magazine][i].active = 1;		// 탄환 하나를 활성화
+				b[e->magazine][i].degree = i * (360.0f / MAX_BULLETS_PER_ENEMY);	// 각도 설정
 			}
-			if (e->magazine >= MAGAZINE)
+
+			if (e->magazine >= MAGAZINE)		// 탄창의 인덱스가 최대가되면 0으로 바꾸어준다.
 			{
 				e->magazine = 0;
 			}
-			e->fireTime = 0.0f;
 		}
+		e->fireTime = 0.0f;
 	}
 }
 
@@ -508,5 +511,5 @@ void BossStage(Boss* _boss)
 	if (stageTime == 27.f)
 	{
 		DisableBoss(&boss);
-	}	
+	}
 }

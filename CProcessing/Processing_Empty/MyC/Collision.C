@@ -184,11 +184,13 @@ void CheckWall(Obstacle* _obstacle)
 		}
 	}
 }
+static int bulletCount = 0;
 
 void CheckWallBullet(Obstacle* _obstacle, Bullet* b)
 {
 	CP_Vector camPos = GetCamera()->camPos;
 	float camZoom = GetCamera()->camZoom;
+
 	for (int j = 0; j < MAX; j++)
 	{
 		for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
@@ -198,34 +200,46 @@ void CheckWallBullet(Obstacle* _obstacle, Bullet* b)
 			float bulletRight = (b[i].projPos.x - bulletHalfSize) * camZoom + camPos.x;
 			float bulletTop = (b[i].projPos.y + bulletHalfSize) * camZoom + camPos.y;
 			float bulletBottom = (b[i].projPos.y - bulletHalfSize) * camZoom + camPos.y;
+
 			float wallLeft = _obstacle[WALL_LEFT].pos.x + _obstacle[WALL_LEFT].width / 2;
 			float wallRight = _obstacle[WALL_RIGHT].pos.x - _obstacle[WALL_RIGHT].width / 2;
 			float wallTop = _obstacle[WALL_TOP].pos.y + _obstacle[WALL_TOP].height / 2;
 			float wallBottom = _obstacle[WALL_BOTTOM].pos.y - _obstacle[WALL_BOTTOM].height / 2;
+
+			/*if (b[i].active == 0)
+			{
+				printf("%d 번째 총알은 비활성화다\n", i);
+				continue;
+			}*/
+
 			switch (_obstacle[j].type)
 			{
 			case WALL_LEFT:
 				if (bulletLeft < wallLeft)
 				{
 					b[i].active = 0;
+					//printf("총알회수 %d 번째 총알\n", bulletCount++);
 				}
 				break;
 			case WALL_RIGHT:
 				if (wallRight < bulletRight)
 				{
 					b[i].active = 0;
+					//printf("총알회수 %d 번째 총알\n", bulletCount++);
 				}
 				break;
 			case WALL_TOP:
 				if (bulletTop < wallTop)
 				{
 					b[i].active = 0;
+					//printf("총알회수 %d 번째 총알\n", bulletCount++);
 				}
 				break;
 			case WALL_BOTTOM:
 				if (wallBottom < bulletBottom)
 				{
 					b[i].active = 0;
+					//printf("총알회수 %d 번째 총알\n", bulletCount++);
 				}
 				break;
 			}
