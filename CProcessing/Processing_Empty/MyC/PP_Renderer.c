@@ -237,7 +237,7 @@ void RenderAll()
 	{
 		RenderLaser(&Lasers_StageTwo[i]);
 
-		for (int j = 0; j < MAX_ENEMIES; j++)
+		for (int j = 0; j < MAGAZINE; j++)
 		{
 			for (int k = 0; k < MAX_BULLETS_PER_ENEMY; k++)
 			{
