@@ -9,7 +9,9 @@ typedef struct Enemy
 	int isAttack;
 	float fireTime;// 쿨타임
 	float fireDelay;// 쿨타임 cap
+
 	float size;
+	float oriSize;
 	int magazine;
 	int active;
 	EnemyDestination enemyDestination;
@@ -76,7 +78,7 @@ typedef struct Laser
 } Laser;
 
 Boss boss;
-Enemy enemies[StageLastIndex/*Stage Number*/][MAX_ENEMIES/*Enemy Count*/];
+Enemy enemies[StageLastIndex][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][MAGAZINE][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
@@ -100,3 +102,4 @@ void EnableBoss(Boss*);
 void EnableEnemy(Enemy*);
 void DisableEnemy(Enemy*);
 void DisableBoss(Boss*);
+void ChangeEnemySize();

@@ -13,7 +13,7 @@ void PrintMainMenu();
 
 void game_init(void)
 {
-	gameState = MainMenu;
+	SetGameState(MainMenu);
 	InitGameManager();
 	CP_System_SetFrameRate(100);
 }

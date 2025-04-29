@@ -52,13 +52,13 @@ void GMUpdate()
 	{
 		CheckWall(wall);
 
-		//CheckObstacle(&obstacles[0][0]);
-
 		PlayerMove();
 
-		ChangeSize();
+		ChangePlayerSize();
 		
 		Update_Enemy();
+
+		ChangeEnemySize();
 
 		Dash();
 	}

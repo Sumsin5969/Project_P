@@ -12,7 +12,6 @@
 
 float playerOriSize = 50.f;
 int playerSizeState = 0; // -1 작아짐 / 0 기본 / 1 커짐 
-float sizingSpeed = 50;
 
 void PlayerInit(void)
 {
@@ -126,14 +125,13 @@ void DestroyPlayer()
 	player = NULL;
 }
 
-void ChangeSize()
+void ChangePlayerSize()
 {
 	float targetSize = playerOriSize * 0.9f;
 
 	if (playerSizeState == 0)
 	{
-		player->size -= GetDt() * sizingSpeed;
-		printf("작아진다");
+		player->size -= GetDt() * SIZINGSPEED;
 
 		if (player->size <= targetSize)
 		{
@@ -142,8 +140,7 @@ void ChangeSize()
 	}
 	else
 	{
-		player->size += GetDt() * sizingSpeed;
-		printf("커진다");
+		player->size += GetDt() * SIZINGSPEED;
 
 		if (playerOriSize < player->size)
 		{
