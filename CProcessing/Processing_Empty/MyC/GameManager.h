@@ -42,5 +42,7 @@ void Update_StageTwo();
 void Update_StageThree();
 void Update_StageFour();
 void Update_StageFive();
+void Update_StageSix();
 void Update_StageBoss();
+// 적 업데이트 함수들을 묶은 함수
 void Update_Enemy();

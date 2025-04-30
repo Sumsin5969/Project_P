@@ -150,7 +150,7 @@ void InitEnemies()
 	EnemyInit_StageThree(enemies[StageThree]);
 	EnemyInit_StageFour(enemies[StageFour]);
 	EnemyInit_StageFive(&elite_StageFive);
-
+	EnemyInit_StageSix(&enemy_StageSix);
 	EnemyInit_BossStage(&boss);
 }
 
@@ -249,6 +249,20 @@ void Update_StageFive()
 	}
 }
 
+void Update_StageSix()
+{
+	//6스테이지 업데이트할내용
+	if (stageState >= StageSix)
+	{
+		CheckEnemy(&enemy_StageSix);
+		EnemyMove_StageSix(&enemy_StageSix);
+		BulletConditioner(&enemy_StageSix, Bullets_StageSix);
+		DirectBulletFire(&enemy_StageSix, Bullets_StageSix);
+		CheckBullet(Bullets_StageSix);
+		CheckWallBullet(wall, Bullets_StageSix);
+	}
+}
+
 // 보스 스테이지 관리
 void Update_StageBoss()
 {
@@ -274,5 +288,6 @@ void Update_Enemy()
 	Update_StageThree();
 	Update_StageFour();
 	Update_StageFive();
+	Update_StageSix();
 	Update_StageBoss();
 }

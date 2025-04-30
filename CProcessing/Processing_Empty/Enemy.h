@@ -53,7 +53,6 @@ typedef struct Bullet
 {
 	CP_Vector projPos;// 투사체 좌표
 	float projSpd;// 투사체 속도
-	float projTime;// 투사체 지속시간
 
 	float degree;
 	float fireAngle; // 여기부터 렌더러에서 조절
@@ -101,7 +100,7 @@ typedef struct Laser
 
 Boss boss;
 Boss elite_StageFive;
-Boss elite_StageSix;
+Enemy enemy_StageSix;
 Enemy enemies[StageLastIndex][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
@@ -124,7 +123,8 @@ void EnemyMove_StageFour(Enemy*);
 void EnemyInit_StageFive(Boss*);
 void EnemyMove_StageFive(Boss*);
 
-void EnemyInit_StageSix(Boss*);
+void EnemyInit_StageSix(Enemy*);
+void EnemyMove_StageSix(Enemy*);
 
 
 void BulletConditioner(Enemy*, Bullet*);

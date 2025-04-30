@@ -76,7 +76,6 @@ void EnemyInit_StageOne(Enemy* _enemy)
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
 			//       MJ 안쓰는 변수라도 초기화 하는 것을 권장
 			Bullets_StageOne[i][j].projSpd = 300.f;
-			Bullets_StageOne[i][j].projTime = 0.f;
 			Bullets_StageOne[i][j].active = 0;
 			Bullets_StageOne[i][j].size = _enemy->size / 3;
 			Bullets_StageOne[i][j].sniper = 0;
@@ -193,7 +192,6 @@ void EnemyInit_StageThree(Enemy* _enemy)
 			{
 				CircleBullets_StageThree[i][j][k].projPos = _enemy[i].pos;
 				CircleBullets_StageThree[i][j][k].projSpd = 200.f;
-				CircleBullets_StageThree[i][j][k].projTime = 0.f;
 				CircleBullets_StageThree[i][j][k].degree = k * (360.f / MAX_BULLETS_PER_ENEMY);
 				CircleBullets_StageThree[i][j][k].active = 0;
 				CircleBullets_StageThree[i][j][k].size = _enemy->size / 3;
@@ -264,60 +262,64 @@ void EnemyInit_StageFive(Boss* _elite)
 }
 
 //스테이지 6 적 초기화
-void EnemyInit_StageSix(Boss* _elite)
+void EnemyInit_StageSix(Enemy* _enemy)
 {
-	_elite->pos.x = -2000.f;
-	_elite->pos.y = -1000.f;
-	_elite->enemyDestination = TOPLEFT;
-	_elite->spd = 10.f;
-	_elite->fireTime = 0.f;
-	_elite->fireDelay = 3.f;
-	_elite->size = 50.f * (float)pow(1.25, 5);
-	_elite->oriSize = 50.f * (float)pow(1.25, 5);
-	_elite->magazine = 0;
-	_elite->active = 0;
-	_elite->sniper = 0;			
-	Bullets_StageSix->projSpd = 700.f;
-	Bullets_StageSix->active = 0;
-	Bullets_StageSix->size = _elite->size / 3;
-	Bullets_StageSix->sniper = 0;
+	_enemy->pos.x = -2200.f;
+	_enemy->pos.y = -1200.f;
+	_enemy->enemyDestination = TOPLEFT;
+	_enemy->spd = 1500.f;
+	_enemy->fireTime = 0.f;
+	_enemy->fireDelay = 3.f;
+	_enemy->size = 50.f * (float)pow(1.25, 5);
+	_enemy->oriSize = 50.f * (float)pow(1.25, 5);
+	_enemy->magazine = 0;
+	_enemy->active = 0;
+	_enemy->sniper = 0;
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	{
+		Bullets_StageSix[i].projPos = _enemy->pos;
+		Bullets_StageSix[i].projSpd = 700.f;
+		Bullets_StageSix[i].active = 0;
+		Bullets_StageSix[i].size = _enemy->size / 3;
+		Bullets_StageSix[i].sniper = 0;
+	}
 }
 
-void EnemyMove_StageSix(Boss* _elite)
+void EnemyMove_StageSix(Enemy* _enemy)
 {
-	float dt = GetDt() * (_elite->spd);
-	float leftEnd = -835.f;
-	float rightEnd = 835.f;
-	float topEnd = -450.f;
-	float bottomEnd = 450.f;
-	switch (_elite->enemyDestination)
+	float dt = GetDt() * _enemy->spd;
+	float leftEnd = -2200.f;
+	float rightEnd = 2200.f;
+	float topEnd = -1200.f;
+	float bottomEnd = 1200.f;
+	switch (_enemy->enemyDestination)
 	{
 	case TOPLEFT:
-		_elite->pos.y += dt;
-		if (_elite->pos.y >= bottomEnd)
+		_enemy->pos.y += dt;
+		if (_enemy->pos.y >= bottomEnd)
 		{
-			_elite->enemyDestination = BOTTOMLEFT;
+			_enemy->enemyDestination = BOTTOMLEFT;
 		}
 		break;
 	case BOTTOMLEFT:
-		_elite->pos.x += dt * (17.f / 9.f);
-		if (_elite->pos.x >= rightEnd)
+		_enemy->pos.x += dt;
+		if (_enemy->pos.x >= rightEnd)
 		{
-			_elite->enemyDestination = BOTTOMRIGHT;
+			_enemy->enemyDestination = BOTTOMRIGHT;
 		}
 		break;
 	case BOTTOMRIGHT:
-		_elite->pos.y -= dt;
-		if (_elite->pos.y <= topEnd)
+		_enemy->pos.y -= dt;
+		if (_enemy->pos.y <= topEnd)
 		{
-			_elite->enemyDestination = TOPRIGHT;
+			_enemy->enemyDestination = TOPRIGHT;
 		}
 		break;
 	case TOPRIGHT:
-		_elite->pos.x -= dt * (17.f / 9.f);
-		if (_elite->pos.x <= leftEnd)
+		_enemy->pos.x -= dt;
+		if (_enemy->pos.x <= leftEnd)
 		{
-			_elite->enemyDestination = TOPLEFT;
+			_enemy->enemyDestination = TOPLEFT;
 		}
 		break;
 	}
@@ -368,8 +370,8 @@ void EnemyMove_StageOne(Enemy* _enemy)
 void EnemyMove_StageFour(Enemy* _enemy)
 {
 	float dt = GetDt() * (_enemy->spd);
-	float leftEnd = -1600.f;
-	float rightEnd = 1600.f;
+	float leftEnd = -1800.f;
+	float rightEnd = 1800.f;
 	switch (_enemy->enemyDestination)
 	{
 	case TOPLEFT:

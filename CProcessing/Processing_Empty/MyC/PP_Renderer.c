@@ -122,6 +122,7 @@ void RenderPlayer()
 	if (!player->isDashing)
 	{
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		CP_Settings_StrokeWeight(2.f * cam->camZoom);
 		CP_Settings_Fill(CP_Color_Create(36, 235, 50, 255));
 		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * (player->size / 2.f));
 	}
@@ -157,7 +158,6 @@ void RenderBullet(Bullet* _bullet)
 	if (_bullet->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_StrokeWeight(1.f);
 
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
@@ -235,7 +235,7 @@ void RenderBoss(Boss* _boss)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
-void RenderBossShadow(Boss* _boss)
+void RenderEliteShadow(Boss* _boss)
 {
 	if (stageState >= StageFive)
 	{
@@ -295,6 +295,11 @@ void RenderBossShadow(Boss* _boss)
 			CP_Graphics_DrawRect(target.x, target.y, cam->camZoom * _boss->size, cam->camZoom * _boss->size);
 		}
 	}
+}
+
+void RenderEnemyShadow()
+{
+	RenderEliteShadow(&elite_StageFive);
 }
 
 void RenderEnemy_StageOne()
@@ -370,8 +375,23 @@ void RenderEnemy_StageFive()
 	RenderBoss(&elite_StageFive);
 }
 
+void RenderEnemy_StageSix()
+{
+	RenderEnemy(&enemy_StageSix);
+}
+
+void RenderBullet_StageSix()
+{
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	{
+		RenderBullet(&Bullets_StageSix[i]);
+	}
+}
+
 void RenderEnemyAll()
 {
+	RenderEnemyShadow();
+	RenderEnemy_StageSix();
 	RenderEnemy_StageFive();
 	RenderEnemy_StageFour();
 	RenderEnemy_StageThree();
@@ -381,13 +401,14 @@ void RenderEnemyAll()
 
 void RenderAttackAll()
 {
+	RenderBullet_StageSix();
 	RenderBullet_StageThree();
 	RenderLaser_StageTwo();
 	RenderBullet_StageOne();
 }
+
 void RenderAll()
 {
-	RenderBossShadow(&elite_StageFive);
 	RenderEnemyAll();
 	RenderAttackAll();
 	// 보스 렌더링
