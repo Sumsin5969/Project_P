@@ -11,6 +11,7 @@
     <ClCompile Include="Enemy.c" />
     <ClCompile Include="Obstacle.c" />
     <ClCompile Include="StageManager.c" />
+    <ClCompile Include="SoundManager.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyC\Collision.h">
@@ -28,6 +29,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
