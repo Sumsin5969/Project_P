@@ -129,20 +129,11 @@ void CheckPlayerState()
 	case HIT:
 		stageState--;
 
-		if (stageState < StageOne)
-		{
-			// x초간 연출 후 게임오버시키기
-			InitAll();
-
-			gameState = GameOver;
-			return;
-		}
-
 		SetZoomInTargetRate();
 
 		player->playerState = NORMAL;
 
-		gameState = StageDown;
+		SetGameState(StageDown);
 
 		break;
 	case NORMAL:
