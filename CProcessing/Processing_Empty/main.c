@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "./MyC/GameManager.h"
-#include "SoundManager.h"
 #include "./MyC/Collision.h"
-
 #include "Defines.h"
+#include "SoundManager.h"
+
 
 char buffer[200];
 
