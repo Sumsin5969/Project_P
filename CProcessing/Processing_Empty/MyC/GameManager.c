@@ -8,6 +8,7 @@
 #include "Collision.h"
 #include "../Enemy.h"
 #include "../StageManager.h"
+#include "../SoundManager.h"
 
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
@@ -72,6 +73,7 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
 	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite);
+	if (CP_Input_KeyTriggered(KEY_M)) CP_Sound_Play(titleBGM);
 }
 
 void FreeAll()
