@@ -76,3 +76,9 @@ typedef enum
 	BOTTOMRIGHT
 } EnemyDestination;
 
+typedef enum
+{
+	TITLEBGM,
+	BGM,
+	STAGE1
+} SoundType;

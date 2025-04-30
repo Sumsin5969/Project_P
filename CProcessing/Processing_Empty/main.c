@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "cprocessing.h"
 #include "./MyC/GameManager.h"
+#include "SoundManager.h"
 #include "./MyC/Collision.h"
 
 #include "Defines.h"
@@ -13,6 +14,14 @@ void PrintMainMenu();
 
 void game_init(void)
 {
+	LoadSounds();
+
+	//CP_Sound_Play(titleBGM);
+	//CP_Sound_Play(TestSound);
+
+
+	//CP_Sound_PlayMusic(TestSound);
+
 	SetGameState(MainMenu);
 	InitGameManager();
 	CP_System_SetFrameRate(100);

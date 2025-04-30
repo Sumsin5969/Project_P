@@ -13,7 +13,6 @@ float cameraShakeTimer = 0;
 float shakingTime = 0.5f;
 int shakeIndex = 0;
 
-
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
