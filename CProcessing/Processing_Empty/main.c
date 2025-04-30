@@ -74,8 +74,8 @@ void PrintMainMenu()
 		// 죄다 초기화해주면 될듯 하다.
 
 		// Text 띄워준다.
-
-
+		CP_Sound_PlayAdvanced(gameStartSound, 2, 1, FALSE, CP_SOUND_GROUP_SFX);
+		CP_Sound_PlayAdvanced(titleBGM, 1, 1, FALSE, CP_SOUND_GROUP_1);
 
 		stageState = StageOne;
 		gameState = Play;

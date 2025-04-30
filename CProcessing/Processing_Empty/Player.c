@@ -3,6 +3,7 @@
 //#include "Player.h"
 #include "MyC/GameManager.h"
 #include "Defines.h"
+#include "SoundManager.h"
 
 #define UP CP_Input_KeyDown(KEY_UP)
 #define DOWN CP_Input_KeyDown(KEY_DOWN)

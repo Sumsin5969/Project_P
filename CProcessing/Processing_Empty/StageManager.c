@@ -4,6 +4,7 @@
 #include "MyC/ZoomCamera.h"
 #include "MyC/GameManager.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 char timeBuffer[10];
 float stageTime = 30.f; // 타이머
@@ -119,6 +120,8 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 	/*CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);*/
 
+	PlayStageDownSound();
+
 	if (t >= 1.f)
 	{
 		stageTime = 30.f;
@@ -127,14 +130,21 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 		InitAll();
 		ResetCameraShakeTime();
+		CancleSoundPlaying();
+		
 
 		if (stageState < StageOne)
 		{
 			InitAll();
 			InitCamera();
+			CP_Sound_StopGroup(CP_SOUND_GROUP_SFX);
 			SetGameState(GameOver);
 		}
-		else SetGameState(Play);
+		else
+		{
+			SetGameState(Play);
+			CP_Sound_StopGroup(CP_SOUND_GROUP_SFX);
+		}
 
 	}
 

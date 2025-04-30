@@ -110,7 +110,7 @@ void CheckGameState()
 	{
 	case StageDown:
 		printf("스테이지 다운!");
-		
+
 		StageTimerLevelDown();
 
 		break;
