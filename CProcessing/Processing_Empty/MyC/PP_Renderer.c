@@ -8,6 +8,7 @@
 #include "Collision.h"
 #include "JhDebug.h"
 #include "../StageManager.h"
+#include "../Enemy.h"
 
 int invincibleColorIndex = 0;
 
@@ -230,6 +231,68 @@ void RenderBoss(Boss* _boss)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
+void RenderBossShadow(Boss* _boss)
+{
+	if (stageState >= StageFive)
+	{
+		CamInfo* cam = GetCamera();
+		CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+		CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+		CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
+
+		int count = enemyShadowIndex > 10 ? 10 : enemyShadowIndex;  // 최대 잔상 수 제한
+
+		for (int i = 0; i < count; ++i)
+		{
+			int idx = (enemyShadowIndex - i - 1 + 100) % 100;  // 최근 위치부터 역순으로 가져오기
+
+			CP_Vector target = CP_Vector_MatrixMultiply(camMatrix, enemyShadow[idx]);
+			float alpha = 150.f - (i * 20);  // 뒤로 갈수록 투명해짐
+
+			if (alpha < 0) alpha = 0;
+
+			switch (invincibleColorIndex % 6)
+			{
+			case 0:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 1:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 2:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 3:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 4:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 5:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 6:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 7:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 8:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 9:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			case 10:
+				CP_Settings_Fill(CP_Color_Create(200, 1, 147, (int)alpha));
+				break;
+			}
+
+			CP_Graphics_DrawRect(target.x, target.y, cam->camZoom * _boss->size, cam->camZoom * _boss->size);
+		}
+	}
+}
+
 void RenderEnemy_StageOne()
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -320,6 +383,7 @@ void RenderAttackAll()
 }
 void RenderAll()
 {
+	RenderBossShadow(&elite);
 	RenderEnemyAll();
 	RenderAttackAll();
 	// 보스 렌더링
@@ -340,7 +404,3 @@ void RenderAll()
 	// 타이머 UI
 	DefaultTimerUI();
 }
-
-
-
-

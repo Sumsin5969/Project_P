@@ -19,6 +19,7 @@ void CheckGameState();
 void CheckPlayerState();
 
 void SavePlayerPos();
+void SaveEnemyPos();
 void InitEnemies();
 void InitAll();
 
@@ -30,6 +31,9 @@ PlayerCharacter* player;
 
 CP_Vector pcShadow[100]; // 잔상용
 int shadowIndex;
+
+CP_Vector enemyShadow[100];
+int enemyShadowIndex;
 
 extern Obstacle wall[MAX];
 

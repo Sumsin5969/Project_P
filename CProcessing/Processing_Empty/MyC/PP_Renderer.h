@@ -30,6 +30,7 @@ void RenderEnemyAll();
 void RenderAttackAll();
 
 void RenderBoss(Boss*);
+void RenderBossShadow(Boss*);
 
 void RenderAll();
 void StageTimer();

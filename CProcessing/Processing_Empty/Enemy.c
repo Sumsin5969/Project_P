@@ -254,7 +254,7 @@ void EnemyInit_StageFive(Boss* _elite)
 	_elite->dashTimeMax = .3f;
 	_elite->dashSpeedBoost = 30.f;
 	_elite->dashDelay = 0.f;
-	_elite->dashDelayMax = 2.f;
+	_elite->dashDelayMax = 1.f;
 	_elite->isDashing = 0;
 	_elite->spd = 0.f;
 	_elite->active = 0;
@@ -262,35 +262,6 @@ void EnemyInit_StageFive(Boss* _elite)
 	_elite->unitType = ENEMYCHARACTER;
 }
 
-// 스테이지5 대쉬하는 적 움직임 구현
-void EnemyMove_StageFive(Boss* _elite)
-{
-	float dt = GetDt();
-	_elite->dashDelay += dt;
-	if (_elite->dashDelay >= _elite->dashDelayMax && !_elite->isDashing)
-	{
-		//대쉬 ㄱㄱ
-		_elite->isDashing = 1;
-		_elite->spd += _elite->dashSpeedBoost;
-		_elite->dashDir = CP_Vector_Subtract(player->pos, _elite->pos);
-		_elite->dashDir = CP_Vector_Normalize(_elite->dashDir);
-		_elite->dashDecayRate = _elite->dashSpeedBoost / _elite->dashTimeMax;
-	}
-	if (_elite->isDashing)
-	{
-		_elite->dashTime += dt;
-		_elite->spd -= dt * _elite->dashDecayRate;
-		_elite->pos.x += _elite->dashDir.x * _elite->spd;
-		_elite->pos.y += _elite->dashDir.y * _elite->spd;
-	}
-	if (_elite->dashTime >= _elite->dashTimeMax)
-	{
-		_elite->dashTime = 0.f;
-		_elite->dashDelay = 0.f;
-		_elite->isDashing = 0;
-		_elite->spd = 0.f;
-	}
-}
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
 void EnemyMove_StageOne(Enemy* _enemy)
 {
@@ -377,6 +348,44 @@ void EnemyMove_StageFour(Enemy* _enemy)
 			_enemy->enemyDestination = TOPLEFT;
 		}
 		break;
+	}
+}
+
+// 스테이지5 대쉬하는 적 움직임 구현
+void EnemyMove_StageFive(Boss* _elite)
+{
+	float dt = GetDt();
+	static float saveTimer = 0.f; // 잔상 남기기 타이머
+	_elite->dashDelay += dt;
+	if (_elite->dashDelay >= _elite->dashDelayMax && !_elite->isDashing)
+	{
+		//대쉬 ㄱㄱ
+		_elite->isDashing = 1;
+		_elite->spd += _elite->dashSpeedBoost;
+		_elite->dashDir = CP_Vector_Subtract(player->pos, _elite->pos);
+		_elite->dashDir = CP_Vector_Normalize(_elite->dashDir);
+		_elite->dashDecayRate = _elite->dashSpeedBoost / _elite->dashTimeMax;
+	}
+	if (_elite->isDashing)
+	{
+		saveTimer += dt;
+		if (saveTimer >= 0.03f)
+		{
+			SaveEnemyPos();
+			saveTimer = 0.f;
+		}
+		_elite->dashTime += dt;
+		_elite->spd -= dt * _elite->dashDecayRate;
+		_elite->pos.x += _elite->dashDir.x * _elite->spd;
+		_elite->pos.y += _elite->dashDir.y * _elite->spd;
+	}
+	if (_elite->dashTime >= _elite->dashTimeMax)
+	{
+		enemyShadowIndex = 0;
+		_elite->dashTime = 0.f;
+		_elite->dashDelay = 0.f;
+		_elite->isDashing = 0;
+		_elite->spd = 0.f;
 	}
 }
 

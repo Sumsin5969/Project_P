@@ -168,6 +168,12 @@ void SavePlayerPos()
 	shadowIndex++;
 }
 
+void SaveEnemyPos()
+{
+	enemyShadow[enemyShadowIndex] = elite.pos;
+	enemyShadowIndex++;
+}
+
 // 스테이지1 업데이트 관리
 void Update_StageOne()
 {
