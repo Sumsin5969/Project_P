@@ -199,7 +199,7 @@ void Update_StageTwo()
 		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			CheckEnemy(&enemies[StageTwo][i]);
-			CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+			CreateLaser_StageTwo(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 			CheckLaser(&Lasers_StageTwo[i]);
 			LaserAttack(&Lasers_StageTwo[i]);
 		}

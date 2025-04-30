@@ -13,25 +13,38 @@ static float pulse = 0.f;
 static int shrinking = 1;
 const float PERIOD = 1.f;
 
-void EnemyInit_BossStage(Boss* _boss)
+void EnemyInit_StageBoss(Boss* _boss)
 {
-	//CamInfo* cam = GetCamera();
-	//float z = cam->camZoom;
-
-	// 화면 경계(스크린 좌표) → 월드 좌표 역변환
-	//float worldLeft = (0 - cam->camPos.x) / z;
-	//float worldRight = (WIDTH - cam->camPos.x) / z;
-	//float worldTop = (HEIGHT - cam->camPos.y) / z;
-	//float worldBottom = (0 - cam->camPos.y) / z;
-
 	_boss->pos.x = 50.f;
 	_boss->pos.y = 0.f;
+	_boss->spd = 0.f;
+	_boss->dashTime = 0.f;
+	_boss->dashTimeMax = 0.3f;
+	_boss->dashSpeedBoost = 10.f;
+	_boss->dashDelay = 0.f;
+	_boss->dashDelayMax = 3.f;
 	_boss->fireTime = 0.f;
-	_boss->fireDelay = 2.f;
-	_boss->size = 200.f;
+	_boss->fireDelay = 0.2f;
+	_boss->size = 500.f;
 	_boss->active = 0;
 	_boss->sniper = 0;
 	_boss->unitType = BOSSCHARACTER;
+}
+
+void BossStage(Boss* _boss)
+{
+	float dt = GetDt();
+	static float appearTimer = 0.f;
+	float appearTimeMax = 3.f;
+	if (appearTimer <= appearTimeMax)
+	{
+		appearTimer += dt;
+
+	}
+	if (appearTimer >= appearTimeMax)
+	{
+		_boss->active = 1;
+	}
 }
 
 // 스테이지 1 적과 탄환 초기화
@@ -278,54 +291,14 @@ void EnemyInit_StageSix(Enemy* _enemy)
 	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
 		Bullets_StageSix[i].projPos = _enemy->pos;
-		Bullets_StageSix[i].projSpd = 700.f;
+		Bullets_StageSix[i].projSpd = 2500.f;
 		Bullets_StageSix[i].active = 0;
 		Bullets_StageSix[i].size = _enemy->size / 3;
 		Bullets_StageSix[i].sniper = 0;
 	}
 }
 
-void EnemyMove_StageSix(Enemy* _enemy)
-{
-	float dt = GetDt() * _enemy->spd;
-	float leftEnd = -2200.f;
-	float rightEnd = 2200.f;
-	float topEnd = -1200.f;
-	float bottomEnd = 1200.f;
-	switch (_enemy->enemyDestination)
-	{
-	case TOPLEFT:
-		_enemy->pos.y += dt;
-		if (_enemy->pos.y >= bottomEnd)
-		{
-			_enemy->enemyDestination = BOTTOMLEFT;
-		}
-		break;
-	case BOTTOMLEFT:
-		_enemy->pos.x += dt;
-		if (_enemy->pos.x >= rightEnd)
-		{
-			_enemy->enemyDestination = BOTTOMRIGHT;
-		}
-		break;
-	case BOTTOMRIGHT:
-		_enemy->pos.y -= dt;
-		if (_enemy->pos.y <= topEnd)
-		{
-			_enemy->enemyDestination = TOPRIGHT;
-		}
-		break;
-	case TOPRIGHT:
-		_enemy->pos.x -= dt;
-		if (_enemy->pos.x <= leftEnd)
-		{
-			_enemy->enemyDestination = TOPLEFT;
-		}
-		break;
-	}
-}
-
-// Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
+// 스테이지 1 적 반시계 방향으로 지속적으로 이동
 void EnemyMove_StageOne(Enemy* _enemy)
 {
 	float dt = GetDt() * (_enemy->spd);
@@ -366,7 +339,7 @@ void EnemyMove_StageOne(Enemy* _enemy)
 	}
 }
 
-// 스테이지4 적 움직임 담당 함수
+// 스테이지4 적 대각선으로 움직이는 함수
 void EnemyMove_StageFour(Enemy* _enemy)
 {
 	float dt = GetDt() * (_enemy->spd);
@@ -413,12 +386,13 @@ void EnemyMove_StageFour(Enemy* _enemy)
 	}
 }
 
-// 스테이지5 대쉬하는 적 움직임 구현
+// 스테이지5 적 대쉬 함수
 void EnemyMove_StageFive(Boss* _elite)
 {
 	float dt = GetDt();
 	static float saveEnemyShadowTimer = 0.f; // 잔상 남기기 타이머
 	_elite->dashDelay += dt;
+
 	if (_elite->dashDelay >= _elite->dashDelayMax && !_elite->isDashing)
 	{
 		//대쉬 ㄱㄱ
@@ -428,26 +402,70 @@ void EnemyMove_StageFive(Boss* _elite)
 		_elite->dashDir = CP_Vector_Normalize(_elite->dashDir);
 		_elite->dashDecayRate = _elite->dashSpeedBoost / _elite->dashTimeMax;
 	}
+
 	if (_elite->isDashing)
 	{
 		saveEnemyShadowTimer += dt;
+
 		if (saveEnemyShadowTimer >= 0.03f)
 		{
 			SaveEnemyPos();
 			saveEnemyShadowTimer = 0.f;
 		}
 		_elite->dashTime += dt;
-		_elite->spd -= dt * _elite->dashDecayRate;
 		_elite->pos.x += _elite->dashDir.x * _elite->spd;
 		_elite->pos.y += _elite->dashDir.y * _elite->spd;
+		_elite->spd -= dt * _elite->dashDecayRate;
+
+		if (_elite->dashTime >= _elite->dashTimeMax)
+		{
+			enemyShadowIndex = 0;
+			_elite->dashTime = 0.f;
+			_elite->dashDelay = 0.f;
+			_elite->isDashing = 0;
+			_elite->spd = 0.f;
+		}
 	}
-	if (_elite->dashTime >= _elite->dashTimeMax)
+}
+
+// 스테이지6 적 움직이는 함수
+void EnemyMove_StageSix(Enemy* _enemy)
+{
+	float dt = GetDt() * _enemy->spd;
+	float leftEnd = -2200.f;
+	float rightEnd = 2200.f;
+	float topEnd = -1200.f;
+	float bottomEnd = 1200.f;
+	switch (_enemy->enemyDestination)
 	{
-		enemyShadowIndex = 0;
-		_elite->dashTime = 0.f;
-		_elite->dashDelay = 0.f;
-		_elite->isDashing = 0;
-		_elite->spd = 0.f;
+	case TOPLEFT:
+		_enemy->pos.y += dt;
+		if (_enemy->pos.y >= bottomEnd)
+		{
+			_enemy->enemyDestination = BOTTOMLEFT;
+		}
+		break;
+	case BOTTOMLEFT:
+		_enemy->pos.x += dt;
+		if (_enemy->pos.x >= rightEnd)
+		{
+			_enemy->enemyDestination = BOTTOMRIGHT;
+		}
+		break;
+	case BOTTOMRIGHT:
+		_enemy->pos.y -= dt;
+		if (_enemy->pos.y <= topEnd)
+		{
+			_enemy->enemyDestination = TOPRIGHT;
+		}
+		break;
+	case TOPRIGHT:
+		_enemy->pos.x -= dt;
+		if (_enemy->pos.x <= leftEnd)
+		{
+			_enemy->enemyDestination = TOPLEFT;
+		}
+		break;
 	}
 }
 
@@ -470,10 +488,6 @@ void BulletConditioner(Enemy* e, Bullet* b)
 }
 
 // 발사 시점 플레이어 위치로 직진하는 탄환 발사
-// 탄환의 position 업데이트
-// e: 탄환의 origin position, 발사 방향을 구하기 위한 Enemy 정보
-// b: Enemy.c에서 초기화한 탄환 배열: 탄환의 position 업데이트, position 기반 렌더링에 사용할
-//탄환 정보
 void DirectBulletFire(Enemy* e, Bullet* b)
 {
 	float dt = GetDt();
@@ -639,8 +653,9 @@ void LaserAttack(Laser* laser)
 
 	}
 }
+
 // 레이저 위치 설정해주는 함수
-void CreateLaser(Enemy* e, Laser* laser)
+void CreateLaser_StageTwo(Enemy* e, Laser* laser)
 {
 	CamInfo* cam = GetCamera();
 	float z = cam->camZoom;

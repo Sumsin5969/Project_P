@@ -132,7 +132,7 @@ void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void CircleBulletFire(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
 
-void CreateLaser(Enemy*, Laser*);
+void CreateLaser_StageTwo(Enemy*, Laser*);
 void LaserAttack(Laser*);
 
 void EnableBoss(Boss*);

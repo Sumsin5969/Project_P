@@ -23,7 +23,7 @@ void PlayStageDownSound()
 	if (soundPlaying == FALSE)
 	{
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
-		CP_Sound_PlayAdvanced(stageDownSound, 5, 1, FALSE, CP_SOUND_GROUP_SFX);
+		CP_Sound_PlayAdvanced(stageDownSound, 3, 1, FALSE, CP_SOUND_GROUP_SFX);
 		soundPlaying = TRUE;
 	}
 	else
