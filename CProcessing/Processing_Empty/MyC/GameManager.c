@@ -13,9 +13,6 @@
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
 
-//Obstacle* obstacle;
-//BossCharacter* boss;
-
 void InitGameManager()
 {
 	InitCamera();
