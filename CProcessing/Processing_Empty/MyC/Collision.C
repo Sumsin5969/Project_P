@@ -264,7 +264,7 @@ void CheckEnemy(Enemy* _enemy) // AABB - Circle collision
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		if (player->playerState != INVINCIBLE)
+		if (player->playerState == NORMAL)
 		{
 			_enemy->sniper = 1;
 
@@ -299,7 +299,7 @@ void CheckBoss(Boss* _boss) // AABB - Circle collision
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		if (player->playerState != INVINCIBLE)
+		if (player->playerState == NORMAL)
 		{
 			_boss->sniper = 1;
 

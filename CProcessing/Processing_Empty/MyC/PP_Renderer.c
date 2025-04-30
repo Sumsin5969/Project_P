@@ -111,16 +111,19 @@ void RenderPlayer()
 		invincibleColorIndex++;
 
 		if (100 < invincibleColorIndex) invincibleColorIndex = 0;
-
+		
 		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 		CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
 
 		return;
 	}
-
 	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
-
+	if (!player->isDashing)
+	{
+		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * (player->size / 2.f));
+	}
 }
 
 

@@ -355,7 +355,7 @@ void EnemyMove_StageFour(Enemy* _enemy)
 void EnemyMove_StageFive(Boss* _elite)
 {
 	float dt = GetDt();
-	static float saveTimer = 0.f; // 잔상 남기기 타이머
+	static float saveEnemyShadowTimer = 0.f; // 잔상 남기기 타이머
 	_elite->dashDelay += dt;
 	if (_elite->dashDelay >= _elite->dashDelayMax && !_elite->isDashing)
 	{
@@ -368,11 +368,11 @@ void EnemyMove_StageFive(Boss* _elite)
 	}
 	if (_elite->isDashing)
 	{
-		saveTimer += dt;
-		if (saveTimer >= 0.03f)
+		saveEnemyShadowTimer += dt;
+		if (saveEnemyShadowTimer >= 0.03f)
 		{
 			SaveEnemyPos();
-			saveTimer = 0.f;
+			saveEnemyShadowTimer = 0.f;
 		}
 		_elite->dashTime += dt;
 		_elite->spd -= dt * _elite->dashDecayRate;
