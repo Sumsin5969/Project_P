@@ -24,6 +24,8 @@ void RenderBullet_StageThree();
 
 void RenderEnemy_StageFour();
 
+void RenderEnemy_StageFive();
+
 void RenderEnemyAll();
 void RenderAttackAll();
 

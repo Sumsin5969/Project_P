@@ -5,7 +5,7 @@
 #define WALLHEIGHTSIZE 20
 #define MAX_ENEMIES 4
 #define MAX_CIRCLE_ENEMIES 4
-#define MAX_BULLETS_PER_ENEMY 30
+#define MAX_BULLETS_PER_ENEMY 20
 #define CLIP 10
 #define STAGECLEARTIME 30
 #define ZOOMSPEED 1
@@ -27,8 +27,8 @@ typedef enum UnitType
 {
 	PLAYERCHARACTER = 0,
 	ENEMYCHARACTER,
-	OBSTACLE,
 	BOSSCHARACTER,
+	OBSTACLE,
 } UnitType;
 
 typedef enum PlayerState
@@ -55,6 +55,7 @@ typedef enum StageState
 	StageTwo,
 	StageThree,
 	StageFour,
+	StageFive,
 	StageLastIndex,
 	StageBoss,
 } StageState;

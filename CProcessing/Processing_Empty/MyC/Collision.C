@@ -31,7 +31,6 @@ void CheckBullet(Bullet* _bullet)
 			{
 				_bullet[i].sniper = 1;
 				player->playerState = HIT;
-				printf("플레이어 쳐맞음");
 			}
 		}
 	}
@@ -63,8 +62,6 @@ void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		printf("장애물과 충돌!.\n");
-
 		if (player->playerState == NORMAL)
 		{
 			_obstacle->sniper = 1;
@@ -102,8 +99,6 @@ void CheckLaser(Laser* _laser)
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		printf("레이저에 캐릭터가 아파한다!.\n");
-
 		if (player->playerState == NORMAL)
 		{
 			_laser->sniper = 1;
@@ -139,7 +134,6 @@ void CheckWall(Obstacle* _obstacle)
 		case WALL_LEFT:
 			if (playerLeft < wallLeft)
 			{
-				printf("왼쪽벽에 부딪힘\n");
 				if (player->playerState == NORMAL)
 				{
 					_obstacle->sniper = 1;
@@ -151,7 +145,6 @@ void CheckWall(Obstacle* _obstacle)
 		case WALL_RIGHT:
 			if (wallRight < playerRight)
 			{
-				printf("오른쪽벽에 부딪힘\n");
 				if (player->playerState == NORMAL)
 				{
 					_obstacle->sniper = 1;
@@ -162,7 +155,6 @@ void CheckWall(Obstacle* _obstacle)
 		case WALL_TOP:
 			if (playerTop < wallTop)
 			{
-				printf("위쪽벽에 부딪힘\n");
 				if (player->playerState == NORMAL)
 				{
 					_obstacle->sniper = 1;
@@ -173,7 +165,6 @@ void CheckWall(Obstacle* _obstacle)
 		case WALL_BOTTOM:
 			if (wallBottom < playerBottom)
 			{
-				printf("아래벽에 부딪힘\n");
 				if (player->playerState == NORMAL)
 				{
 					_obstacle->sniper = 1;
@@ -273,8 +264,6 @@ void CheckEnemy(Enemy* _enemy) // AABB - Circle collision
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		printf("적과 충돌!.\n");
-
 		if (player->playerState != INVINCIBLE)
 		{
 			_enemy->sniper = 1;
@@ -310,8 +299,6 @@ void CheckBoss(Boss* _boss) // AABB - Circle collision
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
-		printf("적과 충돌!.\n");
-
 		if (player->playerState != INVINCIBLE)
 		{
 			_boss->sniper = 1;

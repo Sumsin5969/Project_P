@@ -5,28 +5,46 @@
 typedef struct Enemy
 {
 	CP_Vector pos;
+	EnemyDestination enemyDestination; // 현재 위치
 	float spd;
+
 	float fireTime;// 쿨타임
 	float fireDelay;// 쿨타임 cap
+	int magazine; // 탄창
+
 	float size;
 	float oriSize;
-	int magazine; // 탄창
+
 	int active;
-	EnemyDestination enemyDestination; // 현재 위치
+
 	UnitType unitType;
 	int sniper; // 플레이어와 충돌한 적
-
 } Enemy;
 
 typedef struct Boss
 {
 	CP_Vector pos;
-	float fireTime;// 쿨타임
-	float fireDelay;// 쿨타임 cap
+
+	CP_Vector dashDir;
+	float dashTime;
+	float dashTimeMax;
+	float dashDecayRate;
+	float dashSpeedBoost;
+	float dashDelay;
+	float dashDelayMax;
+	int isDashing;
+
+	float spd;
+
+	float fireTime;
+	float fireDelay;
+
 	float size;
+
 	int active;
-	int sniper;
+
 	UnitType unitType;
+	int sniper;
 } Boss;
 
 typedef struct Bullet
@@ -34,12 +52,16 @@ typedef struct Bullet
 	CP_Vector projPos;// 투사체 좌표
 	float projSpd;// 투사체 속도
 	float projTime;// 투사체 지속시간
+
 	float degree;
 	float fireAngle; // 여기부터 렌더러에서 조절
 	CP_Vector fireDir;
-	int active;
-	float size;
 	CP_Vector direction;
+
+	float size;
+
+	int active;
+
 	int sniper; // 플레이어와 충돌한 미사일
 } Bullet;
 
@@ -76,7 +98,8 @@ typedef struct Laser
 } Laser;
 
 Boss boss;
-Enemy enemies[StageLastIndex/*Stage Number*/][MAX_ENEMIES/*Enemy Count*/];
+Boss elite;
+Enemy enemies[StageLastIndex][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
@@ -91,6 +114,9 @@ void LaserInit_StageTwo(Laser*);
 void EnemyInit_StageThree(Enemy*);
 
 void EnemyInit_StageFour(Enemy*);
+
+void EnemyInit_StageFive(Boss*);
+void EnemyMove_StageFive(Boss*);
 
 void EnemyMove_StageOne(Enemy*);
 void EnemyMove_StageFour(Enemy*);

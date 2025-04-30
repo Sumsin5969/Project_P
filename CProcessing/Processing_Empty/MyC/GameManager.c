@@ -62,7 +62,7 @@ void GMUpdate()
 
 void GMLateUpdate()
 {
-	CP_Graphics_ClearBackground(CP_Color_Create(15, 15, 15, 0));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
 
 	RenderAll();
 
@@ -71,6 +71,7 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
+	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite);
 }
 
 void FreeAll()
@@ -158,6 +159,7 @@ void InitEnemies()
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 	EnemyInit_StageThree(enemies[StageThree]);
 	EnemyInit_StageFour(enemies[StageFour]);
+	EnemyInit_StageFive(&elite);
 	EnemyInit_BossStage(&boss);
 }
 
@@ -241,6 +243,15 @@ void Update_StageFour()
 	}
 }
 
+void Update_StageFive()
+{
+	if (stageState >= StageFive)
+	{
+		CheckBoss(&elite);
+		EnemyMove_StageFive(&elite);
+	}
+}
+
 // 보스 스테이지 관리
 void Update_StageBoss()
 {
@@ -265,5 +276,6 @@ void Update_Enemy()
 	Update_StageTwo();
 	Update_StageThree();
 	Update_StageFour();
+	Update_StageFive();
 	Update_StageBoss();
 }

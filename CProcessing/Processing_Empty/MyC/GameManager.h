@@ -37,5 +37,6 @@ void Update_StageOne();
 void Update_StageTwo();
 void Update_StageThree();
 void Update_StageFour();
+void Update_StageFive();
 void Update_StageBoss();
 void Update_Enemy();

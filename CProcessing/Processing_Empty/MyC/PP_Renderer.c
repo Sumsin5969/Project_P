@@ -298,19 +298,25 @@ void RenderEnemy_StageFour()
 	}
 }
 
+void RenderEnemy_StageFive()
+{
+	RenderBoss(&elite);
+}
+
 void RenderEnemyAll()
 {
-	RenderEnemy_StageOne();
-	RenderEnemy_StageTwo();
-	RenderEnemy_StageThree();
+	RenderEnemy_StageFive();
 	RenderEnemy_StageFour();
+	RenderEnemy_StageThree();
+	RenderEnemy_StageTwo();
+	RenderEnemy_StageOne();
 }
 
 void RenderAttackAll()
 {
-	RenderBullet_StageOne();
-	RenderLaser_StageTwo();
 	RenderBullet_StageThree();
+	RenderLaser_StageTwo();
+	RenderBullet_StageOne();
 }
 void RenderAll()
 {

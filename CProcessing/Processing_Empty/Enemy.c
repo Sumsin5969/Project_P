@@ -26,6 +26,8 @@ void EnemyInit_BossStage(Boss* _boss)
 
 	_boss->pos.x = 50.f;
 	_boss->pos.y = 0.f;
+	_boss->fireTime = 0.f;
+	_boss->fireDelay = 2.f;
 	_boss->size = 200.f;
 	_boss->active = 0;
 	_boss->sniper = 0;
@@ -169,20 +171,20 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		switch (i)
 		{
 		case 0:
-			_enemy[i].pos.x = -1310;
-			_enemy[i].pos.y = -710;
+			_enemy[i].pos.x = -1330;
+			_enemy[i].pos.y = -715;
 			break;
 		case 1:
-			_enemy[i].pos.x = -1310;
-			_enemy[i].pos.y = 710;
+			_enemy[i].pos.x = -1330;
+			_enemy[i].pos.y = 715;
 			break;
 		case 2:
-			_enemy[i].pos.x = 1310;
-			_enemy[i].pos.y = -710;
+			_enemy[i].pos.x = 1330;
+			_enemy[i].pos.y = -715;
 			break;
 		case 3:
-			_enemy[i].pos.x = 1310;
-			_enemy[i].pos.y = 710;
+			_enemy[i].pos.x = 1330;
+			_enemy[i].pos.y = 715;
 			break;
 		}
 		for (int j = 0; j < CLIP; j++)
@@ -201,7 +203,7 @@ void EnemyInit_StageThree(Enemy* _enemy)
 	}
 }
 
-// 스테이지 3 적과 탄환 초기화
+// 스테이지 4 적과 탄환 초기화
 void EnemyInit_StageFour(Enemy* _enemy)
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -215,6 +217,7 @@ void EnemyInit_StageFour(Enemy* _enemy)
 		_enemy[i].oriSize = ((50.f * 1.25f) * 1.25f) * 1.25f;
 		_enemy[i].spd = 200.f;
 		_enemy[i].sniper = 0;
+		_enemy[i].unitType = ENEMYCHARACTER;
 		switch (i)
 		{
 		case 0:
@@ -238,6 +241,54 @@ void EnemyInit_StageFour(Enemy* _enemy)
 			_enemy[i].enemyDestination = BOTTOMRIGHT;
 			break;
 		}
+	}
+}
+
+// 스테이지 5 적 초기화
+void EnemyInit_StageFive(Boss* _elite)
+{
+	_elite->pos.x = 1900.f;
+	_elite->pos.y = 0.f;
+	_elite->size = 50.f * (float)pow(1.25, 4);
+	_elite->dashTime = 0.f;
+	_elite->dashTimeMax = .3f;
+	_elite->dashSpeedBoost = 30.f;
+	_elite->dashDelay = 0.f;
+	_elite->dashDelayMax = 2.f;
+	_elite->isDashing = 0;
+	_elite->spd = 0.f;
+	_elite->active = 0;
+	_elite->sniper = 0;
+	_elite->unitType = ENEMYCHARACTER;
+}
+
+// 스테이지5 대쉬하는 적 움직임 구현
+void EnemyMove_StageFive(Boss* _elite)
+{
+	float dt = GetDt();
+	_elite->dashDelay += dt;
+	if (_elite->dashDelay >= _elite->dashDelayMax && !_elite->isDashing)
+	{
+		//대쉬 ㄱㄱ
+		_elite->isDashing = 1;
+		_elite->spd += _elite->dashSpeedBoost;
+		_elite->dashDir = CP_Vector_Subtract(player->pos, _elite->pos);
+		_elite->dashDir = CP_Vector_Normalize(_elite->dashDir);
+		_elite->dashDecayRate = _elite->dashSpeedBoost / _elite->dashTimeMax;
+	}
+	if (_elite->isDashing)
+	{
+		_elite->dashTime += dt;
+		_elite->spd -= dt * _elite->dashDecayRate;
+		_elite->pos.x += _elite->dashDir.x * _elite->spd;
+		_elite->pos.y += _elite->dashDir.y * _elite->spd;
+	}
+	if (_elite->dashTime >= _elite->dashTimeMax)
+	{
+		_elite->dashTime = 0.f;
+		_elite->dashDelay = 0.f;
+		_elite->isDashing = 0;
+		_elite->spd = 0.f;
 	}
 }
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
@@ -347,6 +398,33 @@ void BulletConditioner(Enemy* e, Bullet* b)
 	}
 }
 
+// 발사 시점 플레이어 위치로 직진하는 탄환 발사
+// 탄환의 position 업데이트
+// e: 탄환의 origin position, 발사 방향을 구하기 위한 Enemy 정보
+// b: Enemy.c에서 초기화한 탄환 배열: 탄환의 position 업데이트, position 기반 렌더링에 사용할
+//탄환 정보
+void DirectBulletFire(Enemy* e, Bullet* b)
+{
+	float dt = GetDt();
+
+	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
+	{
+		if (!b[i].active)
+		{
+			b[i].projPos.x = e->pos.x;
+			b[i].projPos.y = e->pos.y;
+			b[i].fireDir = CP_Vector_Subtract(player->pos, e->pos);
+			// 방향 정규화 할 거임
+			b[i].direction = CP_Vector_Normalize(b[i].fireDir);
+		}
+		if (b[i].active)
+		{
+			b[i].projPos.x += b[i].projSpd * b[i].direction.x * dt;
+			b[i].projPos.y += b[i].projSpd * b[i].direction.y * dt;
+		}
+	}
+}
+
 // 위 함수와 비슷한 역할: 방사형 투사체에 사용됨
 void CircleBulletConditioner(Enemy* e, Bullet b[CLIP][MAX_BULLETS_PER_ENEMY])
 {
@@ -418,32 +496,6 @@ void CircleBulletFire(Enemy* e, Bullet b[CLIP][MAX_BULLETS_PER_ENEMY])
 	}
 }
 
-// 발사 시점 플레이어 위치로 직진하는 탄환 발사
-// 탄환의 position 업데이트
-// e: 탄환의 origin position, 발사 방향을 구하기 위한 Enemy 정보
-// b: Enemy.c에서 초기화한 탄환 배열: 탄환의 position 업데이트, position 기반 렌더링에 사용할
-//탄환 정보
-void DirectBulletFire(Enemy* e, Bullet* b)
-{
-	float dt = GetDt();
-
-	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
-	{
-		if (!b[i].active)
-		{
-			b[i].projPos.x = e->pos.x;
-			b[i].projPos.y = e->pos.y;
-			b[i].fireDir = CP_Vector_Subtract(player->pos, e->pos);
-			// 방향 정규화 할 거임
-			b[i].direction = CP_Vector_Normalize(b[i].fireDir);
-		}
-		if (b[i].active)
-		{
-			b[i].projPos.x += b[i].projSpd * b[i].direction.x * dt;
-			b[i].projPos.y += b[i].projSpd * b[i].direction.y * dt;
-		}
-	}
-}
 void LaserAttack(Laser* laser)
 {
 	float dt = GetDt();
