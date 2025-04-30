@@ -115,6 +115,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	ZoomInSlightly(delta * (t / 2 * t / 2));
 
+	CameraShaking();
 	/*CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);*/
 
@@ -125,8 +126,16 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		ZoomInForce();
 
 		InitAll();
+		ResetCameraShakeTime();
 
-		SetGameState(Play);
+		if (stageState < StageOne)
+		{
+			InitAll();
+			InitCamera();
+			SetGameState(GameOver);
+		}
+		else SetGameState(Play);
+
 	}
 
 }

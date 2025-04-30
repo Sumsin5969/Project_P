@@ -9,7 +9,7 @@ CamInfo* cam;
 
 float targetZoomSize = 1;
 float nowZoomSize;
-float cameraShakeTimer = 1;
+float cameraShakeTimer = 0;
 float shakingTime = 0.5f;
 int shakeIndex = 0;
 
