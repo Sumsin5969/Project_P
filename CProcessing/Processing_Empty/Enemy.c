@@ -78,7 +78,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 			Bullets_StageOne[i][j].projSpd = 300.f;
 			Bullets_StageOne[i][j].projTime = 0.f;
 			Bullets_StageOne[i][j].active = 0;
-			Bullets_StageOne[i][j].size = 15.f;
+			Bullets_StageOne[i][j].size = _enemy->size / 3;
 			Bullets_StageOne[i][j].sniper = 0;
 		}
 	}
@@ -163,8 +163,8 @@ void EnemyInit_StageThree(Enemy* _enemy)
 		_enemy[i].spd = 0.f;
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].fireDelay = 5.f;
-		_enemy[i].size = (50.f * 1.25f) * 1.25f;
-		_enemy[i].oriSize = (50.f * 1.25f) * 1.25f;
+		_enemy[i].size = 50.f * 1.25f * 1.25f;
+		_enemy[i].oriSize = 50.f * 1.25f * 1.25f;
 		_enemy[i].magazine = 0;
 		_enemy[i].active = 0;
 		_enemy[i].sniper = 0;
@@ -213,8 +213,8 @@ void EnemyInit_StageFour(Enemy* _enemy)
 		_enemy[i].fireTime = 0.f;
 		_enemy[i].pos.x = 0.f;
 		_enemy[i].pos.y = 0.f;
-		_enemy[i].size = ((50.f * 1.25f) * 1.25f) * 1.25f;
-		_enemy[i].oriSize = ((50.f * 1.25f) * 1.25f) * 1.25f;
+		_enemy[i].size = 50.f * 1.25f * 1.25f * 1.25f;
+		_enemy[i].oriSize = 50.f * 1.25f * 1.25f * 1.25f;
 		_enemy[i].spd = 200.f;
 		_enemy[i].sniper = 0;
 		_enemy[i].unitType = ENEMYCHARACTER;
@@ -250,6 +250,7 @@ void EnemyInit_StageFive(Boss* _elite)
 	_elite->pos.x = 1900.f;
 	_elite->pos.y = 0.f;
 	_elite->size = 50.f * (float)pow(1.25, 4);
+	_elite->oriSize = 50.f * (float)pow(1.25, 4);
 	_elite->dashTime = 0.f;
 	_elite->dashTimeMax = .3f;
 	_elite->dashSpeedBoost = 30.f;
@@ -260,6 +261,66 @@ void EnemyInit_StageFive(Boss* _elite)
 	_elite->active = 0;
 	_elite->sniper = 0;
 	_elite->unitType = ENEMYCHARACTER;
+}
+
+//스테이지 6 적 초기화
+void EnemyInit_StageSix(Boss* _elite)
+{
+	_elite->pos.x = -2000.f;
+	_elite->pos.y = -1000.f;
+	_elite->enemyDestination = TOPLEFT;
+	_elite->spd = 10.f;
+	_elite->fireTime = 0.f;
+	_elite->fireDelay = 3.f;
+	_elite->size = 50.f * (float)pow(1.25, 5);
+	_elite->oriSize = 50.f * (float)pow(1.25, 5);
+	_elite->magazine = 0;
+	_elite->active = 0;
+	_elite->sniper = 0;			
+	Bullets_StageSix->projSpd = 700.f;
+	Bullets_StageSix->active = 0;
+	Bullets_StageSix->size = _elite->size / 3;
+	Bullets_StageSix->sniper = 0;
+}
+
+void EnemyMove_StageSix(Boss* _elite)
+{
+	float dt = GetDt() * (_elite->spd);
+	float leftEnd = -835.f;
+	float rightEnd = 835.f;
+	float topEnd = -450.f;
+	float bottomEnd = 450.f;
+	switch (_elite->enemyDestination)
+	{
+	case TOPLEFT:
+		_elite->pos.y += dt;
+		if (_elite->pos.y >= bottomEnd)
+		{
+			_elite->enemyDestination = BOTTOMLEFT;
+		}
+		break;
+	case BOTTOMLEFT:
+		_elite->pos.x += dt * (17.f / 9.f);
+		if (_elite->pos.x >= rightEnd)
+		{
+			_elite->enemyDestination = BOTTOMRIGHT;
+		}
+		break;
+	case BOTTOMRIGHT:
+		_elite->pos.y -= dt;
+		if (_elite->pos.y <= topEnd)
+		{
+			_elite->enemyDestination = TOPRIGHT;
+		}
+		break;
+	case TOPRIGHT:
+		_elite->pos.x -= dt * (17.f / 9.f);
+		if (_elite->pos.x <= leftEnd)
+		{
+			_elite->enemyDestination = TOPLEFT;
+		}
+		break;
+	}
 }
 
 // Enemy를 움직여주는 함수: 반시계 방향으로 Enemy를 지속적으로 이동
@@ -274,7 +335,6 @@ void EnemyMove_StageOne(Enemy* _enemy)
 	{
 	case TOPLEFT:
 		_enemy->pos.y += dt;
-		// Zoom level 1에서 BOTTOMLEFT 적의 y좌표가 450이라서 거기까지 이동
 		if (_enemy->pos.y >= bottomEnd)
 		{
 			_enemy->enemyDestination = BOTTOMLEFT;

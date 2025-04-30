@@ -24,7 +24,8 @@ typedef struct Enemy
 typedef struct Boss
 {
 	CP_Vector pos;
-
+	EnemyDestination enemyDestination;
+	float spd;
 	CP_Vector dashDir;
 	float dashTime;
 	float dashTimeMax;
@@ -34,12 +35,13 @@ typedef struct Boss
 	float dashDelayMax;
 	int isDashing;
 
-	float spd;
 
 	float fireTime;
 	float fireDelay;
+	int magazine;
 
 	float size;
+	float oriSize;
 
 	int active;
 
@@ -98,15 +100,18 @@ typedef struct Laser
 } Laser;
 
 Boss boss;
-Boss elite;
+Boss elite_StageFive;
+Boss elite_StageSix;
 Enemy enemies[StageLastIndex][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
 void EnemyInit_BossStage(Boss*);
 
 void EnemyInit_StageOne(Enemy*);
+void EnemyMove_StageOne(Enemy*);
 
 void EnemyInit_StageTwo(Enemy*, Laser*);
 void LaserInit_StageTwo(Laser*);
@@ -114,12 +119,13 @@ void LaserInit_StageTwo(Laser*);
 void EnemyInit_StageThree(Enemy*);
 
 void EnemyInit_StageFour(Enemy*);
+void EnemyMove_StageFour(Enemy*);
 
 void EnemyInit_StageFive(Boss*);
 void EnemyMove_StageFive(Boss*);
 
-void EnemyMove_StageOne(Enemy*);
-void EnemyMove_StageFour(Enemy*);
+void EnemyInit_StageSix(Boss*);
+
 
 void BulletConditioner(Enemy*, Bullet*);
 void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);

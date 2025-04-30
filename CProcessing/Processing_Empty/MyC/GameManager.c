@@ -72,7 +72,7 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
-	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite);
+	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite_StageFive);
 	if (CP_Input_KeyTriggered(KEY_M)) CP_Sound_Play(titleBGM);
 }
 
@@ -152,7 +152,8 @@ void InitEnemies()
 	EnemyInit_StageTwo(enemies[StageTwo], Lasers_StageTwo);
 	EnemyInit_StageThree(enemies[StageThree]);
 	EnemyInit_StageFour(enemies[StageFour]);
-	EnemyInit_StageFive(&elite);
+	EnemyInit_StageFive(&elite_StageFive);
+
 	EnemyInit_BossStage(&boss);
 }
 
@@ -172,7 +173,7 @@ void SavePlayerPos()
 
 void SaveEnemyPos()
 {
-	enemyShadow[enemyShadowIndex] = elite.pos;
+	enemyShadow[enemyShadowIndex] = elite_StageFive.pos;
 	enemyShadowIndex++;
 }
 
@@ -246,8 +247,8 @@ void Update_StageFive()
 {
 	if (stageState >= StageFive)
 	{
-		CheckBoss(&elite);
-		EnemyMove_StageFive(&elite);
+		CheckBoss(&elite_StageFive);
+		EnemyMove_StageFive(&elite_StageFive);
 	}
 }
 

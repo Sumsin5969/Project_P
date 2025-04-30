@@ -122,6 +122,7 @@ void RenderPlayer()
 	if (!player->isDashing)
 	{
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		CP_Settings_Fill(CP_Color_Create(36, 235, 50, 255));
 		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * (player->size / 2.f));
 	}
 }
@@ -366,7 +367,7 @@ void RenderEnemy_StageFour()
 
 void RenderEnemy_StageFive()
 {
-	RenderBoss(&elite);
+	RenderBoss(&elite_StageFive);
 }
 
 void RenderEnemyAll()
@@ -386,7 +387,7 @@ void RenderAttackAll()
 }
 void RenderAll()
 {
-	RenderBossShadow(&elite);
+	RenderBossShadow(&elite_StageFive);
 	RenderEnemyAll();
 	RenderAttackAll();
 	// 보스 렌더링
