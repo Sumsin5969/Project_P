@@ -151,7 +151,7 @@ void InitEnemies()
 	EnemyInit_StageFour(enemies[StageFour]);
 	EnemyInit_StageFive(&elite_StageFive);
 	EnemyInit_StageSix(&enemy_StageSix);
-	EnemyInit_BossStage(&boss);
+	//EnemyInit_BossStage(&boss);
 }
 
 void InitAll()

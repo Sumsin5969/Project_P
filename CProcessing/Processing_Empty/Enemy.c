@@ -33,19 +33,28 @@ void EnemyInit_StageBoss(Boss* _boss)
 
 void BossStage(Boss* _boss)
 {
-	float dt = GetDt();
-	static float appearTimer = 0.f;
-	float appearTimeMax = 3.f;
-	if (appearTimer <= appearTimeMax)
+	if (stageTime == 27.f)
 	{
-		appearTimer += dt;
-
-	}
-	if (appearTimer >= appearTimeMax)
-	{
-		_boss->active = 1;
+		DisableBoss(&boss);
 	}
 }
+
+
+//void BossStage(Boss* _boss)
+//{
+//	float dt = GetDt();
+//	static float appearTimer = 0.f;
+//	float appearTimeMax = 3.f;
+//	if (appearTimer <= appearTimeMax)
+//	{
+//		appearTimer += dt;
+//
+//	}
+//	if (appearTimer >= appearTimeMax)
+//	{
+//		_boss->active = 1;
+//	}
+//}
 
 // 스테이지 1 적과 탄환 초기화
 void EnemyInit_StageOne(Enemy* _enemy)
@@ -707,11 +716,11 @@ void CreateLaser_StageTwo(Enemy* e, Laser* laser)
 		laser->laserDirection == LD_RIGHT)
 	{
 		laser->laserWidth = len;
-		laser->laserHeight = e->size;
+		laser->laserHeight = e->oriSize;
 	}
 	else
 	{
-		laser->laserWidth = e->size;
+		laser->laserWidth = e->oriSize;
 		laser->laserHeight = len;
 	}
 }
@@ -742,13 +751,6 @@ void DisableBoss(Boss* _boss)
 	_boss->active = 0;
 }
 
-void BossStage(Boss* _boss)
-{
-	if (stageTime == 27.f)
-	{
-		DisableBoss(&boss);
-	}
-}
 
 
 void ChangeEnemySize()

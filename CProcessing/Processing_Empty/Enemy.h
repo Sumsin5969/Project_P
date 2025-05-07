@@ -141,3 +141,4 @@ void DisableEnemy(Enemy*);
 void DisableBoss(Boss*);
 
 void ChangeEnemySize();
+void BossStage(Boss* _boss);
