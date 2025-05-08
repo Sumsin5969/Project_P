@@ -1,6 +1,6 @@
 #pragma once
 #include "cprocessing_common.h"
-
+#include "../Defines.h"
 typedef struct CamInfo
 {
 	CP_Matrix camMatrix;
