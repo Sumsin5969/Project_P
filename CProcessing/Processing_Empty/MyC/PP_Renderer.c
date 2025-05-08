@@ -409,6 +409,8 @@ void RenderAttackAll()
 
 void RenderAll()
 {
+	DefaultTimerUI();
+
 	RenderEnemyAll();
 	RenderAttackAll();
 	// 보스 렌더링
@@ -425,7 +427,6 @@ void RenderAll()
 	//RenderObstacle(&obstacles[0][0]);
 
 	// 디버그 UI
-	DebugUpdate();
+	//DebugUpdate();
 	// 타이머 UI
-	DefaultTimerUI();
 }

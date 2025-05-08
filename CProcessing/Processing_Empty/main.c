@@ -9,12 +9,15 @@
 
 
 char buffer[200];
+CP_Image titleImage;
 
 
 void PrintMainMenu();
 
 void game_init(void)
 {
+	titleImage = CP_Image_Load("./Assets/TitleImage.png");
+
 	LoadSounds();
 
 	//CP_Sound_Play(titleBGM);
@@ -58,16 +61,18 @@ void PrintMainMenu()
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(153, 255, 255, 0));
 
+	CP_Image_Draw(titleImage, WIDTH/2, HEIGHT/2, 1760, 990, 255);
+
 	//CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_TOP);
-	CP_Settings_Fill(CP_Color_Create(238, 200, 200, 255));
+	CP_Settings_Fill(CP_Color_Create(0, 255, 00, 255));
+
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+
+	CP_Settings_TextSize(60);
 
 	sprintf_s(buffer, sizeof(buffer), "Press [Enter] key To Play");
+	
 	CP_Font_DrawText(buffer, WIDTH / 2, HEIGHT / 2);
-
-	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-	sprintf_s(buffer, sizeof(buffer), "Idiot Seo MinSu");
-
-	CP_Font_DrawText(buffer, WIDTH / 2, HEIGHT / 2 + 200);
 
 	if (CP_Input_KeyReleased(KEY_ENTER))
 	{
@@ -80,5 +85,7 @@ void PrintMainMenu()
 		stageState = StageOne;
 		gameState = Play;
 	}
+
+	CP_Settings_TextSize(50);
 }
 

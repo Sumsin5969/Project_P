@@ -35,7 +35,8 @@ void OnPlayerHit()
 
 void DefaultTimerUI()
 {
-	CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
+	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 200));
+	CP_Font_DrawText(timeBuffer, WIDTH / 2, 50);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
 

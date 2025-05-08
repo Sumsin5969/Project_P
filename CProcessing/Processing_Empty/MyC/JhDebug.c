@@ -88,11 +88,13 @@ void PlayerToZero()
 void DebugUpdate()
 {
 
-	PrintFrameInfo();
-	PrintPlayerInfo();
-	PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", player->dashDecayRate);
+	//PrintFrameInfo();
+	//PrintPlayerInfo();
 
-	PlayerToZero();
+
+	//PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", player->dashDecayRate);
+
+	//PlayerToZero();
 	ZoomTest();
 }
 
