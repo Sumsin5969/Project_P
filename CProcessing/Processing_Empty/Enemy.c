@@ -29,9 +29,10 @@ void EnemyInit_BossStage(Boss* _boss)
 	_boss->magazine = 0;
 	_boss->size = 600.f;
 	_boss->active = 0;
-	_boss->sniper = 0;
 	_boss->unitType = BOSSCHARACTER;
-	_boss->state = DISAPPEAR;
+	_boss->state = APPEAR;
+	_boss->phase = 0;
+	_boss->sniper = 0;
 
 	// Init Bullets
 	for (int i = 0; i < 4; i++)

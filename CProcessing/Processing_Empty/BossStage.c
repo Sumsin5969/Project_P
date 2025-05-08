@@ -52,7 +52,7 @@ void CrossBulletFire(Boss* _boss)
 void Contact(Boss* _boss)
 {
 	float dt = GetDt();
-	if (_boss->pos.x >= 0.f)
+	if (_boss->pos.x > 0.f)
 	{
 		_boss->pos.x -= dt * _boss->spd;
 	}
@@ -62,6 +62,15 @@ void Contact(Boss* _boss)
 	}
 }
 
+/*void InitContactWarning()
+{
+	CamInfo* cam = GetCamera();
+	float z = cam->camZoom;
+
+	float worldRight = (WIDTH - cam->camPos.x) / z;
+	float sx = 0.f, ex = 0.f, len = 0.f;
+	len = sx - ex;
+}*/
 void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
@@ -90,7 +99,7 @@ void BossStageController(Boss* _boss)
 	{
 
 	}
-	else if (bossStageTimer > 16.f)
+	else if (bossStageTimer < 16.f)
 	{
 		Contact(&boss);
 	}
