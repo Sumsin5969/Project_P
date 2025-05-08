@@ -39,6 +39,7 @@ typedef struct Boss
 
 	float fireTime;
 	float fireDelay;
+	float fireIdleTime;
 	int magazine;
 
 	int alpha;
