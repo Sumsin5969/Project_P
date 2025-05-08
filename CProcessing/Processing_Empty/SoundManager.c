@@ -16,6 +16,7 @@ CP_Sound stageSound_4;
 CP_Sound stageSound_5;
 CP_Sound stageSound_6;
 CP_Sound stageSound_7;
+CP_Sound bossStageSound;
 
 CP_BOOL soundPlaying = FALSE;
 CP_BOOL bgmPlaying = FALSE;
@@ -36,6 +37,7 @@ void LoadSounds()
 	stageSound_4 = CP_Sound_Load("Assets/Stage4.mp3");
 	stageSound_5 = CP_Sound_Load("Assets/Stage5.mp3");
 	stageSound_6 = CP_Sound_Load("Assets/Stage6.mp3");
+	bossStageSound = CP_Sound_Load("Assets/BossStage.mp3");
 }
 
 void StopBGM()
@@ -69,6 +71,9 @@ void PlayStageBGM(StageState stage)
 		break;
 	case StageSix:
 		CP_Sound_PlayAdvanced(stageSound_6, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		break;
+	case StageBoss:
+		CP_Sound_PlayAdvanced(bossStageSound, 2, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	}
 
