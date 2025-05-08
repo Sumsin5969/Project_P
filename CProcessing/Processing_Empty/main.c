@@ -59,9 +59,9 @@ int main(void)
 
 void PrintMainMenu()
 {
-	CP_Graphics_ClearBackground(CP_Color_Create(153, 255, 255, 0));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	CP_Image_Draw(titleImage, WIDTH/2, HEIGHT/2, 1760, 990, 255);
+	CP_Image_Draw(titleImage, WIDTH/2 + 50, HEIGHT/2, 1600, 990, 255);
 
 	//CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_TOP);
 	CP_Settings_Fill(CP_Color_Create(0, 255, 00, 255));

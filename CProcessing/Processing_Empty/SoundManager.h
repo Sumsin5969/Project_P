@@ -12,6 +12,8 @@ void FreeAllSound();
 
 void PlayStageDownSound();
 
+void PlayStageUpSound();
+
 void FreeBGM();
 
 void CancleSoundPlaying();
