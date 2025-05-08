@@ -88,11 +88,23 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 	if (t >= 1.f)
 	{
+		if (stageState == StageBoss)
+		{
+			SetGameState(GameClear);
+			printf("게임클리어 게임스테이트 = 게임클리어");
+			return;
+		}
+
 		stageTime = defaultTime;
 		timeAcc = 0.f;
 
+
 		stageState++;
+
+		if (stageState == StageBoss) stageTime = 100.f;
+
 		ZoomOutForce();
+		SetZoom(stageState);
 		CancleSoundPlaying();
 
 		PlayStageBGM(stageState);
@@ -136,7 +148,8 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 	{
 		stageTime = defaultTime;
 		timeAcc = 0.f;
-		ZoomInForce();
+		ZoomInForce(); // Setzoom쓰면 필요없음;
+		SetZoom(stageState);
 
 		InitAll();
 		ResetCameraShakeTime();
