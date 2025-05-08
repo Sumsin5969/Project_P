@@ -13,15 +13,35 @@
 void CrossBulletConditioner(Boss* _boss)
 {
 	float dt = GetDt();
+	const float fireIdleTimeMax = 1.7f;
 	_boss->fireTime += dt;
+
+	if (_boss->magazine % 3 == 0 && _boss->magazine != 0)
+	{
+		_boss->fireIdleTime += dt;
+
+		// 아직 쉬는 중이면 발사하지 않음
+		if (_boss->fireIdleTime < fireIdleTimeMax)
+			return;  // 쉬는 중
+
+		// 쉬는 시간 끝나면 리셋하고 다음 발사 허용
+		_boss->fireIdleTime = 0;
+	}
+
 	if (_boss->fireTime > _boss->fireDelay)
 	{
 		_boss->fireTime = 0;
+
 		for (int i = 0; i < 4; i++)
 		{
+			if (CrossBullets_Boss[i][_boss->magazine].active == 0)
+				CrossBullets_Boss[i][_boss->magazine].projPos = _boss->pos;
+
 			CrossBullets_Boss[i][_boss->magazine].active = 1;
 		}
+
 		_boss->magazine++;
+
 		if (_boss->magazine >= MAX_BULLETS_PER_ENEMY)
 		{
 			_boss->magazine = 0;
@@ -62,70 +82,31 @@ void Contact(Boss* _boss)
 	}
 }
 
-/*void InitContactWarning()
-{
-	CamInfo* cam = GetCamera();
-	float z = cam->camZoom;
-
-	float worldRight = (WIDTH - cam->camPos.x) / z;
-	float sx = 0.f, ex = 0.f, len = 0.f;
-	len = sx - ex;
-}*/
 void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
 
-	static float bossStageTimer = 0.f;
-	bossStageTimer += dt;
-
-	const float warningTimeMax = 3.f;
-	if (bossStageTimer > 100.f)
+	_boss->time += dt;
+	if (_boss->time > 100.f)
 	{
 		_boss->state = DEAD;
 	}
-	else if (bossStageTimer > 80.f)
+	else if (_boss->time > 80.f)
 	{
 
 	}
-	else if (bossStageTimer > 60.f)
+	else if (_boss->time > 60.f)
 	{
 
 	}
-	else if (bossStageTimer > 40.f)
-	{
+	else if (_boss->time > 18.f) _boss->phase = 2;
+	else if (_boss->time > 8.9f) _boss->phase = 1;
+	else if (_boss->time < 8.f)	Contact(&boss);
 
-	}
-	else if (bossStageTimer > 20.f)
-	{
-
-	}
-	else if (bossStageTimer < 16.f)
-	{
-		Contact(&boss);
-	}
-
-
-	if (_boss->phase == 0)
-	{
-		_boss->state = BOSSWARNING;
-	}
-
-	if (_boss->state == BOSSWARNING)
-	{
-		if (_boss->time <= warningTimeMax)
-		{
-			_boss->time += dt;
-		}
-		else
-		{
-			_boss->time = 0.f;
-			_boss->state = APPEAR;
-			_boss->active = 1;
-		}
-	}
 	if (_boss->phase == 1)
 	{
-		//CrossBulletFire(_boss);
+		CrossBulletConditioner(_boss);
+		CrossBulletFire(_boss);
 	}
 
 }

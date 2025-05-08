@@ -261,7 +261,6 @@ void Update_StageBoss()
 {
 	boss.active = 1;
 	CheckBoss(&boss);
-	CrossBulletConditioner(&boss);
 	BossStageController(&boss);
 }
 
