@@ -195,6 +195,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossStage.c" />
     <ClCompile Include="Enemy.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="MyC\Collision.c" />
@@ -208,6 +209,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="StageManager.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BossStage.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="MyC\Collision.h" />
     <ClInclude Include="MyC\GameManager.h" />

@@ -57,7 +57,6 @@ typedef enum StageState
 	StageFour,
 	StageFive,
 	StageSix,
-	StageLastIndex,
 	StageBoss,
 } StageState;
 
@@ -83,3 +82,11 @@ typedef enum
 	BGM,
 	STAGE1
 } SoundType;
+
+typedef enum
+{
+	BOSSWARNING,
+	APPEAR,
+	DISAPPEAR,
+	DEAD,
+} BossState;

@@ -9,6 +9,7 @@
 #include "../Enemy.h"
 #include "../StageManager.h"
 #include "../SoundManager.h"
+#include "../BossStage.h"
 
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
@@ -31,7 +32,7 @@ void InitGameManager()
 }
 
 void GMUpdate()
-{
+{	
 	// 플레이어 -> 게임 -> 적 순으로 업데이트
 	CheckPlayerState();
 
@@ -151,7 +152,7 @@ void InitEnemies()
 	EnemyInit_StageFour(enemies[StageFour]);
 	EnemyInit_StageFive(&elite_StageFive);
 	EnemyInit_StageSix(&enemy_StageSix);
-	//EnemyInit_BossStage(&boss);
+	EnemyInit_BossStage(&boss);
 }
 
 void InitAll()
@@ -177,52 +178,42 @@ void SaveEnemyPos()
 // 스테이지1 업데이트 관리
 void Update_StageOne()
 {
-	if (stageState >= StageOne)
+	for (int i = 0; i < MAX_ENEMIES;i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES;i++)
-		{
-			CheckEnemy(&enemies[StageOne][i]);
-			EnemyMove_StageOne(&enemies[StageOne][i]);
-			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
-			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-			CheckBullet(Bullets_StageOne[i]);
-			CheckWallBullet(wall, Bullets_StageOne[i]);
-		}
+		CheckEnemy(&enemies[StageOne][i]);
+		EnemyMove_StageOne(&enemies[StageOne][i]);
+		BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
+		DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+		CheckBullet(Bullets_StageOne[i]);
+		CheckWallBullet(wall, Bullets_StageOne[i]);
 	}
 }
 
 // 스테이지2 업데이트 관리
 void Update_StageTwo()
 {
-	if (stageState >= StageTwo)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			CheckEnemy(&enemies[StageTwo][i]);
-			CreateLaser_StageTwo(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
-			CheckLaser(&Lasers_StageTwo[i]);
-			LaserAttack(&Lasers_StageTwo[i]);
-		}
+		CheckEnemy(&enemies[StageTwo][i]);
+		CreateLaser_StageTwo(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+		CheckLaser(&Lasers_StageTwo[i]);
+		LaserAttack(&Lasers_StageTwo[i]);
 	}
 }
 
 // 스테이지3 업데이트 관리
 void Update_StageThree()
 {
-	if (stageState >= StageThree)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
+		CheckEnemy(&enemies[StageThree][i]);
+		CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+		CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+
+		for (int j = 0; j < CLIP; j++)
 		{
-			CheckEnemy(&enemies[StageThree][i]);
-			CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
-			CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
-
-			for (int j = 0; j < CLIP; j++)
-			{
-				CheckBullet(CircleBullets_StageThree[i][j]);
-
-				CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
-			}
+			CheckBullet(CircleBullets_StageThree[i][j]);
+			CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
 		}
 	}
 }
@@ -230,64 +221,51 @@ void Update_StageThree()
 // 스테이지4 업데이트 관리
 void Update_StageFour()
 {
-	if (stageState >= StageFour)
+	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			CheckEnemy(&enemies[StageFour][i]);
-			EnemyMove_StageFour(&enemies[StageFour][i]);
-		}
+		CheckEnemy(&enemies[StageFour][i]);
+		EnemyMove_StageFour(&enemies[StageFour][i]);
 	}
 }
 
 void Update_StageFive()
 {
-	if (stageState >= StageFive)
-	{
-		CheckBoss(&elite_StageFive);
-		EnemyMove_StageFive(&elite_StageFive);
-	}
+	CheckBoss(&elite_StageFive);
+	EnemyMove_StageFive(&elite_StageFive);
 }
 
 void Update_StageSix()
 {
-	//6스테이지 업데이트할내용
-	if (stageState >= StageSix)
-	{
-		CheckEnemy(&enemy_StageSix);
-		EnemyMove_StageSix(&enemy_StageSix);
-		BulletConditioner(&enemy_StageSix, Bullets_StageSix);
-		DirectBulletFire(&enemy_StageSix, Bullets_StageSix);
-		CheckBullet(Bullets_StageSix);
-		CheckWallBullet(wall, Bullets_StageSix);
-	}
+	CheckEnemy(&enemy_StageSix);
+	EnemyMove_StageSix(&enemy_StageSix);
+	BulletConditioner(&enemy_StageSix, Bullets_StageSix);
+	DirectBulletFire(&enemy_StageSix, Bullets_StageSix);
+	CheckBullet(Bullets_StageSix);
+	CheckWallBullet(wall, Bullets_StageSix);
 }
 
 // 보스 스테이지 관리
 void Update_StageBoss()
 {
-	if (stageState == StageBoss)
-	{
-		boss.active = 1;
-	}
-	if (boss.active == 1)
-	{
-		CheckBoss(&boss);
-		EnableBoss(&boss);
-	}
-	else
-	{
-		DisableBoss(&boss);
-	}
+	boss.active = 1;
+	CheckBoss(&boss);
+	CrossBulletConditioner(&boss);
+	BossStageController(&boss);
 }
 
 void Update_Enemy()
 {
-	Update_StageOne();
-	Update_StageTwo();
-	Update_StageThree();
-	Update_StageFour();
-	Update_StageFive();
-	Update_StageSix();
-	Update_StageBoss();
+	if (stageState < StageBoss)
+	{
+		Update_StageOne();
+		Update_StageTwo();
+		Update_StageThree();
+		Update_StageFour();
+		Update_StageFive();
+		Update_StageSix();
+	}
+	else
+	{
+		Update_StageBoss();
+	}
 }

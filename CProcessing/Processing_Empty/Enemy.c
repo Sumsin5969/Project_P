@@ -13,7 +13,7 @@ static float pulse = 0.f;
 static int shrinking = 1;
 const float PERIOD = 1.f;
 
-void EnemyInit_StageBoss(Boss* _boss)
+void EnemyInit_BossStage(Boss* _boss)
 {
 	_boss->pos.x = 50.f;
 	_boss->pos.y = 0.f;
@@ -22,39 +22,58 @@ void EnemyInit_StageBoss(Boss* _boss)
 	_boss->dashTimeMax = 0.3f;
 	_boss->dashSpeedBoost = 10.f;
 	_boss->dashDelay = 0.f;
-	_boss->dashDelayMax = 3.f;
+	_boss->dashDelayMax = .8f;
+	_boss->time = 0.f;
 	_boss->fireTime = 0.f;
 	_boss->fireDelay = 0.2f;
+	_boss->magazine = 0;
 	_boss->size = 500.f;
 	_boss->active = 0;
 	_boss->sniper = 0;
 	_boss->unitType = BOSSCHARACTER;
-}
+	_boss->state = DISAPPEAR;
 
-void BossStage(Boss* _boss)
-{
-	if (stageTime == 27.f)
+	// Init Bullets
+	for (int i = 0; i < 4; i++)
 	{
-		DisableBoss(&boss);
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			switch (i)
+			{
+			case 0:
+				CrossBullets_Boss[i][j].degree = i * (360.f / 4);
+				CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
+				CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
+				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
+				break;
+			case 1:
+				CrossBullets_Boss[i][j].degree = i * (360.f / 4);
+				CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
+				CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
+				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
+				break;
+			case 2:
+				CrossBullets_Boss[i][j].degree = i * (360.f / 4);
+				CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
+				CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
+				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
+				break;
+			case 3:
+				CrossBullets_Boss[i][j].degree = i * (360.f / 4);
+				CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
+				CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
+				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
+				break;
+			}
+
+			CrossBullets_Boss[i][j].projPos = _boss->pos;
+			CrossBullets_Boss[i][j].projSpd = 800.f;
+			CrossBullets_Boss[i][j].active = 0;
+			CrossBullets_Boss[i][j].size = _boss->size / 3;
+			CrossBullets_Boss[i][j].sniper = 0;
+		}
 	}
 }
-
-
-//void BossStage(Boss* _boss)
-//{
-//	float dt = GetDt();
-//	static float appearTimer = 0.f;
-//	float appearTimeMax = 3.f;
-//	if (appearTimer <= appearTimeMax)
-//	{
-//		appearTimer += dt;
-//
-//	}
-//	if (appearTimer >= appearTimeMax)
-//	{
-//		_boss->active = 1;
-//	}
-//}
 
 // 스테이지 1 적과 탄환 초기화
 void EnemyInit_StageOne(Enemy* _enemy)
@@ -93,6 +112,7 @@ void EnemyInit_StageOne(Enemy* _enemy)
 			break;
 		}
 
+		// Init Bullets
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
 			// Todo: 안쓰는 변수가 안생기도록 하는게 더 낫지만, 
@@ -208,6 +228,8 @@ void EnemyInit_StageThree(Enemy* _enemy)
 			_enemy[i].pos.y = 715;
 			break;
 		}
+
+		// Init Bullets
 		for (int j = 0; j < CLIP; j++)
 		{
 			for (int k = 0;k < MAX_BULLETS_PER_ENEMY;k++)
@@ -297,6 +319,8 @@ void EnemyInit_StageSix(Enemy* _enemy)
 	_enemy->magazine = 0;
 	_enemy->active = 0;
 	_enemy->sniper = 0;
+
+	// Init Bullets
 	for (int i = 0; i < MAX_BULLETS_PER_ENEMY; i++)
 	{
 		Bullets_StageSix[i].projPos = _enemy->pos;
@@ -681,14 +705,14 @@ void CreateLaser_StageTwo(Enemy* e, Laser* laser)
 	{
 	case LD_LEFT:
 		sx = e->pos.x - e->size * 0.5f;
-		ex = worldLeft;        // 진짜 왼쪽 끝
+		ex = worldLeft / cam->camZoom;        // 진짜 왼쪽 끝
 		sy = ey = e->pos.y;
 		len = sx - ex;
 		break;
 
 	case LD_RIGHT:
 		sx = e->pos.x + e->size * 0.5f;
-		ex = worldRight;       // 진짜 오른쪽 끝
+		ex = worldRight / cam->camZoom;       // 진짜 오른쪽 끝
 		sy = ey = e->pos.y;
 		len = ex - sx;
 		break;
@@ -751,7 +775,10 @@ void DisableBoss(Boss* _boss)
 	_boss->active = 0;
 }
 
-
+void BossWarning(Boss* _boss)
+{
+	_boss->state = WARNING;
+}
 
 void ChangeEnemySize()
 {
@@ -780,7 +807,7 @@ void ChangeEnemySize()
 
 	float scale = 0.9f + 0.1f * pulse;	// 최소 0.9f / 최대 0.9f + 0.1f;
 
-	for (int i = 0; i < StageLastIndex; ++i)
+	for (int i = 0; i < 6; ++i)
 	{
 		for (int j = 0; j < MAX_ENEMIES; ++j)
 		{

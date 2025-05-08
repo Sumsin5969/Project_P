@@ -35,17 +35,21 @@ typedef struct Boss
 	float dashDelayMax;
 	int isDashing;
 
+	float time;
 
 	float fireTime;
 	float fireDelay;
 	int magazine;
 
+	int alpha;
 	float size;
 	float oriSize;
 
 	int active;
 
 	UnitType unitType;
+	BossState state;
+	int phase;
 	int sniper;
 } Boss;
 
@@ -101,7 +105,7 @@ typedef struct Laser
 Boss boss;
 Boss elite_StageFive;
 Enemy enemy_StageSix;
-Enemy enemies[StageLastIndex][MAX_ENEMIES];
+Enemy enemies[6][MAX_ENEMIES];
 Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
@@ -132,6 +136,9 @@ void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void CircleBulletFire(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
 
+Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
+void BossCrossFire(Boss*, Bullet*);
+
 void CreateLaser_StageTwo(Enemy*, Laser*);
 void LaserAttack(Laser*);
 
@@ -141,4 +148,4 @@ void DisableEnemy(Enemy*);
 void DisableBoss(Boss*);
 
 void ChangeEnemySize();
-void BossStage(Boss* _boss);
+void BossStageController(Boss* _boss);

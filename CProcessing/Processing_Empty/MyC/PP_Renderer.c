@@ -220,21 +220,6 @@ void RenderLaser(Laser* laser)
 	}
 }
 
-void RenderBoss(Boss* _boss)
-{
-	CamInfo* cam = GetCamera();
-	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
-	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
-	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
-	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _boss->pos);
-
-	float _bossSize = _boss->size * cam->camZoom;
-	if (_boss->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
-	else CP_Settings_Fill(ENEMY_COLOR());
-
-	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
-}
-
 void RenderEliteShadow(Boss* _boss)
 {
 	if (stageState >= StageFive)
@@ -388,34 +373,80 @@ void RenderBullet_StageSix()
 	}
 }
 
+
+void RenderBoss(Boss* _boss)
+{
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _boss->pos);
+
+	float _bossSize = _boss->size * cam->camZoom;
+	if (_boss->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	else CP_Settings_Fill(ENEMY_COLOR());
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
+}
+
+void RenderBullet_BossStage()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			RenderBullet(&CrossBullets_Boss[i][j]);
+		}
+	}
+}
+
+void RenderBossStage()
+{
+	RenderBoss(&boss);
+}
+
 void RenderEnemyAll()
 {
-	RenderEnemyShadow();
-	RenderEnemy_StageSix();
-	RenderEnemy_StageFive();
-	RenderEnemy_StageFour();
-	RenderEnemy_StageThree();
-	RenderEnemy_StageTwo();
-	RenderEnemy_StageOne();
+	if (stageState < StageBoss)
+	{
+		RenderEnemyShadow();
+		RenderEnemy_StageSix();
+		RenderEnemy_StageFive();
+		RenderEnemy_StageFour();
+		RenderEnemy_StageThree();
+		RenderEnemy_StageTwo();
+		RenderEnemy_StageOne();
+	}
+	else
+	{
+		RenderBossStage();
+	}
 }
 
 void RenderAttackAll()
 {
-	RenderBullet_StageSix();
-	RenderBullet_StageThree();
-	RenderLaser_StageTwo();
-	RenderBullet_StageOne();
+	if (stageState < StageBoss)
+	{
+		RenderBullet_StageSix();
+		RenderBullet_StageThree();
+		RenderLaser_StageTwo();
+		RenderBullet_StageOne();
+	}
+	else
+	{
+		RenderBullet_BossStage();
+	}
 }
 
 void RenderAll()
 {
 	DefaultTimerUI();
 
+	// 적 렌더링
 	RenderEnemyAll();
 	RenderAttackAll();
+
 	// 보스 렌더링
-	// @todo: 나중에 완성 이후 함수 합쳐서 따로 빼기
-	//if (boss.active == 1) RenderBoss(&boss);
 
 	RenderWall(wall);
 
