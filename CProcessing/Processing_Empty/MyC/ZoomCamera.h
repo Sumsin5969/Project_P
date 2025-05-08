@@ -10,6 +10,7 @@ typedef struct CamInfo
 
 void InitCamera();
 CamInfo* GetCamera();
+void SetZoom(StageState stage);
 void ZoomIn();
 void ZoomOut();
 void DestroyCam();
