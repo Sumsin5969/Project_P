@@ -15,12 +15,12 @@ const float PERIOD = 1.f;
 
 void EnemyInit_BossStage(Boss* _boss)
 {
-	_boss->pos.x = 3600.f;
+	_boss->pos.x = 0.f;
 	_boss->pos.y = 0.f;
 	_boss->spd = 500.f;
 	_boss->dashTime = 0.f;
 	_boss->dashTimeMax = 0.3f;
-	_boss->dashSpeedBoost = 10.f;
+	_boss->dashSpeedBoost = 100.f;
 	_boss->dashDelay = 0.f;
 	_boss->dashDelayMax = .8f;
 	_boss->time = 0.f;//보스스테이지 러닝타임
@@ -108,11 +108,53 @@ void EnemyInit_BossStage(Boss* _boss)
 				}
 			}
 			CrossBullets_Boss[i][j].projPos = _boss->pos;
-			CrossBullets_Boss[i][j].projSpd = 1500.f;
+			CrossBullets_Boss[i][j].projSpd = 1600.f;
 			CrossBullets_Boss[i][j].active = 0;
 			CrossBullets_Boss[i][j].size = _boss->size / 3;
 			CrossBullets_Boss[i][j].sniper = 0;
 		}
+	}
+	
+	// Init Lasers 보기 족같아서 일부러 따로 함
+	CamInfo* cam = GetCamera();
+	float z = cam->camZoom;
+
+	float worldTop = (-HEIGHT - cam->camPos.y) / z;
+
+	float sx = 0.f, sy = 0.f, ex = 0.f, ey = 0.f, len = 0.f;
+	
+	static float laserPos = -3500;
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		BossLaserShooter[i].pos.x = laserPos;
+		laserPos += 7000 / MAX_LASERS;
+		BossLaserShooter[i].pos.y = 2000.f;
+		BossLaserShooter[i].size = 1000.f;
+		BossLaserShooter[i].oriSize = 1000.f;
+		sy = BossLaserShooter[i].pos.y + BossLaserShooter[i].size * 0.5f;
+		ey = worldTop;         // 진짜 위쪽 끝
+		sx = ex = BossLaserShooter[i].pos.x;
+		len = ey - sy;
+		// 중앙 위치 & 크기 설정
+		Lasers_BossStage[i].pos.x = BossLaserShooter[i].pos.x;
+		Lasers_BossStage[i].pos.y = (sy + ey) * 0.5f;
+		Lasers_BossStage[i].laserAlpha = 50; // 전조 알파값
+		Lasers_BossStage[i].laserAlphaMax = 200; // 전조 최대 알파값
+
+		Lasers_BossStage[i].time = 0;
+		Lasers_BossStage[i].idleDuration = 0.01f;
+		Lasers_BossStage[i].warningAttackDuration = 1.f;
+		Lasers_BossStage[i].waitDuration = 0.2f;
+		Lasers_BossStage[i].attackDuration = .8f;
+
+		Lasers_BossStage[i].laserWarningAttackRange = 0.f;
+		Lasers_BossStage[i].laserWarningAttackRangeMax = BossLaserShooter[i].size;
+
+		Lasers_BossStage[i].laserWidth = BossLaserShooter[i].oriSize;
+		Lasers_BossStage[i].laserHeight = len;
+		Lasers_BossStage[i].laserDirection = LD_UP;
+		Lasers_BossStage[i].state = IDLE;
+		Lasers_BossStage[i].sniper = 0;
 	}
 }
 
@@ -804,21 +846,6 @@ void DisableEnemy(Enemy* _enemy)
 	{
 		_enemy[i].active = 0;
 	}
-}
-
-void EnableBoss(Boss* _boss)
-{
-	_boss->active = 1;
-}
-
-void DisableBoss(Boss* _boss)
-{
-	_boss->active = 0;
-}
-
-void BossWarning(Boss* _boss)
-{
-	_boss->state = WARNING;
 }
 
 void ChangeEnemySize()

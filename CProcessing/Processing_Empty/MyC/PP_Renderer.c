@@ -391,12 +391,23 @@ void RenderBoss(Boss* _boss)
 
 void RenderBullet_BossStage()
 {
-	for (int i = 0; i < 4; i++)
+	if (boss.phase < 2)
 	{
-		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		for (int i = 0; i < 4; i++)
 		{
-			RenderBullet(&CrossBullets_Boss[i][j]);
+			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+			{
+				RenderBullet(&CrossBullets_Boss[i][j]);
+			}
 		}
+	}
+}
+
+void RenderLaser_BossStage()
+{
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		RenderLaser(&Lasers_BossStage[i]);
 	}
 }
 
@@ -435,6 +446,7 @@ void RenderAttackAll()
 	else
 	{
 		RenderBullet_BossStage();
+		RenderLaser_BossStage();
 	}
 }
 

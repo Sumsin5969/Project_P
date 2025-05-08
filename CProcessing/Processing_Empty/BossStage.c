@@ -3,8 +3,8 @@
 #include "MyC/ZoomCamera.h"
 #include "Defines.h"
 #include "stdio.h"
+#include <stdlib.h>
 #include "MyC/GameManager.h"
-#include <math.h>
 #include "MyC/Collision.h"
 #include "MyC/JhDebug.h"
 #include "StageManager.h"
@@ -72,6 +72,7 @@ void CrossBulletFire(Boss* _boss)
 void Contact(Boss* _boss)
 {
 	float dt = GetDt();
+
 	if (_boss->pos.x > 0.f)
 	{
 		_boss->pos.x -= dt * _boss->spd;
@@ -82,10 +83,44 @@ void Contact(Boss* _boss)
 	}
 }
 
-void BossStageController(Boss* _boss)
+void RunAway(Boss* _boss)
 {
 	float dt = GetDt();
 
+	float originSpd = _boss->spd;
+	static int isLeft = 0;
+
+	if (isLeft == 0)
+	{
+		_boss->spd -= dt * 1000;
+		_boss->pos.x -= dt * _boss->spd;
+		if (_boss->spd <= 0)
+		{
+			isLeft = 1;
+			_boss->spd = 0;
+		}
+	}
+	else if(_boss->pos.x < 3600.f)
+	{
+		_boss->spd += dt * 10000;
+		_boss->pos.x += dt * _boss->spd;
+		if (_boss->pos.x >= 3600.f)
+		{
+			_boss->spd = originSpd;
+			return;
+		}
+	}
+}
+
+void BossLaserAttack()
+{
+	int random = rand() % 100;
+	LaserAttack(&Lasers_BossStage[random]);
+}
+
+void BossStageController(Boss* _boss)
+{
+	float dt = GetDt();
 	_boss->time += dt;
 	if (_boss->time > 100.f)
 	{
@@ -99,14 +134,19 @@ void BossStageController(Boss* _boss)
 	{
 
 	}
-	else if (_boss->time > 18.f) _boss->phase = 2;
-	else if (_boss->time > 8.9f) _boss->phase = 1;
-	else if (_boss->time < 8.f)	Contact(&boss);
-
+	//else if (_boss->time > 15.5f) _boss->phase = 2;
+	//else if (_boss->time > 8.9f) _boss->phase = 1;
+	//else if (_boss->time < 8.f)	Contact(&boss);
+	_boss->phase = 2;
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
 		CrossBulletFire(_boss);
+	}
+	if (_boss->phase == 2)
+	{
+		RunAway(_boss);
+		BossLaserAttack();
 	}
 
 }

@@ -112,7 +112,12 @@ Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
+Enemy BossLaserShooter[MAX_LASERS];
+Laser Lasers_BossStage[MAX_LASERS];
+
 void EnemyInit_BossStage(Boss*);
+Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
+void BossCrossFire(Boss*, Bullet*);
 
 void EnemyInit_StageOne(Enemy*);
 void EnemyMove_StageOne(Enemy*);
@@ -136,9 +141,6 @@ void BulletConditioner(Enemy*, Bullet*);
 void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void CircleBulletFire(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
-
-Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
-void BossCrossFire(Boss*, Bullet*);
 
 void CreateLaser_StageTwo(Enemy*, Laser*);
 void LaserAttack(Laser*);
