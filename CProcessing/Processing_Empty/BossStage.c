@@ -49,6 +49,19 @@ void CrossBulletFire(Boss* _boss)
 	}
 }
 
+void Contact(Boss* _boss)
+{
+	float dt = GetDt();
+	if (_boss->pos.x >= 0.f)
+	{
+		_boss->pos.x -= dt * _boss->spd;
+	}
+	else
+	{
+		_boss->pos.x = 0;
+	}
+}
+
 void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
@@ -79,11 +92,7 @@ void BossStageController(Boss* _boss)
 	}
 	else if (bossStageTimer > 16.f)
 	{
-		_boss->phase = 2;
-	}
-	else if (bossStageTimer > 6.f)
-	{
-		_boss->phase = 1;
+		Contact(&boss);
 	}
 
 
@@ -105,6 +114,9 @@ void BossStageController(Boss* _boss)
 			_boss->active = 1;
 		}
 	}
-	CrossBulletFire(_boss);
+	if (_boss->phase == 1)
+	{
+		//CrossBulletFire(_boss);
+	}
 
 }

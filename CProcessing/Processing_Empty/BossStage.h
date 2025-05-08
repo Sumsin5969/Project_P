@@ -15,3 +15,4 @@ void BossStageController(Boss* _boss);
 void BossBulletConditioner(Boss*, Bullet*);
 void CrossBulletConditioner(Boss*);
 void CrossBulletFire(Boss*);
+void Contact(Boss*);

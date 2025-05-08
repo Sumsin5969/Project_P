@@ -15,9 +15,9 @@ const float PERIOD = 1.f;
 
 void EnemyInit_BossStage(Boss* _boss)
 {
-	_boss->pos.x = 50.f;
+	_boss->pos.x = 3600.f;
 	_boss->pos.y = 0.f;
-	_boss->spd = 0.f;
+	_boss->spd = 500.f;
 	_boss->dashTime = 0.f;
 	_boss->dashTimeMax = 0.3f;
 	_boss->dashSpeedBoost = 10.f;
@@ -25,9 +25,9 @@ void EnemyInit_BossStage(Boss* _boss)
 	_boss->dashDelayMax = .8f;
 	_boss->time = 0.f;
 	_boss->fireTime = 0.f;
-	_boss->fireDelay = 0.2f;
+	_boss->fireDelay = 0.8f;
 	_boss->magazine = 0;
-	_boss->size = 500.f;
+	_boss->size = 600.f;
 	_boss->active = 0;
 	_boss->sniper = 0;
 	_boss->unitType = BOSSCHARACTER;

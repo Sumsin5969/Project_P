@@ -267,17 +267,18 @@ void Update_StageBoss()
 
 void Update_Enemy()
 {
-	if (stageState < StageBoss)
+	switch (stageState)
 	{
-		Update_StageOne();
-		Update_StageTwo();
-		Update_StageThree();
-		Update_StageFour();
-		Update_StageFive();
-		Update_StageSix();
-	}
-	else
-	{
-		Update_StageBoss();
+	case StageBoss:   Update_StageBoss();
+		break;
+	case StageSix:    Update_StageSix();
+	case StageFive:   Update_StageFive();
+	case StageFour:   Update_StageFour();
+	case StageThree:  Update_StageThree();
+	case StageTwo:    Update_StageTwo();
+	case StageOne:    Update_StageOne();
+		break;
+	default:
+		break;
 	}
 }
