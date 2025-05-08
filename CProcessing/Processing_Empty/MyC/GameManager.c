@@ -32,7 +32,7 @@ void InitGameManager()
 }
 
 void GMUpdate()
-{	
+{
 	// 플레이어 -> 게임 -> 적 순으로 업데이트
 	CheckPlayerState();
 
@@ -71,6 +71,19 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
 	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite_StageFive);
 	if (CP_Input_KeyTriggered(KEY_M)) CP_Sound_Play(titleBGM);
+	if (CP_Input_KeyTriggered(KEY_O))
+	{
+
+		stageState = StageBoss;
+		player->playerState = INVINCIBLE;
+
+		for (int i = 0; i < 6; ++i)
+		{
+			SetZoomOutTargetRate();
+			ZoomOutForce();
+			stageTime = 1000;
+		}
+	}
 }
 
 void FreeAll()
