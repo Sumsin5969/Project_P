@@ -55,6 +55,34 @@ CamInfo* GetCamera()
 	return cam;
 }
 
+void SetZoom(StageState stage)
+{
+	switch (stage)
+	{
+	case StageOne:
+		cam->camZoom = 1.f;
+		break;
+	case StageTwo:
+		cam->camZoom = 0.8f;
+		break;
+	case StageThree:
+		cam->camZoom = 0.64f;
+		break;
+	case StageFour:
+		cam->camZoom = 0.512f;
+		break;
+	case StageFive:
+		cam->camZoom = 0.4096f;
+		break;
+	case StageSix:
+		cam->camZoom = 0.32768f;
+		break;
+	case StageBoss:
+		cam->camZoom = 0.262144f;
+		break;
+	}
+}
+
 void SetZoomInTargetRate()
 {
 	printf("타겟줌사이즈 늘리다");

@@ -64,6 +64,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
+	DebugUpdate();
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
@@ -77,12 +78,9 @@ void GMLateUpdate()
 		stageState = StageBoss;
 		player->playerState = INVINCIBLE;
 
-		for (int i = 0; i < 6; ++i)
-		{
-			SetZoomOutTargetRate();
-			ZoomOutForce();
-			stageTime = 1000;
-		}
+		SetZoom(stageState);
+
+		stageTime = 1000;
 	}
 }
 

@@ -89,7 +89,7 @@ void DebugUpdate()
 {
 
 	//PrintFrameInfo();
-	//PrintPlayerInfo();
+	PrintPlayerInfo();
 
 
 	//PrintFloat(0, WIDTH / 2, WIDTH / 2, "dashDecayRate", player->dashDecayRate);
