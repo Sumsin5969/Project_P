@@ -6,6 +6,7 @@
 #define MAX_ENEMIES 4
 #define MAX_CIRCLE_ENEMIES 4
 #define MAX_BULLETS_PER_ENEMY 20
+#define MAX_LASERS 100
 #define CLIP 10
 #define STAGECLEARTIME 30
 #define ZOOMSPEED 1
@@ -57,6 +58,7 @@ typedef enum StageState
 	StageFive,
 	StageSix,
 	StageBoss,
+	StageLastIndex
 } StageState;
 
 typedef enum
@@ -64,7 +66,7 @@ typedef enum
 	LD_UP,
 	LD_DOWN,
 	LD_LEFT,
-	LD_RIGHT,
+	LD_RIGHT
 } LaserDirection;
 
 typedef enum
