@@ -17,5 +17,9 @@ void PlayStageUpSound();
 void FreeBGM();
 
 void CancleSoundPlaying();
+void CancleBGMPlaying();
+
 
 void PlayStageBGM(StageState stage);
+
+void StopBGM();

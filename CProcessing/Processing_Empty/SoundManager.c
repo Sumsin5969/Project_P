@@ -29,6 +29,7 @@ void LoadSounds()
 	gameStartSound = CP_Sound_Load("Assets/GameStart.wav");
 	stageDownSound = CP_Sound_Load("Assets/StageDown.wav");
 	stageUpSound = CP_Sound_Load("Assets/StageUp.mp3");
+
 	stageSound_1 = CP_Sound_Load("Assets/Stage1.mp3");
 	stageSound_2 = CP_Sound_Load("Assets/Stage2.mp3");
 	stageSound_3 = CP_Sound_Load("Assets/Stage3.mp3");
@@ -37,40 +38,45 @@ void LoadSounds()
 	stageSound_6 = CP_Sound_Load("Assets/Stage6.mp3");
 }
 
+void StopBGM()
+{
+	CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
+	bgmPlaying = FALSE;
+}
+
 void PlayStageBGM(StageState stage)
 {
-	if (soundPlaying == TRUE) return;
+	if (bgmPlaying == TRUE) return;
 
 	CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 
 	switch (stage)
 	{
 	case StageOne:
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_1, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case  StageTwo:
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_2, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageThree:
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_3, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageFour:
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_4, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageFive:
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_5, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageSix:
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_6, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	}
 
-	soundPlaying = TRUE;
+	bgmPlaying = TRUE;
 }
 
 void PlayStageDownSound()
 {
-	//CP_Sound_StopAll();
 	if (soundPlaying == FALSE)
 	{
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);

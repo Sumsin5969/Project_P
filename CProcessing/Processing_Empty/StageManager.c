@@ -84,6 +84,8 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 	PlayStageUpSound();
 
+	CancleBGMPlaying();
+
 	if (t >= 1.f)
 	{
 		stageTime = defaultTime;
@@ -92,6 +94,9 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 		stageState++;
 		ZoomOutForce();
 		CancleSoundPlaying();
+
+		PlayStageBGM(stageState);
+
 		SetGameState(Play);
 	}
 
@@ -136,6 +141,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		InitAll();
 		ResetCameraShakeTime();
 		CancleSoundPlaying();
+		CancleBGMPlaying();
 
 
 		if (stageState < StageOne)
@@ -149,6 +155,8 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		{
 			SetGameState(Play);
 			CP_Sound_StopGroup(CP_SOUND_GROUP_SFX);
+
+			PlayStageBGM(stageState);
 		}
 
 	}
