@@ -59,9 +59,9 @@ int main(void)
 
 void PrintMainMenu()
 {
-	CP_Graphics_ClearBackground(CP_Color_Create(153, 255, 255, 0));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
-	CP_Image_Draw(titleImage, WIDTH/2, HEIGHT/2, 1760, 990, 255);
+	CP_Image_Draw(titleImage, WIDTH / 2 + 50, HEIGHT / 2, 1600, 990, 255);
 
 	//CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_TOP);
 	CP_Settings_Fill(CP_Color_Create(0, 255, 00, 255));
@@ -71,7 +71,7 @@ void PrintMainMenu()
 	CP_Settings_TextSize(60);
 
 	sprintf_s(buffer, sizeof(buffer), "Press [Enter] key To Play");
-	
+
 	CP_Font_DrawText(buffer, WIDTH / 2, HEIGHT / 2);
 
 	if (CP_Input_KeyReleased(KEY_ENTER))
@@ -80,10 +80,11 @@ void PrintMainMenu()
 
 		// Text 띄워준다.
 		CP_Sound_PlayAdvanced(gameStartSound, 2, 1, FALSE, CP_SOUND_GROUP_SFX);
-		CP_Sound_PlayAdvanced(titleBGM, 1, 1, FALSE, CP_SOUND_GROUP_1);
+		//CP_Sound_PlayAdvanced(titleBGM, 1, 1, FALSE, CP_SOUND_GROUP_1);
 
 		stageState = StageOne;
 		gameState = Play;
+		PlayStageBGM(stageState);
 	}
 
 	CP_Settings_TextSize(50);

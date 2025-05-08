@@ -41,16 +41,15 @@ void GMUpdate()
 	// 벽과 장애물 체크
 	StageTimer();
 
+
 	if (gameState == Play)
 	{
 		CheckWall(wall);
 
-		//CheckObstacle(&obstacles[0][0]);
-
 		PlayerMove();
 
 		ChangePlayerSize();
-		
+
 		Update_Enemy();
 
 		ChangeEnemySize();

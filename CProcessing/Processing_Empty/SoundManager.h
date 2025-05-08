@@ -1,6 +1,6 @@
 #pragma once
 #include <cprocessing.h>
-
+#include "Defines.h"
 
 extern CP_Sound titleBGM;
 extern CP_Sound TestSound;
@@ -12,6 +12,14 @@ void FreeAllSound();
 
 void PlayStageDownSound();
 
+void PlayStageUpSound();
+
 void FreeBGM();
 
 void CancleSoundPlaying();
+void CancleBGMPlaying();
+
+
+void PlayStageBGM(StageState stage);
+
+void StopBGM();

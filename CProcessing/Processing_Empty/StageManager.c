@@ -5,9 +5,12 @@
 #include "MyC/GameManager.h"
 #include "Player.h"
 #include "SoundManager.h"
+#include "math.h"
+#include <corecrt.h>
 
+const float defaultTime = 20.f;
 char timeBuffer[10];
-float stageTime = 30.f; // 타이머
+float stageTime = 20.f; // 타이머
 float timeAcc = 0.f; // 가중치
 float stageTimeStart = 0.f;
 
@@ -71,22 +74,29 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 	timeAcc += dt;
 
-	// 최대 2초간 가속적으로 증가
-	float t = timeAcc * 2.f;
+	float t = timeAcc / 2;
 
 	if (t > 1.f) t = 1.f;
 
-	stageTime = (t * t);  // 가속도 형태로 증가
+	stageTime = defaultTime * (t * t, (float)pow(t, 2.0));
 
 	ZoomOutSlightly(t * t);
 
+	PlayStageUpSound();
+
+	CancleBGMPlaying();
+
 	if (t >= 1.f)
 	{
-		stageTime = 30.f;
+		stageTime = defaultTime;
 		timeAcc = 0.f;
 
 		stageState++;
 		ZoomOutForce();
+		CancleSoundPlaying();
+
+		PlayStageBGM(stageState);
+
 		SetGameState(Play);
 	}
 
@@ -96,7 +106,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 void StageTimerReset()
 {
-	stageTime = 30.f;
+	stageTime = defaultTime;
 }
 
 
@@ -106,12 +116,11 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	timeAcc += dt;
 
-	// 최대 2초간 가속적으로 증가
 	float t = timeAcc;
 
 	if (t > 1.f) t = 1.f;
 
-	float delta = 30.f - stageTimeStart;
+	float delta = defaultTime - stageTimeStart;
 
 	stageTime = stageTimeStart + delta * (t * t);  // 가속도 형태로 증가
 
@@ -125,14 +134,15 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	if (t >= 1.f)
 	{
-		stageTime = 30.f;
+		stageTime = defaultTime;
 		timeAcc = 0.f;
 		ZoomInForce();
 
 		InitAll();
 		ResetCameraShakeTime();
 		CancleSoundPlaying();
-		
+		CancleBGMPlaying();
+
 
 		if (stageState < StageOne)
 		{
@@ -145,6 +155,8 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 		{
 			SetGameState(Play);
 			CP_Sound_StopGroup(CP_SOUND_GROUP_SFX);
+
+			PlayStageBGM(stageState);
 		}
 
 	}
