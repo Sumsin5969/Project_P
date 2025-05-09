@@ -930,17 +930,15 @@ void CreateLaser(Enemy* e, Laser* laser)
 
 void CreateLaser_Circle(LaserCircle* laser, float duration) // Todo
 {
-	/*CamInfo camInfo = *GetCamera();
+	CamInfo camInfo = *GetCamera();
 	CP_Vector camPos = camInfo.camPos;
 	float HorizonMin = WIDTH / camInfo.camZoom - camPos.x;
-	float HorizonMax = WIDTH / camInfo.camZoom + camPos
-	float VerticalMin;
-	float VerticalMax;
+	float HorizonMax = WIDTH / camInfo.camZoom + camPos.x;
+	float VerticalMin = HEIGHT / camInfo.camZoom + camPos.y;
+	float VerticalMax = HEIGHT / camInfo.camZoom - camPos.y;
 
 	/// duration동안 laserCircle을 생성해준다.
 	/// 생성위치는 카메라 좌표기
-	playercha
-	CP_Vector range*/
 }
 
 void EnableEnemy(Enemy* _enemy)
