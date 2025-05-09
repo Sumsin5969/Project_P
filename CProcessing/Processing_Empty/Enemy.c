@@ -15,7 +15,7 @@ const float PERIOD = 1.f;
 
 void InitBoss(Boss* _boss)
 {
-	_boss->pos.x = 0.f;
+	_boss->pos.x = 3600.f;
 	_boss->pos.y = 0.f;
 	_boss->spd = 500.f;
 	_boss->dashTime = 0.f;
