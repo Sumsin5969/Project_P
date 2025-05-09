@@ -40,6 +40,11 @@ void InitCamera()
 	cam->camMatrix = transform;
 }
 
+void InitCamPosition()
+{
+	cam->camPos = CP_Vector_Set(WIDTH * 0.5f, HEIGHT * 0.5f);
+}
+
 CamInfo* GetCamera()
 {
 	if (cam == NULL)
