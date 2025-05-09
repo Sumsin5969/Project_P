@@ -24,7 +24,7 @@ void PlayerInit(void)
 	}
 	player->isDashing = 0;
 	player->playerState = NORMAL;
-	player->dashTimeMax = 0.3f;
+	player->dashTimeMax = .3f;
 	player->dashSpeedBoost = 1000.f;
 	player->size = 50.f;
 	player->pos.x = 0;

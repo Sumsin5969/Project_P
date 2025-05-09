@@ -52,6 +52,14 @@ typedef struct Boss
 	BossState state;
 	int phase;
 	int sniper;
+
+	// 보스용 레이저 변수
+	int rd;
+	int rdprev;
+	float waitTime; // 첫 레이저 대기시간
+	float idleTime; //레이저 발사간격
+	int arrIndex; // 발사간격 MAX 배열
+	float timeArr[5];
 } Boss;
 
 typedef struct Bullet
