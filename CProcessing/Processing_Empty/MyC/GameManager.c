@@ -64,7 +64,8 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	DebugUpdate();
+	//DebugUpdate();
+
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
