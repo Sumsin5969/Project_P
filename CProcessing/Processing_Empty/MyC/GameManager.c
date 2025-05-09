@@ -48,7 +48,7 @@ void GMUpdate()
 
 		PlayerMove();
 
-		CameraMove(LD_RIGHT, 50, 0.01f, 10);
+		//CameraMove(LD_RIGHT, 50, 0.01f, 10);
 
 		ChangePlayerSize();
 
@@ -66,7 +66,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	//DebugUpdate();
+	DebugUpdate();
 
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;

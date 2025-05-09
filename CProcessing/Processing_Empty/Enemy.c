@@ -701,6 +701,7 @@ void CircleBulletFire(Enemy* e, Bullet b[CLIP][MAX_BULLETS_PER_ENEMY])
 	}
 }
 
+
 void LaserAttack(Laser* laser)
 {
 	float dt = GetDt();
@@ -778,6 +779,82 @@ void LaserAttack(Laser* laser)
 	}
 }
 
+void LaserAttack_Circle(LaserCircle* laser)
+{
+	float dt = GetDt();
+
+	if (laser->state == IDLE) // 기본상태
+	{
+		laser->laserWarningAttackRange = 0.f;
+		laser->time += dt;
+
+		if (laser->idleDuration < laser->time)	// 전조를 쏘겠다.
+		{
+			laser->laserAlpha = 0;
+			laser->laserWarningAttackRange = 0;
+			laser->time = 0;
+			laser->state = WARNING;
+		}
+
+	}
+
+	if (laser->state == WARNING)	// 
+	{
+		laser->time += dt;
+
+		float t = laser->time / laser->warningAttackDuration;
+		if (t > 1.f) t = 1.f;
+
+		if (laser->laserAlpha < laser->laserAlphaMax)
+		{
+			laser->laserAlpha = (int)(laser->laserAlphaMax * t);
+		}
+		else
+		{
+			laser->laserAlpha = laser->laserAlphaMax; // 알파 최대값 넘어가는 것 방지하기위함
+		}
+
+		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)
+		{
+			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax * t;
+		}
+		else
+		{
+			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax;	// 두께가 최대보다 높으면 최대로 만들어주겠다.
+		}
+
+		if (laser->warningAttackDuration <= laser->time)
+		{
+			laser->state = WAIT;
+			laser->time = 0;
+		}
+	}
+
+	if (laser->state == WAIT)
+	{
+		laser->time += dt;
+
+		if (laser->waitDuration <= laser->time)	// 딜레이 시간이 다 되면
+		{
+			laser->state = ATTACK;
+			laser->time = 0;
+		}
+	}
+
+	if (laser->state == ATTACK)
+	{
+		laser->laserAlpha = 0;
+		laser->time += dt;
+
+		if (laser->attackDuration <= laser->time)
+		{
+			laser->state = IDLE;
+			laser->active = 0;
+			laser->time = 0;
+		}
+	}
+}
+
 // 레이저 위치 설정해주는 함수
 void CreateLaser(Enemy* e, Laser* laser)
 {
@@ -838,6 +915,21 @@ void CreateLaser(Enemy* e, Laser* laser)
 		laser->laserWidth = e->oriSize;
 		laser->laserHeight = len;
 	}
+}
+
+void CreateLaser_Circle(LaserCircle* laser, float duration) // Todo
+{
+	/*CamInfo camInfo = *GetCamera();
+	CP_Vector camPos = camInfo.camPos;
+	float HorizonMin = WIDTH / camInfo.camZoom - camPos.x;
+	float HorizonMax = WIDTH / camInfo.camZoom + camPos
+	float VerticalMin;
+	float VerticalMax;
+
+	/// duration동안 laserCircle을 생성해준다.
+	/// 생성위치는 카메라 좌표기
+	playercha
+	CP_Vector range*/
 }
 
 void EnableEnemy(Enemy* _enemy)

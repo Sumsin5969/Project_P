@@ -93,7 +93,6 @@ typedef struct Laser
 	float waitDuration; // 경고사격 후 딜레이 (진짜 사격전 딜레이)
 	float attackDuration;
 
-
 	float laserWarningAttackRange;
 	float laserWarningAttackRangeMax;
 
@@ -103,6 +102,29 @@ typedef struct Laser
 	LaserState state;
 	int sniper;
 } Laser;
+
+typedef struct LaserCircle
+{
+	CP_Vector pos;
+	int laserAlpha;
+	int laserAlphaMax;
+	int active;
+
+	float time;
+
+	float idleDuration;
+	float warningAttackDuration; // 경고사격 지속시간
+	float waitDuration; // 경고사격 후 딜레이 (진짜 사격전 딜레이)
+	float attackDuration;
+
+	float laserWarningAttackRange;
+	float laserWarningAttackRangeMax;
+
+	float laserSize;
+
+	LaserState state;
+	int sniper;
+} LaserCircle;
 
 Boss boss;
 Boss elite_StageFive;
