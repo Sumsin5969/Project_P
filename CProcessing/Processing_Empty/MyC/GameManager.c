@@ -162,7 +162,10 @@ void InitEnemies()
 	EnemyInit_StageFour(enemies[StageFour]);
 	EnemyInit_StageFive(&elite_StageFive);
 	EnemyInit_StageSix(&enemy_StageSix);
-	EnemyInit_BossStage(&boss);
+	InitBoss(&boss);
+	InitBossLaserShooter(BossLaserShooter);
+	InitBossFirstLaser(BossLaserShooter, Lasers_BossStage);
+	InitBossCrossBullet(&boss);
 }
 
 void InitAll()
@@ -205,7 +208,7 @@ void Update_StageTwo()
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		CheckEnemy(&enemies[StageTwo][i]);
-		CreateLaser_StageTwo(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+		CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
 		CheckLaser(&Lasers_StageTwo[i]);
 		LaserAttack(&Lasers_StageTwo[i]);
 	}

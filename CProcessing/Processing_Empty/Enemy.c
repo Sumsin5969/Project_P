@@ -13,7 +13,7 @@ static float pulse = 0.f;
 static int shrinking = 1;
 const float PERIOD = 1.f;
 
-void EnemyInit_BossStage(Boss* _boss)
+void InitBoss(Boss* _boss)
 {
 	_boss->pos.x = 0.f;
 	_boss->pos.y = 0.f;
@@ -36,6 +36,10 @@ void EnemyInit_BossStage(Boss* _boss)
 	_boss->phase = 0;
 	_boss->sniper = 0;
 
+
+}
+void InitBossCrossBullet(Boss* _boss)
+{
 	// Init Bullets
 	int dirChanger = 0;
 	for (int i = 0; i < 4; i++)
@@ -114,50 +118,50 @@ void EnemyInit_BossStage(Boss* _boss)
 			CrossBullets_Boss[i][j].sniper = 0;
 		}
 	}
-	
-	// Init Lasers 보기 족같아서 일부러 따로 함
-	CamInfo* cam = GetCamera();
-	float z = cam->camZoom;
+}
 
-	float worldTop = (-HEIGHT - cam->camPos.y) / z;
-
-	float sx = 0.f, sy = 0.f, ex = 0.f, ey = 0.f, len = 0.f;
-	
-	static float laserPos = -3500;
+void InitBossLaserShooter(Enemy* _lasershooter)
+{
+	static float xCoor = -3500;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
-		BossLaserShooter[i].pos.x = laserPos;
-		laserPos += 7000 / MAX_LASERS;
-		BossLaserShooter[i].pos.y = 2000.f;
-		BossLaserShooter[i].size = 1000.f;
-		BossLaserShooter[i].oriSize = 1000.f;
-		sy = BossLaserShooter[i].pos.y + BossLaserShooter[i].size * 0.5f;
-		ey = worldTop;         // 진짜 위쪽 끝
-		sx = ex = BossLaserShooter[i].pos.x;
-		len = ey - sy;
-		// 중앙 위치 & 크기 설정
-		Lasers_BossStage[i].pos.x = BossLaserShooter[i].pos.x;
-		Lasers_BossStage[i].pos.y = (sy + ey) * 0.5f;
-		Lasers_BossStage[i].laserAlpha = 50; // 전조 알파값
-		Lasers_BossStage[i].laserAlphaMax = 200; // 전조 최대 알파값
-
-		Lasers_BossStage[i].time = 0;
-		Lasers_BossStage[i].idleDuration = 0.01f;
-		Lasers_BossStage[i].warningAttackDuration = 1.f;
-		Lasers_BossStage[i].waitDuration = 0.2f;
-		Lasers_BossStage[i].attackDuration = .8f;
-
-		Lasers_BossStage[i].laserWarningAttackRange = 0.f;
-		Lasers_BossStage[i].laserWarningAttackRangeMax = BossLaserShooter[i].size;
-
-		Lasers_BossStage[i].laserWidth = BossLaserShooter[i].oriSize;
-		Lasers_BossStage[i].laserHeight = len;
-		Lasers_BossStage[i].laserDirection = LD_UP;
-		Lasers_BossStage[i].state = IDLE;
-		Lasers_BossStage[i].sniper = 0;
+		_lasershooter[i].pos.x = xCoor;
+		xCoor += 7000 / MAX_LASERS;
+		_lasershooter[i].pos.y = 1000.f;
+		_lasershooter[i].size = 100.f;
+		_lasershooter[i].oriSize = _lasershooter[i].size;
+		_lasershooter[i].spd = 0.f;
+		_lasershooter[i].active = 0;
+		_lasershooter[i].sniper = 0;
 	}
 }
 
+void InitBossFirstLaser(Enemy* _lasershooter, Laser* _laser)
+{
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		_laser[i].laserDirection = LD_UP;
+		_laser[i].pos.x = _lasershooter[i].pos.x;
+		_laser[i].pos.y = _lasershooter[i].pos.y;
+		_laser[i].laserAlpha = 50;
+		_laser[i].laserAlphaMax = 200;
+
+		_laser[i].time = 0.f;
+		_laser[i].idleDuration = 0.f;
+		_laser[i].warningAttackDuration = 1.f;
+		_laser[i].waitDuration = 0.2f;
+		_laser[i].attackDuration = 0.5f;
+
+		_laser[i].laserWarningAttackRange = 0.f;
+		_laser[i].laserWarningAttackRangeMax = _lasershooter[i].size;
+
+		_laser[i].laserWidth = 0.f;
+		_laser[i].laserHeight = 0.f;
+
+		_laser[i].state = IDLE;
+		_laser[i].sniper = 0;
+	}
+}
 // 스테이지 1 적과 탄환 초기화
 void EnemyInit_StageOne(Enemy* _enemy)
 {
@@ -720,9 +724,12 @@ void LaserAttack(Laser* laser)
 	{
 		laser->time += dt;
 
+		float t = laser->time / laser->warningAttackDuration;
+		if (t > 1.f) t = 1.f;
+
 		if (laser->laserAlpha < laser->laserAlphaMax)
 		{
-			laser->laserAlpha = (int)((laser->time / laser->warningAttackDuration) * laser->laserAlphaMax);
+			laser->laserAlpha = (int)(laser->laserAlphaMax * t);
 		}
 		else
 		{
@@ -731,7 +738,7 @@ void LaserAttack(Laser* laser)
 
 		if (laser->laserWarningAttackRange < laser->laserWarningAttackRangeMax)
 		{
-			laser->laserWarningAttackRange += dt * 50.f;
+			laser->laserWarningAttackRange = laser->laserWarningAttackRangeMax * t;
 		}
 		else
 		{
@@ -764,6 +771,7 @@ void LaserAttack(Laser* laser)
 		if (laser->attackDuration <= laser->time)
 		{
 			laser->state = IDLE;
+			laser->active = 0;
 			laser->time = 0;
 		}
 
@@ -771,7 +779,7 @@ void LaserAttack(Laser* laser)
 }
 
 // 레이저 위치 설정해주는 함수
-void CreateLaser_StageTwo(Enemy* e, Laser* laser)
+void CreateLaser(Enemy* e, Laser* laser)
 {
 	CamInfo* cam = GetCamera();
 	float z = cam->camZoom;
@@ -801,17 +809,17 @@ void CreateLaser_StageTwo(Enemy* e, Laser* laser)
 		break;
 
 	case LD_UP:
-		sy = e->pos.y + e->size * 0.5f;
-		ey = worldTop;         // 진짜 위쪽 끝
+		sy = e->pos.y - e->size * 0.5f;
+		ey = worldBottom / cam->camZoom;      // 진짜 아래쪽 끝
 		sx = ex = e->pos.x;
-		len = ey - sy;
+		len = sy - ey;
 		break;
 
 	case LD_DOWN:
-		sy = e->pos.y - e->size * 0.5f;
-		ey = worldBottom;      // 진짜 아래쪽 끝
+		sy = e->pos.y + e->size * 0.5f;
+		ey = worldTop / cam->camZoom;         // 진짜 위쪽 끝
 		sx = ex = e->pos.x;
-		len = sy - ey;
+		len = ey - sy;
 		break;
 	}
 

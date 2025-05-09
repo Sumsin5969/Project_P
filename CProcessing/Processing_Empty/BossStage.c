@@ -114,8 +114,30 @@ void RunAway(Boss* _boss)
 
 void BossLaserAttack()
 {
-	int random = rand() % 100;
-	LaserAttack(&Lasers_BossStage[random]);
+	float dt = GetDt();
+
+	static float idleTime = 0.f;
+	static int arrIndex = 0;
+	const float timeArr[4] = {0.9f, 0.4f, 0.4f, 1.4f};
+	idleTime += dt;
+	static int rd;
+	if (idleTime >= timeArr[arrIndex])
+	{
+		rd = rand() % MAX_LASERS;
+		Lasers_BossStage[rd].active = 1;
+		idleTime = 0.f;
+		arrIndex++;
+		if (arrIndex >= 4) arrIndex = 0;
+	}
+
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		if (Lasers_BossStage[i].active == 1)
+		{
+			CreateLaser(&BossLaserShooter[i], &Lasers_BossStage[i]);
+			LaserAttack(&Lasers_BossStage[i]);
+		}
+	}
 }
 
 void BossStageController(Boss* _boss)

@@ -389,8 +389,18 @@ void RenderBoss(Boss* _boss)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
-void RenderBullet_BossStage()
+void RenderLaserShooter(Enemy* _enemy)
 {
+	RenderEnemy(_enemy);
+}
+
+void RenderBossAttack()
+{
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		RenderLaserShooter(&BossLaserShooter[i]);
+		RenderLaser(&Lasers_BossStage[i]);
+	}
 	if (boss.phase < 2)
 	{
 		for (int i = 0; i < 4; i++)
@@ -401,19 +411,6 @@ void RenderBullet_BossStage()
 			}
 		}
 	}
-}
-
-void RenderLaser_BossStage()
-{
-	for (int i = 0; i < MAX_LASERS; i++)
-	{
-		RenderLaser(&Lasers_BossStage[i]);
-	}
-}
-
-void RenderBossStage()
-{
-	RenderBoss(&boss);
 }
 
 void RenderEnemyAll()
@@ -430,7 +427,7 @@ void RenderEnemyAll()
 	}
 	else
 	{
-		RenderBossStage();
+		RenderBoss(&boss);
 	}
 }
 
@@ -445,8 +442,7 @@ void RenderAttackAll()
 	}
 	else
 	{
-		RenderBullet_BossStage();
-		RenderLaser_BossStage();
+		RenderBossAttack();
 	}
 }
 

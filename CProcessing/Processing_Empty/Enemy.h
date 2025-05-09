@@ -84,7 +84,8 @@ typedef struct Laser
 	CP_Vector pos;
 	int laserAlpha;
 	int laserAlphaMax;
-	
+	int active;
+
 	float time;
 
 	float idleDuration;
@@ -115,7 +116,10 @@ Laser Lasers_StageTwo[MAX_ENEMIES];
 Enemy BossLaserShooter[MAX_LASERS];
 Laser Lasers_BossStage[MAX_LASERS];
 
-void EnemyInit_BossStage(Boss*);
+void InitBoss(Boss*);
+void InitBossCrossBullet(Boss*);
+void InitBossLaserShooter(Enemy* _lasershooter);
+void InitBossFirstLaser(Enemy* _lasershooter, Laser* _laser);
 Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
 void BossCrossFire(Boss*, Bullet*);
 
@@ -142,12 +146,10 @@ void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void CircleBulletFire(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
 
-void CreateLaser_StageTwo(Enemy*, Laser*);
+void CreateLaser(Enemy*, Laser*);
 void LaserAttack(Laser*);
-
-void EnableBoss(Boss*);
+void LaserAttack_StageBoss(Laser*);
 void EnableEnemy(Enemy*);
 void DisableEnemy(Enemy*);
-void DisableBoss(Boss*);
 
 void ChangeEnemySize();
