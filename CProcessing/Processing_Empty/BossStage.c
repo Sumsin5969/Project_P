@@ -156,10 +156,9 @@ void BossStageController(Boss* _boss)
 	{
 
 	}
-	//else if (_boss->time > 15.5f) _boss->phase = 2;
-	//else if (_boss->time > 8.9f) _boss->phase = 1;
-	//else if (_boss->time < 8.f)	Contact(&boss);
-	_boss->phase = 2;
+	else if (_boss->time > 15.5f) _boss->phase = 2;
+	else if (_boss->time > 8.9f) _boss->phase = 1;
+	else if (_boss->time < 8.f)	Contact(&boss);
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
