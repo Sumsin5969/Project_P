@@ -12,7 +12,8 @@ float nowZoomSize;
 float cameraShakeTimer = 0;
 float shakingTime = 0.5f;
 int shakeIndex = 0;
-
+float cameraAccel = 1.f;
+float cameraMoveTime = 0;
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
@@ -141,6 +142,41 @@ void DestroyCam() //todo 게임매니저 혹은 메인에 넣을것
 void ResetCameraShakeTime()
 {
 	cameraShakeTimer = 0;
+}
+
+void CameraMove(LaserDirection _direction, float speed, float accelValue, float targetTime)
+{
+	float dt = GetDt();
+
+	switch (_direction)
+	{
+	case LD_UP:
+		cam->camPos.y -= (speed * dt) * cameraAccel;
+		break;
+	case LD_DOWN:
+		cam->camPos.y += (speed * dt) * cameraAccel;
+		break;
+	case LD_LEFT:
+		cam->camPos.x -= (speed * dt) * cameraAccel;
+		break;
+	case LD_RIGHT:
+		cam->camPos.x += (speed * dt) * cameraAccel;
+		break;
+	default:
+		break;
+	}
+
+	if (cameraMoveTime <= targetTime / 2)
+	{
+		cameraAccel += accelValue;
+	}
+	else if (cameraMoveTime <= targetTime)
+	{
+		cameraAccel -= accelValue;
+	}
+	else cameraAccel = 0;
+
+	cameraMoveTime += dt;
 }
 
 void CameraShaking()

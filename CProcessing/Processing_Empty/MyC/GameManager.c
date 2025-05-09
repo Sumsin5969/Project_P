@@ -48,6 +48,8 @@ void GMUpdate()
 
 		PlayerMove();
 
+		CameraMove(LD_RIGHT, 50, 0.01f, 10);
+
 		ChangePlayerSize();
 
 		Update_Enemy();
