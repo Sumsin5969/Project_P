@@ -13,6 +13,7 @@ float cameraShakeTimer = 0;
 float shakingTime = 0.5f;
 int shakeIndex = 0;
 float cameraAccel = 1.f;
+float cameraMoveTime = 0;
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
@@ -143,11 +144,9 @@ void ResetCameraShakeTime()
 	cameraShakeTimer = 0;
 }
 
-void CameraMove(LaserDirection _direction, float speed,float targetTime)
+void CameraMove(LaserDirection _direction, float speed, float accelValue, float targetTime)
 {
 	float dt = GetDt();
-
-	if (targetTime <= cameraAccel) return;
 
 	switch (_direction)
 	{
@@ -167,7 +166,17 @@ void CameraMove(LaserDirection _direction, float speed,float targetTime)
 		break;
 	}
 
-	cameraAccel += 0.01f;
+	if (cameraMoveTime <= targetTime / 2)
+	{
+		cameraAccel += accelValue;
+	}
+	else if (cameraMoveTime <= targetTime)
+	{
+		cameraAccel -= accelValue;
+	}
+	else cameraAccel = 0;
+
+	cameraMoveTime += dt;
 }
 
 void CameraShaking()

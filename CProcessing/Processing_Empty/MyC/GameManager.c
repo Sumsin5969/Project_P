@@ -48,7 +48,7 @@ void GMUpdate()
 
 		PlayerMove();
 
-		CameraMove(LD_LEFT, 50, 10);
+		CameraMove(LD_RIGHT, 50, 0.01f, 10);
 
 		ChangePlayerSize();
 
