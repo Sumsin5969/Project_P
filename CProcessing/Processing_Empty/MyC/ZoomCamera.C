@@ -14,6 +14,14 @@ float shakingTime = 0.5f;
 int shakeIndex = 0;
 float cameraAccel = 1.f;
 float cameraMoveTime = 0;
+CP_Vector camOriPos;
+
+// 
+CP_BOOL isShaking = FALSE;
+float shakeDuration = 0.0f;
+float shakeTime = 0.0f;
+int shakeIndex = 0;
+
 void InitCamera()
 {
 	cam = (CamInfo*)calloc(1, sizeof(CamInfo));
@@ -184,6 +192,7 @@ void CameraMove(LaserDirection _direction, float speed, float accelValue, float 
 	cameraMoveTime += dt;
 }
 
+
 void CameraShaking()
 {
 	if (cameraShakeTimer < shakingTime)
@@ -214,4 +223,46 @@ void CameraShaking()
 	{
 		cam->camPos = CP_Vector_Set(WIDTH * 0.5f, HEIGHT * 0.5f);
 	}
+}
+
+void StartCameraShake(float duration)
+{
+	isShaking = TRUE;
+	shakeDuration = duration;
+	shakeTime = 0.0f;
+	shakeIndex = 0;
+	camOriPos = cam->camPos;
+}
+
+void UpdateCameraShake()
+{
+	if (!isShaking)
+		return;
+
+	shakeTime += GetDt();
+	if (shakeTime >= shakeDuration)
+	{
+		isShaking = FALSE;
+		cam->camPos = camOriPos; // 초기 위치로 복구
+		return;
+	}
+
+	// 쉐이크 적용
+	switch (shakeIndex)
+	{
+	case 0:
+		cam->camPos.x = camOriPos.x + 15;
+		break;
+	case 1:
+		cam->camPos.y = camOriPos.y + 15;
+		break;
+	case 2:
+		cam->camPos.y = camOriPos.y - 15;
+		break;
+	case 3:
+		cam->camPos.x = camOriPos.x - 15;
+		break;
+	}
+
+	shakeIndex = (shakeIndex + 1) % 4;
 }
