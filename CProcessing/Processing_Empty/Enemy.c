@@ -122,11 +122,11 @@ void InitBossCrossBullet(Boss* _boss)
 
 void InitBossLaserShooter(Enemy* _lasershooter)
 {
-	static float xCoor = -3500;
+	static float xCoor = -3000;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
 		_lasershooter[i].pos.x = xCoor;
-		xCoor += 7000 / MAX_LASERS;
+		xCoor += 6000 / MAX_LASERS;
 		_lasershooter[i].pos.y = 1000.f;
 		_lasershooter[i].size = 100.f;
 		_lasershooter[i].oriSize = _lasershooter[i].size;

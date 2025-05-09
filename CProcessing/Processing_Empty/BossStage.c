@@ -116,18 +116,31 @@ void BossLaserAttack()
 {
 	float dt = GetDt();
 
+	static int rd = 0;
+	int rdprev = 0;
 	static float idleTime = 0.f;
 	static int arrIndex = 0;
-	const float timeArr[4] = {0.9f, 0.4f, 0.4f, 1.4f};
+	const float timeArr[5] = {1.1f,1.f,0.5f,0.5f,0.6f};
+
 	idleTime += dt;
-	static int rd;
+
+	rdprev = rd;
+
 	if (idleTime >= timeArr[arrIndex])
 	{
-		rd = rand() % MAX_LASERS;
-		Lasers_BossStage[rd].active = 1;
+		do {
+			rd = rand() % MAX_LASERS;
+		} while (rd == rdprev);
+
+		if (Lasers_BossStage[rd].active == 0)
+		{
+			Lasers_BossStage[rd].active = 1;
+		}
+
 		idleTime = 0.f;
 		arrIndex++;
-		if (arrIndex >= 4) arrIndex = 0;
+
+		if (arrIndex >= 5) arrIndex = 0;
 	}
 
 	for (int i = 0; i < MAX_LASERS; i++)
@@ -156,9 +169,10 @@ void BossStageController(Boss* _boss)
 	{
 
 	}
-	else if (_boss->time > 15.5f) _boss->phase = 2;
+	/*else if (_boss->time > 15.5f) _boss->phase = 2;
 	else if (_boss->time > 8.9f) _boss->phase = 1;
-	else if (_boss->time < 8.f)	Contact(&boss);
+	else if (_boss->time < 8.f)	Contact(&boss);*/
+	_boss->phase = 2;
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
