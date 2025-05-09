@@ -48,8 +48,6 @@ void GMUpdate()
 
 		PlayerMove();
 
-		CameraMove(LD_RIGHT, 50, 0.01f, 10);
-
 		ChangePlayerSize();
 
 		Update_Enemy();
@@ -171,12 +169,14 @@ void InitEnemies()
 	InitBossCrossBullet(&boss);
 }
 
+
 void InitAll()
 {
 	PlayerInit();
 	StageTimerReset();
 	InitWall(wall);
 	InitEnemies();
+
 }
 
 void SavePlayerPos()
@@ -263,7 +263,6 @@ void Update_StageSix()
 // 보스 스테이지 관리
 void Update_StageBoss()
 {
-	boss.active = 1;
 	CheckBoss(&boss);
 	BossStageController(&boss);
 }

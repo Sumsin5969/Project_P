@@ -112,36 +112,31 @@ void RunAway(Boss* _boss)
 	}
 }
 
-void BossLaserAttack()
+void BossLaserAttack(Boss* _boss)
 {
 	float dt = GetDt();
 
-	static int rd = 0;
-	int rdprev = 0;
-	static float idleTime = 0.f;
-	static int arrIndex = 0;
-	const float timeArr[5] = {1.1f,1.f,0.5f,0.5f,0.6f};
+	_boss->idleTime += dt;
+	_boss->waitTime += dt;
 
-	idleTime += dt;
-
-	rdprev = rd;
-
-	if (idleTime >= timeArr[arrIndex])
-	{
-		do {
-			rd = rand() % MAX_LASERS;
-		} while (rd == rdprev);
-
-		if (Lasers_BossStage[rd].active == 0)
+		if (_boss->idleTime >= _boss->timeArr[_boss->arrIndex])
 		{
-			Lasers_BossStage[rd].active = 1;
+			do {
+				_boss->rd = rand() % MAX_LASERS;
+			} while (_boss->rd == _boss->rdprev);
+
+			_boss->rdprev = _boss->rd;
+
+			if (Lasers_BossStage[_boss->rd].active == 0)
+			{
+				Lasers_BossStage[_boss->rd].active = 1;
+			}
+
+			_boss->idleTime = 0.f;
+			_boss->arrIndex++;
+
+			if (_boss->arrIndex >= 5) _boss->arrIndex = 0;
 		}
-
-		idleTime = 0.f;
-		arrIndex++;
-
-		if (arrIndex >= 5) arrIndex = 0;
-	}
 
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
@@ -165,14 +160,12 @@ void BossStageController(Boss* _boss)
 	{
 
 	}
-	else if (_boss->time > 60.f)
-	{
-
-	}
-	/*else if (_boss->time > 15.5f) _boss->phase = 2;
+	else if (_boss->time > 30.f) _boss->phase = 3;
+	else if (_boss->time > 17.5f) _boss->phase = 2;
+	else if (_boss->time > 15.5f) RunAway(_boss);
 	else if (_boss->time > 8.9f) _boss->phase = 1;
-	else if (_boss->time < 8.f)	Contact(&boss);*/
-	_boss->phase = 2;
+	else if (_boss->time < 8.f)	Contact(&boss);
+
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
@@ -180,8 +173,11 @@ void BossStageController(Boss* _boss)
 	}
 	if (_boss->phase == 2)
 	{
-		RunAway(_boss);
-		BossLaserAttack();
+		BossLaserAttack(&boss);
+	}
+	if (_boss->phase == 3)
+	{
+		CameraMove(LD_LEFT, 50, 0.01f, 20);
 	}
 
 }

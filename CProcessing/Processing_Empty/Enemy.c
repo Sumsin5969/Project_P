@@ -36,7 +36,16 @@ void InitBoss(Boss* _boss)
 	_boss->phase = 0;
 	_boss->sniper = 0;
 
-
+	_boss->rd = 0;
+	_boss->rdprev = 0;
+	_boss->idleTime = 0;
+	_boss->arrIndex = 0;
+	_boss->waitTime = 0;
+	float timeArray[5] = { 0.6f, 0.45f,0.45f,0.45f,0.3f };
+	for (int i = 0; i < 5; i++)
+	{
+		_boss->timeArr[i] = timeArray[i];
+	}
 }
 void InitBossCrossBullet(Boss* _boss)
 {
@@ -122,11 +131,11 @@ void InitBossCrossBullet(Boss* _boss)
 
 void InitBossLaserShooter(Enemy* _lasershooter)
 {
-	static float xCoor = -3000;
+	static float xCoor = -3400;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
+		xCoor += 6400 / MAX_LASERS;
 		_lasershooter[i].pos.x = xCoor;
-		xCoor += 6000 / MAX_LASERS;
 		_lasershooter[i].pos.y = 1000.f;
 		_lasershooter[i].size = 100.f;
 		_lasershooter[i].oriSize = _lasershooter[i].size;
