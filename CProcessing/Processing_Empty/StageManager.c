@@ -101,7 +101,12 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 		stageState++;
 
-		if (stageState == StageBoss) stageTime = 100.f;
+		if (stageState == StageBoss)
+		{
+			stageTime = 100.f;
+			player->spd *= 2;
+			player->dashSpeedBoost *= 2;
+		}
 
 		ZoomOutForce();
 		SetZoom(stageState);

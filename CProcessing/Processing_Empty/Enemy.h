@@ -60,6 +60,7 @@ typedef struct Boss
 	float idleTime; //레이저 발사간격
 	int arrIndex; // 발사간격 MAX 배열
 	float timeArr[5];
+	int laserCycle;
 } Boss;
 
 typedef struct Bullet

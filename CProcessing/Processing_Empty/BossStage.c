@@ -119,24 +119,37 @@ void BossLaserAttack(Boss* _boss)
 	_boss->idleTime += dt;
 	_boss->waitTime += dt;
 
-		if (_boss->idleTime >= _boss->timeArr[_boss->arrIndex])
+	float waitDuration = 1.f;
+
+	if (_boss->laserCycle < 7)
+	{
+		if (_boss->waitTime > waitDuration)
 		{
-			do {
-				_boss->rd = rand() % MAX_LASERS;
-			} while (_boss->rd == _boss->rdprev);
 
-			_boss->rdprev = _boss->rd;
-
-			if (Lasers_BossStage[_boss->rd].active == 0)
+			if (_boss->idleTime >= _boss->timeArr[_boss->arrIndex])
 			{
-				Lasers_BossStage[_boss->rd].active = 1;
+				do {
+					_boss->rd = rand() % MAX_LASERS;
+				} while (_boss->rd == _boss->rdprev);
+
+				_boss->rdprev = _boss->rd;
+
+				if (Lasers_BossStage[_boss->rd].active == 0)
+				{
+					Lasers_BossStage[_boss->rd].active = 1;
+				}
+
+				_boss->idleTime = 0.f;
+				_boss->arrIndex++;
+
+				if (_boss->arrIndex >= 5)
+				{
+					_boss->arrIndex = 0;
+					_boss->laserCycle++;
+				}
 			}
-
-			_boss->idleTime = 0.f;
-			_boss->arrIndex++;
-
-			if (_boss->arrIndex >= 5) _boss->arrIndex = 0;
 		}
+	}
 
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
@@ -146,26 +159,56 @@ void BossLaserAttack(Boss* _boss)
 			LaserAttack(&Lasers_BossStage[i]);
 		}
 	}
+
+}
+
+void InitPhaseThreeObstacle(Obstacle* _ob)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			_ob[i].pos.x = 5000;
+			_ob[i].pos.y = 0;
+			break;
+		case 1:
+			_ob[i].pos.x = 6000;
+			_ob[i].pos.y = 0;
+			break;
+		case 2:
+			_ob[i].pos.x = 7000;
+			_ob[i].pos.y = 0;
+			break;
+		}
+		_ob[i].width = 300;
+		_ob[i].height = 5000;
+		_ob[i].sniper = 0;
+	}
+}
+
+void PhaseThreeObstacle(Obstacle* _ob)
+{
+	
 }
 
 void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
 	_boss->time += dt;
-	if (_boss->time > 100.f)
+	if (_boss->time > 72.f)
 	{
 		_boss->state = DEAD;
 	}
-	else if (_boss->time > 80.f)
-	{
-
-	}
-	else if (_boss->time > 30.f) _boss->phase = 3;
-	else if (_boss->time > 17.5f) _boss->phase = 2;
-	else if (_boss->time > 15.5f) RunAway(_boss);
+	else if (_boss->time > 50.f) _boss->phase = 4;
+	else if (_boss->time > 35.f) _boss->phase = 3;
+	else if (_boss->time > 15.5f) _boss->phase = 2;
 	else if (_boss->time > 8.9f) _boss->phase = 1;
 	else if (_boss->time < 8.f)	Contact(&boss);
-
+	// 0페이즈: 보스 등장
+	// 1페이즈: 보스 세발쏘는거
+	// 2페이즈: 레이저 나오는거
+	// 3페이즈: 이동
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
@@ -173,11 +216,12 @@ void BossStageController(Boss* _boss)
 	}
 	if (_boss->phase == 2)
 	{
+		RunAway(_boss);
 		BossLaserAttack(&boss);
 	}
 	if (_boss->phase == 3)
 	{
-		CameraMove(LD_LEFT, 50, 0.01f, 20);
+		CameraMove(LD_LEFT, 40, 0.01f, 15);
 	}
 
 }

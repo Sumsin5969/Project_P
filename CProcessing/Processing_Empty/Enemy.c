@@ -36,11 +36,13 @@ void InitBoss(Boss* _boss)
 	_boss->phase = 0;
 	_boss->sniper = 0;
 
+	// 보스 스테이지 레이저 초기화
 	_boss->rd = 0;
 	_boss->rdprev = 0;
 	_boss->idleTime = 0;
 	_boss->arrIndex = 0;
 	_boss->waitTime = 0;
+	_boss->laserCycle = 0;
 	float timeArray[5] = { 0.6f, 0.45f,0.45f,0.45f,0.3f };
 	for (int i = 0; i < 5; i++)
 	{
@@ -121,7 +123,7 @@ void InitBossCrossBullet(Boss* _boss)
 				}
 			}
 			CrossBullets_Boss[i][j].projPos = _boss->pos;
-			CrossBullets_Boss[i][j].projSpd = 1600.f;
+			CrossBullets_Boss[i][j].projSpd = 2000.f;
 			CrossBullets_Boss[i][j].active = 0;
 			CrossBullets_Boss[i][j].size = _boss->size / 3;
 			CrossBullets_Boss[i][j].sniper = 0;
@@ -131,7 +133,7 @@ void InitBossCrossBullet(Boss* _boss)
 
 void InitBossLaserShooter(Enemy* _lasershooter)
 {
-	static float xCoor = -3400;
+	float xCoor = -3300;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
 		xCoor += 6400 / MAX_LASERS;

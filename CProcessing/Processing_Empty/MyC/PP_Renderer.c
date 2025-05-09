@@ -401,15 +401,20 @@ void RenderBossAttack()
 		RenderLaserShooter(&BossLaserShooter[i]);
 		RenderLaser(&Lasers_BossStage[i]);
 	}
-	if (boss.phase < 2)
+	for (int i = 0; i < 4; i++)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
-			{
-				RenderBullet(&CrossBullets_Boss[i][j]);
-			}
+			RenderBullet(&CrossBullets_Boss[i][j]);
 		}
+	}
+}
+
+void RenderBossObstacle()
+{
+	if (boss.phase == 3)
+	{
+
 	}
 }
 

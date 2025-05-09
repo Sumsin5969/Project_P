@@ -176,7 +176,7 @@ void InitAll()
 	StageTimerReset();
 	InitWall(wall);
 	InitEnemies();
-
+	InitCamPosition();
 }
 
 void SavePlayerPos()
