@@ -405,7 +405,8 @@ void RenderBossAttack()
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
-			RenderBullet(&CrossBullets_Boss[i][j]);
+			if (CrossBullets_Boss[i][j].active == 1)
+				RenderBullet(&CrossBullets_Boss[i][j]);
 		}
 	}
 }
@@ -414,7 +415,10 @@ void RenderBossObstacle()
 {
 	if (boss.phase == 3)
 	{
-
+		for (int i = 0; i < 3; i++)
+		{
+			RenderObstacle(&bosswall[i]);
+		}
 	}
 }
 
@@ -433,6 +437,7 @@ void RenderEnemyAll()
 	else
 	{
 		RenderBoss(&boss);
+		RenderBossObstacle();
 	}
 }
 

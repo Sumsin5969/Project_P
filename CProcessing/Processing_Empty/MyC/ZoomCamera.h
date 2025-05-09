@@ -22,6 +22,8 @@ void ZoomInForce();
 void ZoomOutForce();
 
 void CameraShaking();
+void StartCameraShake(float duration);
+void UpdateCameraShake();
 void ResetCameraShakeTime();
 
 void CameraMove(LaserDirection _direction, float speed,float accelValue,float targetTime);

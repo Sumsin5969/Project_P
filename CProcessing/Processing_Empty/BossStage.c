@@ -9,6 +9,7 @@
 #include "MyC/JhDebug.h"
 #include "StageManager.h"
 #include "Enemy.h"
+#include "BossStage.h"
 
 void CrossBulletConditioner(Boss* _boss)
 {
@@ -106,6 +107,7 @@ void RunAway(Boss* _boss)
 		_boss->pos.x += dt * _boss->spd;
 		if (_boss->pos.x >= 3600.f)
 		{
+			_boss->pos.y = 3000;
 			_boss->spd = originSpd;
 			return;
 		}
@@ -156,12 +158,11 @@ void BossLaserAttack(Boss* _boss)
 		if (Lasers_BossStage[i].active == 1)
 		{
 			CreateLaser(&BossLaserShooter[i], &Lasers_BossStage[i]);
+			CheckLaser(&Lasers_BossStage[i]);
 			LaserAttack(&Lasers_BossStage[i]);
 		}
 	}
-
 }
-
 void InitPhaseThreeObstacle(Obstacle* _ob)
 {
 	for (int i = 0; i < 3; i++)
@@ -187,11 +188,6 @@ void InitPhaseThreeObstacle(Obstacle* _ob)
 	}
 }
 
-void PhaseThreeObstacle(Obstacle* _ob)
-{
-	
-}
-
 void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
@@ -213,6 +209,11 @@ void BossStageController(Boss* _boss)
 	{
 		CrossBulletConditioner(_boss);
 		CrossBulletFire(_boss);
+		for (int i = 0; i < 4; i++)
+		{
+			CheckWallBullet(wall, CrossBullets_Boss[i]);
+			CheckBullet(CrossBullets_Boss[i]);
+		}
 	}
 	if (_boss->phase == 2)
 	{
@@ -222,6 +223,10 @@ void BossStageController(Boss* _boss)
 	if (_boss->phase == 3)
 	{
 		CameraMove(LD_LEFT, 40, 0.01f, 15);
+		for (int i = 0; i < 3; i++)
+		{
+			CheckObstacle(bosswall);
+		}
 	}
 
 }

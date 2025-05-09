@@ -11,7 +11,6 @@ float targetZoomSize = 1;
 float nowZoomSize;
 float cameraShakeTimer = 0;
 float shakingTime = 0.5f;
-int shakeIndex = 0;
 float cameraAccel = 1.f;
 float cameraMoveTime = 0;
 CP_Vector camOriPos;
@@ -227,6 +226,7 @@ void CameraShaking()
 
 void StartCameraShake(float duration)
 {
+	if (isShaking == TRUE) return;
 	isShaking = TRUE;
 	shakeDuration = duration;
 	shakeTime = 0.0f;
@@ -251,16 +251,16 @@ void UpdateCameraShake()
 	switch (shakeIndex)
 	{
 	case 0:
-		cam->camPos.x = camOriPos.x + 15;
+		cam->camPos.x = camOriPos.x + 8;
 		break;
 	case 1:
-		cam->camPos.y = camOriPos.y + 15;
+		cam->camPos.y = camOriPos.y + 8;
 		break;
 	case 2:
-		cam->camPos.y = camOriPos.y - 15;
+		cam->camPos.y = camOriPos.y - 8;
 		break;
 	case 3:
-		cam->camPos.x = camOriPos.x - 15;
+		cam->camPos.x = camOriPos.x - 8;
 		break;
 	}
 

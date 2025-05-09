@@ -36,6 +36,7 @@ CP_Vector enemyShadow[100];
 int enemyShadowIndex;
 
 extern Obstacle wall[MAX];
+extern Obstacle bosswall[3];
 
 void Update_StageOne();
 void Update_StageTwo();

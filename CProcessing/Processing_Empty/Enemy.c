@@ -123,7 +123,7 @@ void InitBossCrossBullet(Boss* _boss)
 				}
 			}
 			CrossBullets_Boss[i][j].projPos = _boss->pos;
-			CrossBullets_Boss[i][j].projSpd = 2000.f;
+			CrossBullets_Boss[i][j].projSpd = 2500.f;
 			CrossBullets_Boss[i][j].active = 0;
 			CrossBullets_Boss[i][j].size = _boss->size / 3;
 			CrossBullets_Boss[i][j].sniper = 0;
@@ -138,7 +138,7 @@ void InitBossLaserShooter(Enemy* _lasershooter)
 	{
 		xCoor += 6400 / MAX_LASERS;
 		_lasershooter[i].pos.x = xCoor;
-		_lasershooter[i].pos.y = 1000.f;
+		_lasershooter[i].pos.y = 2000.f;
 		_lasershooter[i].size = 100.f;
 		_lasershooter[i].oriSize = _lasershooter[i].size;
 		_lasershooter[i].spd = 0.f;
@@ -735,7 +735,6 @@ void LaserAttack(Laser* laser)
 	if (laser->state == WARNING)	// 
 	{
 		laser->time += dt;
-
 		float t = laser->time / laser->warningAttackDuration;
 		if (t > 1.f) t = 1.f;
 
@@ -772,6 +771,7 @@ void LaserAttack(Laser* laser)
 		{
 			laser->state = ATTACK;
 			laser->time = 0;
+			StartCameraShake(.04f);
 		}
 	}
 
@@ -928,18 +928,18 @@ void CreateLaser(Enemy* e, Laser* laser)
 	}
 }
 
-void CreateLaser_Circle(LaserCircle* laser, float duration) // Todo
-{
-	CamInfo camInfo = *GetCamera();
-	CP_Vector camPos = camInfo.camPos;
-	float HorizonMin = WIDTH / camInfo.camZoom - camPos.x;
-	float HorizonMax = WIDTH / camInfo.camZoom + camPos.x;
-	float VerticalMin = HEIGHT / camInfo.camZoom + camPos.y;
-	float VerticalMax = HEIGHT / camInfo.camZoom - camPos.y;
-
-	/// duration동안 laserCircle을 생성해준다.
-	/// 생성위치는 카메라 좌표기
-}
+//void CreateLaser_Circle(LaserCircle* laser, float duration) // Todo
+//{
+//	CamInfo camInfo = *GetCamera();
+//	CP_Vector camPos = camInfo.camPos;
+//	float HorizonMin = WIDTH / camInfo.camZoom - camPos.x;
+//	float HorizonMax = WIDTH / camInfo.camZoom + camPos.x;
+//	float VerticalMin = HEIGHT / camInfo.camZoom + camPos.y;
+//	float VerticalMax = HEIGHT / camInfo.camZoom - camPos.y;
+//
+//	/// duration동안 laserCircle을 생성해준다.
+//	/// 생성위치는 카메라 좌표기
+//}
 
 void EnableEnemy(Enemy* _enemy)
 {

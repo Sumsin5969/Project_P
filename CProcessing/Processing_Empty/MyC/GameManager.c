@@ -13,6 +13,7 @@
 
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
+Obstacle bosswall[3];
 
 void InitGameManager()
 {
@@ -65,6 +66,8 @@ void GMLateUpdate()
 	RenderAll();
 
 	DebugUpdate();
+
+	UpdateCameraShake();
 
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
@@ -167,6 +170,7 @@ void InitEnemies()
 	InitBossLaserShooter(BossLaserShooter);
 	InitBossFirstLaser(BossLaserShooter, Lasers_BossStage);
 	InitBossCrossBullet(&boss);
+	InitPhaseThreeObstacle(bosswall);
 }
 
 

@@ -11,6 +11,8 @@
 #include "StageManager.h"
 #include "Enemy.h"
 
+void InitPhaseThreeObstacle(Obstacle* _ob);
+
 void BossStageController(Boss* _boss);
 void BossBulletConditioner(Boss*, Bullet*);
 void CrossBulletConditioner(Boss*);

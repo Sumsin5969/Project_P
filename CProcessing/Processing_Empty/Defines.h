@@ -6,7 +6,7 @@
 #define MAX_ENEMIES 4
 #define MAX_CIRCLE_ENEMIES 4
 #define MAX_BULLETS_PER_ENEMY 20
-#define MAX_LASERS 50
+#define MAX_LASERS 100
 #define CLIP 10
 #define STAGECLEARTIME 30
 #define ZOOMSPEED 1
