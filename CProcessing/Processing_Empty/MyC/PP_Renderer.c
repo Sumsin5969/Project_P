@@ -1,4 +1,4 @@
-#include "cprocessing.h"
+﻿#include "cprocessing.h"
 #include "PP_Renderer.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
@@ -284,7 +284,10 @@ void RenderEliteShadow(Boss* _boss)
 
 void RenderEnemyShadow()
 {
-	RenderEliteShadow(&elite_StageFive);
+	if (elite_StageFive.isDashing == 1)
+	{
+		RenderEliteShadow(&elite_StageFive);
+	}
 }
 
 void RenderEnemy_StageOne()
@@ -389,6 +392,7 @@ void RenderBoss(Boss* _boss)
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
+// 새로 레이저 넣을 때 디버깅용 쏘는놈 보여주기
 void RenderLaserShooter(Enemy* _enemy)
 {
 	RenderEnemy(_enemy);
@@ -398,7 +402,6 @@ void RenderBossAttack()
 {
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
-		RenderLaserShooter(&BossLaserShooter[i]);
 		RenderLaser(&Lasers_BossStage[i]);
 	}
 	for (int i = 0; i < 4; i++)
@@ -406,7 +409,9 @@ void RenderBossAttack()
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
 		{
 			if (CrossBullets_Boss[i][j].active == 1)
+			{
 				RenderBullet(&CrossBullets_Boss[i][j]);
+			}
 		}
 	}
 }
@@ -415,7 +420,7 @@ void RenderBossObstacle()
 {
 	if (boss.phase == 3)
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			RenderObstacle(&bosswall[i]);
 		}

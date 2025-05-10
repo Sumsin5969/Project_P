@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include "Defines.h"
 #include "StageManager.h"
 #include "MyC/ZoomCamera.h"
@@ -38,8 +38,9 @@ void OnPlayerHit()
 
 void DefaultTimerUI()
 {
-	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 200));
-	CP_Font_DrawText(timeBuffer, WIDTH / 2, 50);
+	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 50));
+	CP_Settings_TextSize(500.f);
+	CP_Font_DrawText(timeBuffer, WIDTH/2, HEIGHT/2);
 	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
 }
 

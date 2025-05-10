@@ -1,4 +1,4 @@
-#include "stdlib.h"
+﻿#include "stdlib.h"
 #include "stdio.h"
 #include "ZoomCamera.h"
 #include "cprocessing.h"
@@ -11,8 +11,6 @@ float targetZoomSize = 1;
 float nowZoomSize;
 float cameraShakeTimer = 0;
 float shakingTime = 0.5f;
-float cameraAccel = 1.f;
-float cameraMoveTime = 0;
 CP_Vector camOriPos;
 
 // 
@@ -163,32 +161,32 @@ void CameraMove(LaserDirection _direction, float speed, float accelValue, float 
 	switch (_direction)
 	{
 	case LD_UP:
-		cam->camPos.y -= (speed * dt) * cameraAccel;
+		cam->camPos.y -= (speed * dt) * boss.cameraAccel;
 		break;
 	case LD_DOWN:
-		cam->camPos.y += (speed * dt) * cameraAccel;
+		cam->camPos.y += (speed * dt) * boss.cameraAccel;
 		break;
 	case LD_LEFT:
-		cam->camPos.x -= (speed * dt) * cameraAccel;
+		cam->camPos.x -= (speed * dt) * boss.cameraAccel;
 		break;
 	case LD_RIGHT:
-		cam->camPos.x += (speed * dt) * cameraAccel;
+		cam->camPos.x += (speed * dt) * boss.cameraAccel;
 		break;
 	default:
 		break;
 	}
 
-	if (cameraMoveTime <= targetTime / 2)
+	if (boss.cameraMoveTime <= targetTime / 2)
 	{
-		cameraAccel += accelValue;
+		boss.cameraAccel += accelValue;
 	}
-	else if (cameraMoveTime <= targetTime)
+	else if (boss.cameraMoveTime <= targetTime)
 	{
-		cameraAccel -= accelValue;
+		boss.cameraAccel -= accelValue;
 	}
-	else cameraAccel = 0;
+	else boss.cameraAccel = 0;
 
-	cameraMoveTime += dt;
+	boss.cameraMoveTime += dt;
 }
 
 
@@ -251,16 +249,16 @@ void UpdateCameraShake()
 	switch (shakeIndex)
 	{
 	case 0:
-		cam->camPos.x = camOriPos.x + 8;
+		cam->camPos.x = camOriPos.x + 10;
 		break;
 	case 1:
-		cam->camPos.y = camOriPos.y + 8;
+		cam->camPos.y = camOriPos.y + 10;
 		break;
 	case 2:
-		cam->camPos.y = camOriPos.y - 8;
+		cam->camPos.y = camOriPos.y - 10;
 		break;
 	case 3:
-		cam->camPos.x = camOriPos.x - 8;
+		cam->camPos.x = camOriPos.x - 10;
 		break;
 	}
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "cprocessing.h"
 #include "Defines.h"
 
@@ -50,8 +50,14 @@ typedef struct Boss
 
 	UnitType unitType;
 	BossState state;
+	int isLeft;
+	int isMove;
 	int phase;
 	int sniper;
+
+	//보스전 카메라용 변수
+	float cameraAccel;
+	float cameraMoveTime;
 
 	// 보스용 레이저 변수
 	int rd;

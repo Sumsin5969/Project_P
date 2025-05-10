@@ -73,7 +73,7 @@ void PlayStageBGM(StageState stage)
 		CP_Sound_PlayAdvanced(stageSound_6, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageBoss:
-		CP_Sound_PlayAdvanced(bossStageSound, 2, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(bossStageSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	}
 
@@ -85,7 +85,7 @@ void PlayStageDownSound()
 	if (soundPlaying == FALSE)
 	{
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
-		CP_Sound_PlayAdvanced(stageDownSound, 3, 1, FALSE, CP_SOUND_GROUP_SFX);
+		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_SFX);
 		soundPlaying = TRUE;
 	}
 	else

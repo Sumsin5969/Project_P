@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../Defines.h"
 #include "../player.h"
 #include "../Enemy.h"
@@ -36,7 +36,7 @@ CP_Vector enemyShadow[100];
 int enemyShadowIndex;
 
 extern Obstacle wall[MAX];
-extern Obstacle bosswall[3];
+extern Obstacle bosswall[4];
 
 void Update_StageOne();
 void Update_StageTwo();

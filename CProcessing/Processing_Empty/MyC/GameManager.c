@@ -1,4 +1,4 @@
-#include "stdio.h"
+﻿#include "stdio.h"
 #include "stdlib.h"
 #include "GameManager.h"
 #include "../Defines.h"
@@ -13,7 +13,7 @@
 
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
-Obstacle bosswall[3];
+Obstacle bosswall[4];
 
 void InitGameManager()
 {
@@ -65,7 +65,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	DebugUpdate();
+	//DebugUpdate();
 
 	UpdateCameraShake();
 
@@ -124,14 +124,13 @@ void CheckGameState()
 	switch (gameState)
 	{
 	case StageDown:
-		printf("스테이지 다운!");
-
 		StageTimerLevelDown();
-
 		break;
+
 	case StageUp:
 		StageTimerLevelUp();
 		break;
+
 	default:
 		break;
 	}

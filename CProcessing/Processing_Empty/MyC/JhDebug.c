@@ -33,6 +33,7 @@ void InitDebuging()
 
 void PrintFrameInfo()
 {
+	CP_Settings_TextSize(36.f);
 	nowTime = CP_System_GetSeconds();
 	nowFrameCount = (float)CP_System_GetFrameCount();
 
@@ -45,6 +46,7 @@ void PrintFrameInfo()
 
 void PrintPlayerInfo()
 {
+	CP_Settings_TextSize(36.f);
 	sprintf_s(buffer, sizeof(playerPosX), "X : %.2f", player->pos.x);
 	CP_Font_DrawText(buffer, 500, 0);
 

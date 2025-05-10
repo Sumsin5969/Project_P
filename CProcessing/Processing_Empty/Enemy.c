@@ -1,4 +1,4 @@
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "Enemy.h"
@@ -34,8 +34,10 @@ void InitBoss(Boss* _boss)
 	_boss->unitType = BOSSCHARACTER;
 	_boss->state = APPEAR;
 	_boss->phase = 0;
+	_boss->isLeft = 0;
 	_boss->sniper = 0;
-
+	_boss->cameraAccel = 1.f;
+	_boss->cameraMoveTime = 0.f;
 	// 보스 스테이지 레이저 초기화
 	_boss->rd = 0;
 	_boss->rdprev = 0;
@@ -43,7 +45,7 @@ void InitBoss(Boss* _boss)
 	_boss->arrIndex = 0;
 	_boss->waitTime = 0;
 	_boss->laserCycle = 0;
-	float timeArray[5] = { 0.6f, 0.45f,0.45f,0.45f,0.3f };
+	float timeArray[5] = { 0.56f, 0.45f,0.45f,0.45f,0.3f };
 	for (int i = 0; i < 5; i++)
 	{
 		_boss->timeArr[i] = timeArray[i];
@@ -139,7 +141,7 @@ void InitBossLaserShooter(Enemy* _lasershooter)
 		xCoor += 6400 / MAX_LASERS;
 		_lasershooter[i].pos.x = xCoor;
 		_lasershooter[i].pos.y = 2000.f;
-		_lasershooter[i].size = 100.f;
+		_lasershooter[i].size = 300.f;
 		_lasershooter[i].oriSize = _lasershooter[i].size;
 		_lasershooter[i].spd = 0.f;
 		_lasershooter[i].active = 0;
@@ -393,9 +395,9 @@ void EnemyInit_StageFive(Boss* _elite)
 	_elite->oriSize = 50.f * (float)pow(1.25, 4);
 	_elite->dashTime = 0.f;
 	_elite->dashTimeMax = .3f;
-	_elite->dashSpeedBoost = 30.f;
+	_elite->dashSpeedBoost = 50.f;
 	_elite->dashDelay = 0.f;
-	_elite->dashDelayMax = 1.f;
+	_elite->dashDelayMax = 3.f;
 	_elite->isDashing = 0;
 	_elite->spd = 0.f;
 	_elite->active = 0;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define WIDTH 1760
 #define HEIGHT 990
 #define WALLWIDTHSIZE 20
@@ -6,9 +6,10 @@
 #define MAX_ENEMIES 4
 #define MAX_CIRCLE_ENEMIES 4
 #define MAX_BULLETS_PER_ENEMY 20
-#define MAX_LASERS 100
+#define MAX_LASERS 200
 #define CLIP 10
-#define STAGECLEARTIME 30
+#define BOSSCLIP 20
+#define STAGECLEARTIME 20
 #define ZOOMSPEED 1
 #define ENEMY_COLOR() CP_Color_Create(200,1,147,255)	// 이렇게도 함수를 디파인할 수 있다.
 //CP_Color defaultColor = { 200,1,147,255 };			// 사실 이렇게 쓰는게 더 깔끔하겠지 하지만 include하기 싫으니까 

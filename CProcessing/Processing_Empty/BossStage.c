@@ -1,4 +1,4 @@
-#include "cprocessing.h"
+﻿#include "cprocessing.h"
 #include "MyC/PP_Renderer.h"
 #include "MyC/ZoomCamera.h"
 #include "Defines.h"
@@ -14,7 +14,7 @@
 void CrossBulletConditioner(Boss* _boss)
 {
 	float dt = GetDt();
-	const float fireIdleTimeMax = 1.7f;
+	const float fireIdleTimeMax = 1.71f;
 	_boss->fireTime += dt;
 
 	if (_boss->magazine % 3 == 0 && _boss->magazine != 0)
@@ -43,7 +43,7 @@ void CrossBulletConditioner(Boss* _boss)
 
 		_boss->magazine++;
 
-		if (_boss->magazine >= MAX_BULLETS_PER_ENEMY)
+		if (_boss->magazine >= BOSSCLIP)
 		{
 			_boss->magazine = 0;
 		}
@@ -89,15 +89,14 @@ void RunAway(Boss* _boss)
 	float dt = GetDt();
 
 	float originSpd = _boss->spd;
-	static int isLeft = 0;
 
-	if (isLeft == 0)
+	if (_boss->isLeft == 0)
 	{
 		_boss->spd -= dt * 1000;
 		_boss->pos.x -= dt * _boss->spd;
 		if (_boss->spd <= 0)
 		{
-			isLeft = 1;
+			_boss->isLeft = 1;
 			_boss->spd = 0;
 		}
 	}
@@ -107,9 +106,8 @@ void RunAway(Boss* _boss)
 		_boss->pos.x += dt * _boss->spd;
 		if (_boss->pos.x >= 3600.f)
 		{
-			_boss->pos.y = 3000;
+			_boss->pos.x = 13500;
 			_boss->spd = originSpd;
-			return;
 		}
 	}
 }
@@ -121,7 +119,7 @@ void BossLaserAttack(Boss* _boss)
 	_boss->idleTime += dt;
 	_boss->waitTime += dt;
 
-	float waitDuration = 1.f;
+	float waitDuration = 1.1f;
 
 	if (_boss->laserCycle < 7)
 	{
@@ -163,21 +161,26 @@ void BossLaserAttack(Boss* _boss)
 		}
 	}
 }
+
 void InitPhaseThreeObstacle(Obstacle* _ob)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		switch (i)
 		{
 		case 0:
-			_ob[i].pos.x = 5000;
+			_ob[i].pos.x = 4000;
 			_ob[i].pos.y = 0;
 			break;
 		case 1:
-			_ob[i].pos.x = 6000;
+			_ob[i].pos.x = 5000;
 			_ob[i].pos.y = 0;
 			break;
 		case 2:
+			_ob[i].pos.x = 6000;
+			_ob[i].pos.y = 0;
+			break;		
+		case 3:
 			_ob[i].pos.x = 7000;
 			_ob[i].pos.y = 0;
 			break;
@@ -192,19 +195,20 @@ void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
 	_boss->time += dt;
-	if (_boss->time > 72.f)
+	if (_boss->time > 100.f)
 	{
 		_boss->state = DEAD;
 	}
-	else if (_boss->time > 50.f) _boss->phase = 4;
 	else if (_boss->time > 35.f) _boss->phase = 3;
 	else if (_boss->time > 15.5f) _boss->phase = 2;
 	else if (_boss->time > 8.9f) _boss->phase = 1;
 	else if (_boss->time < 8.f)	Contact(&boss);
+
 	// 0페이즈: 보스 등장
 	// 1페이즈: 보스 세발쏘는거
 	// 2페이즈: 레이저 나오는거
 	// 3페이즈: 이동
+	// 4페이즈: 구상중
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
@@ -215,18 +219,19 @@ void BossStageController(Boss* _boss)
 			CheckBullet(CrossBullets_Boss[i]);
 		}
 	}
+
 	if (_boss->phase == 2)
 	{
 		RunAway(_boss);
 		BossLaserAttack(&boss);
 	}
+
 	if (_boss->phase == 3)
 	{
-		CameraMove(LD_LEFT, 40, 0.01f, 15);
-		for (int i = 0; i < 3; i++)
+		CameraMove(LD_LEFT, 30, 0.005f, 40);
+		for (int i = 0; i < 4; i++)
 		{
 			CheckObstacle(bosswall);
 		}
 	}
-
 }

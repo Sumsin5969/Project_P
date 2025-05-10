@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include "cprocessing.h"
 //#include "Player.h"
 #include "MyC/GameManager.h"
@@ -106,7 +106,14 @@ void Dash(void)
 
 		if (player->dashTimer <= 0.f)
 		{
-			player->spd = player->originalSpd;
+			if (stageState < StageBoss)
+			{
+				player->spd = player->originalSpd;
+			}
+			else
+			{
+				player->spd = 800;
+			}
 
 			shadowIndex = 0; // 잔상 초기화
 			player->playerState = INVINCIBLEBONUS;
