@@ -14,7 +14,7 @@
 
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
-Obstacle bosswall[4];
+Obstacle bosswall[11];
 Obstacle tutorialwall[3];
 Obstacle startbox[2];
 
@@ -183,11 +183,13 @@ void InitEnemies()
 	EnemyInit_StageFive(&elite_StageFive);
 	EnemyInit_StageSix(&enemy_StageSix);
 	InitBoss(&boss);
-	InitBossLaserShooter(BossLaserShooter);
-	InitBossFirstLaser(BossLaserShooter, Lasers_BossStage);
+	InitBossFirstLaserShooter(BossFirstLaserShooter);
+	InitBossFirstLaser(BossFirstLaserShooter, FirstLasers_BossStage);
 	InitBossCrossBullet(&boss);
 	InitPhaseThreeObstacle(bosswall);
 	InitBossSpiralBullet(&boss);
+	InitBossSecondLaserShooter(BossSecondLaserShooter);
+	InitBossSecondLaser(BossSecondLaserShooter, SecondLasers_BossStage);
 }
 
 

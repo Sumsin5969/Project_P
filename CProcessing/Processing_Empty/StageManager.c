@@ -122,7 +122,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 		if (stageState == StageBoss)
 		{
-			stageTime = 100.f;
+			stageTime = 130.f;
 			player->spd *= 2;
 			player->dashSpeedBoost *= 2;
 		}

@@ -36,7 +36,7 @@ CP_Vector enemyShadow[100];
 int enemyShadowIndex;
 
 extern Obstacle wall[MAX];
-extern Obstacle bosswall[4];
+extern Obstacle bosswall[11];
 extern Obstacle tutorialwall[3];
 extern Obstacle startbox[2];
 

@@ -403,8 +403,14 @@ void RenderBossAttack()
 {
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
-		RenderLaser(&Lasers_BossStage[i]);
+		RenderLaser(&FirstLasers_BossStage[i]);
 	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		RenderLaser(&SecondLasers_BossStage[i]);
+	}
+
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
@@ -426,7 +432,7 @@ void RenderBossObstacle()
 {
 	if (boss.phase == 3)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 11; i++)
 		{
 			RenderObstacle(&bosswall[i]);
 		}
