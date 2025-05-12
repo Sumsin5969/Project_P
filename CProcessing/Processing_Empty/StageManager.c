@@ -108,13 +108,6 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 	if (t >= 1.f)
 	{
-		if (stageState == StageBoss)
-		{
-			SetGameState(GameClear);
-			printf("게임클리어 게임스테이트 = 게임클리어");
-			return;
-		}
-
 		stageTime = defaultTime;
 		timeAcc = 0.f;
 
@@ -123,7 +116,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 
 		if (stageState == StageBoss)
 		{
-			stageTime = 130.f;
+			stageTime = 111.f;
 			player->spd *= 2;
 			player->dashSpeedBoost *= 2;
 		}
@@ -236,6 +229,7 @@ void Ending(Boss* _boss)
 
 		distance = CP_Vector_Distance(targetPos, player->pos);
 		printf("거리 = %f \n", distance);
+		printf("플레이어 좌표: %f\n", player->pos.x);
 	}
 	else
 	{

@@ -141,7 +141,7 @@ void RenderEnemy(Enemy* _enemy)
 
 	if (_enemy->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
-
+	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _enemySize, _enemySize);
 }
 
@@ -157,7 +157,9 @@ void RenderBullet(Bullet* _bullet)
 
 	if (_bullet->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
+
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_StrokeWeight(2.f * cam->camZoom);
 
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
@@ -173,7 +175,9 @@ void RenderObstacle(Obstacle* _obstacle)
 	if (_obstacle->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
 
-	CP_Settings_NoStroke();
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_StrokeWeight(2.f * cam->camZoom);
+
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
 
@@ -215,7 +219,7 @@ void RenderLaser(Laser* laser)
 
 		if (laser->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이를 맞춘 탄환이면.
 		else CP_Settings_Fill(ENEMY_COLOR());
-
+		CP_Settings_NoStroke();
 		CP_Graphics_DrawRect(targetVector.x, targetVector.y, _laserWidth, _laserHeight);
 		break;
 	}
@@ -278,6 +282,7 @@ void RenderEliteShadow(Boss* _boss)
 				break;
 			}
 
+			CP_Settings_NoStroke();
 			CP_Graphics_DrawRect(target.x, target.y, cam->camZoom * _boss->size, cam->camZoom * _boss->size);
 		}
 	}
@@ -446,7 +451,7 @@ void RenderBossObstacle()
 
 void RenderBossFragment()
 {
-	if (boss.time >= 110.f)
+	if (boss.time >= 105.f)
 	{
 		for (int i = 0; i < 8; i++)
 		{
@@ -515,6 +520,7 @@ void RenderEnemyAll()
 	else if (stageState == StageBoss)
 	{
 		RenderBoss(&boss);
+		RenderBossAttack();
 		RenderBossObstacle();
 		RenderBossFragment();
 	}
@@ -528,10 +534,6 @@ void RenderAttackAll()
 		RenderBullet_StageThree();
 		RenderLaser_StageTwo();
 		RenderBullet_StageOne();
-	}
-	else if (stageState == StageBoss || (stageState > StageSix || gameState == StageDown))
-	{
-		RenderBossAttack();
 	}
 }
 

@@ -63,8 +63,8 @@ void InitBossFragment(Boss* _boss)
 		BossFragment[i].projPos = _boss->pos;
 		BossFragment[i].projSpd = 3000.f;
 		BossFragment[i].active = 0;
-		BossFrag[i].width = _boss->size / 4;
-		BossFrag[i].height = _boss->size / 4;
+		BossFrag[i].width = _boss->size / 2;
+		BossFrag[i].height = _boss->size / 2;
 		BossFrag[i].sniper = 0;
 	}
 }

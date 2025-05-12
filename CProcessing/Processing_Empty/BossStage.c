@@ -385,7 +385,8 @@ void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
 	_boss->time += dt;
-	if (_boss->time > 105.f) _boss->phase = 5;
+	if (_boss->time > 110.f) SetGameState(GameClear);
+	else if (_boss->time > 105.f) _boss->phase = 5;
 	else if (_boss->time > 75.f) _boss->phase = 4;
 	else if (_boss->time > 35.f) _boss->phase = 3;
 	else if (_boss->time > 15.5f) _boss->phase = 2;
@@ -453,7 +454,6 @@ void BossStageController(Boss* _boss)
 		}
 
 	}
-
 	if (_boss->phase == 5)
 	{
 		if (_boss->active == 0)
@@ -461,6 +461,8 @@ void BossStageController(Boss* _boss)
 			InitBossFragment(_boss);
 			_boss->active = 1;
 		}
+		
+
 		BossDead(BossFragment, BossFrag);
 		CheckWallBullet(wall, BossFragment);
 		for (int i = 0; i < 8; i++)
