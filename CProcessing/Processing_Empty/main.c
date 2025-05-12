@@ -11,12 +11,12 @@
 char buffer[200];
 CP_Image titleImage;
 
-
 void PrintMainMenu();
 
 void game_init(void)
 {
 	titleImage = CP_Image_Load("./Assets/TitleImage.png");
+	SetTutorialImage(CP_Image_Load("./Assets/Tutorial.png"));
 
 	LoadSounds();
 

@@ -17,6 +17,8 @@ Obstacle obstacles[7][2];
 Obstacle bosswall[4];
 Obstacle tutorialwall[3];
 
+CP_Image tutorialImage;
+
 void InitGameManager()
 {
 	InitTutorialObstacle(tutorialwall);
@@ -48,7 +50,7 @@ void GMUpdate()
 	if (gameState == Play)
 	{
 		Update_Tutorial();
-		
+
 		CheckWall(wall);
 
 		PlayerMove();
@@ -69,7 +71,13 @@ void GMUpdate()
 
 void GMLateUpdate()
 {
+
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
+
+	if (stageState == Tutorial)
+	{
+		CP_Image_Draw(tutorialImage, GetCamera()->camPos.x, GetCamera()->camPos.y, 1536, 1024, 255);
+	}
 
 	RenderAll();
 
@@ -305,4 +313,9 @@ void Update_Enemy()
 	default:
 		break;
 	}
+}
+
+void SetTutorialImage(CP_Image img)
+{
+	tutorialImage = img;
 }
