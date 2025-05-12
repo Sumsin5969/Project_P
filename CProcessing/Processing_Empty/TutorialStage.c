@@ -41,8 +41,22 @@ void InitTutorialObstacle(Obstacle* _ob)
 
 void InitStartBox(Obstacle* _ob)
 {
-	_ob->pos.x = 0;
-	_ob->pos.y = 375;
-	_ob->width = 50;
-	_ob->height = 50;
+	for (int i = 0;i < 2;i++)
+	{
+		switch (i)
+		{
+		case 0:
+			_ob[i].pos.x = 0;
+			_ob[i].pos.y = 375;
+			_ob[i].width = 45;
+			_ob[i].height = 45;
+			break;
+		case 1:
+			_ob[i].pos.x = 0;
+			_ob[i].pos.y = 375;
+			_ob[i].width = 60;
+			_ob[i].height = 60;
+			break;
+		}
+	}
 }

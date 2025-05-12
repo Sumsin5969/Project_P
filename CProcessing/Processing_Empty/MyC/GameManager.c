@@ -16,14 +16,14 @@ Obstacle wall[MAX];
 Obstacle obstacles[7][2];
 Obstacle bosswall[4];
 Obstacle tutorialwall[3];
-Obstacle startbox;
+Obstacle startbox[2];
 
 CP_Image tutorialImage;
 
 void InitGameManager()
 {
 	InitTutorialObstacle(tutorialwall);
-	InitStartBox(&startbox);
+	InitStartBox(startbox);
 
 	InitCamera();
 
@@ -195,7 +195,7 @@ void InitAll()
 	StageTimerReset();
 	InitWall(wall);
 	InitTutorialObstacle(tutorialwall);
-	InitStartBox(&startbox);
+	InitStartBox(startbox);
 	InitEnemies();
 	InitCamPosition();
 }
@@ -217,7 +217,7 @@ void Update_Tutorial()
 {
 	if (stageState == Tutorial)
 	{
-		CheckStartBox(&startbox);
+		CheckStartBox(&startbox[0]);
 		for (int i = 0; i < 3; i++)
 		{
 			CheckObstacle(&tutorialwall[i]);

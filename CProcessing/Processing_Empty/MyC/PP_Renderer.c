@@ -446,7 +446,22 @@ void RenderBlueBox(Obstacle* _ob)
 
 	float _obSize = _ob->width * cam->camZoom;
 	
-	CP_Settings_Fill(CP_Color_Create(0, 166, 251,255));
+	CP_Settings_Fill(CP_Color_Create(0, 180, 250, 255));
+
+	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obSize, _obSize);
+}
+
+void RenderOuterBlueBox(Obstacle* _ob)
+{
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _ob->pos);
+
+	float _obSize = _ob->width * cam->camZoom;
+
+	CP_Settings_Fill(CP_Color_Create(0, 150, 255, 255));
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obSize, _obSize);
 }
@@ -456,7 +471,8 @@ void RenderEnemyAll()
 	if (stageState < StageOne)
 	{
 		RenderTutorialWall();
-		RenderBlueBox(&startbox);
+		RenderOuterBlueBox(&startbox[1]);
+		RenderBlueBox(&startbox[0]);
 	}
 
 	if (stageState < StageBoss && stageState > Tutorial)
