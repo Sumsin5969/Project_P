@@ -43,7 +43,7 @@ void PlayerMove(void) // 방향키를 입력받으면 플레이어를 이동시�
 
 	player->direction.x = 0;
 	player->direction.y = 0;
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 
 	if (UP)    player->direction.y -= 1;
 	if (DOWN)  player->direction.y += 1;
@@ -72,7 +72,7 @@ void ChangeSpeed(void) // 디버깅용 속도 제어 함수
 
 void Dash(void)
 {
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 
 	if (CP_Input_KeyTriggered(KEY_LEFT_SHIFT) && !player->isDashing)
 	{

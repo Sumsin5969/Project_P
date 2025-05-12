@@ -40,7 +40,7 @@ void PrintFrameInfo()
 	sprintf_s(buffer, sizeof(buffer), "Time : %.2f", nowTime);
 	CP_Font_DrawText(buffer, 0, 0);
 
-	sprintf_s(buffer, sizeof(buffer), "FPS : %.2f", 1 / CP_System_GetDt());
+	sprintf_s(buffer, sizeof(buffer), "FPS : %.2f", 1 / GetDt());
 	CP_Font_DrawText(buffer, 0, 50);
 }
 

@@ -129,7 +129,12 @@ void FreeAll()
 
 float GetDt()
 {
-	return CP_System_GetDt();
+	float dt = CP_System_GetDt();
+	if (CP_Input_KeyDown(KEY_2)) dt *= 2;
+	if (CP_Input_KeyDown(KEY_3)) dt *= 3;
+	if (CP_Input_KeyDown(KEY_4)) dt *= 4;
+	if (CP_Input_KeyDown(KEY_5)) dt *= 5;
+	return dt;
 }
 
 PlayerState GetPlayerState()

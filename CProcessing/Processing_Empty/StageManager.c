@@ -65,7 +65,7 @@ void DefaultTimerUI()
 
 void StageTimer() // Play일때 기본적으로 작동되는 타이머
 {
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 
 	if (stageTime <= 0)		// 바뀌는곳 찾아가기 힘들다. 어디서 바뀌는지 뭘로바뀌는지 안명확하다!
 	{
@@ -90,7 +90,7 @@ void StageTimer() // Play일때 기본적으로 작동되는 타이머
 
 void StageTimerLevelUp() // 스테이지 상승할 때 
 {
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 
 	timeAcc += dt;
 
@@ -143,7 +143,7 @@ void StageTimerReset()
 
 void StageTimerLevelDown() // 스테이지 다운할 때
 {
-	float dt = CP_System_GetDt();
+	float dt = GetDt();
 
 	timeAcc += dt;
 
