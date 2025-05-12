@@ -126,10 +126,10 @@ void InitBossSpiralBullet(Boss* _boss)
 
 void InitBossFirstLaserShooter(Enemy* _lasershooter)
 {
-	float xCoor = -3000;
+	float xCoor = -3100;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
-		xCoor += 6000 / MAX_LASERS;
+		xCoor += 6200 / MAX_LASERS;
 		_lasershooter[i].pos.x = xCoor;
 		_lasershooter[i].pos.y = 3000.f;
 		_lasershooter[i].size = 600.f;
@@ -224,10 +224,10 @@ void InitBossSecondLaser(Enemy* _lasershooter, Laser* _laser)
 
 void InitBossThirdLaserShooter(Enemy* _lasershooter)
 {
-	float yCoor = -1500;
+	float yCoor = -1650;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
-		yCoor += 3000 / MAX_LASERS;
+		yCoor += 3300 / MAX_LASERS;
 		_lasershooter[i].pos.x = 20000;
 		_lasershooter[i].pos.y = yCoor;
 		_lasershooter[i].size = 500.f;
