@@ -6,6 +6,7 @@
 #include "../Defines.h"
 #include "../Obstacle.h"
 #include "../Enemy.h"
+#include "Collision.h"
 
 int isWall = 0;
 
@@ -304,6 +305,39 @@ void CheckBoss(Boss* _boss) // AABB - Circle collision
 			_boss->sniper = 1;
 
 			player->playerState = HIT;
+		}
+	}
+}
+
+void CheckStartBox(Obstacle* _ob)
+{
+	float radius = player->size / 2.5f;
+
+	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
+	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
+
+	// 2. 박스 AABB 좌표
+	float _obLeft = _ob->pos.x - _ob->width / 2;
+	float _obRight = _ob->pos.x + _ob->width / 2;
+	float _obTop = _ob->pos.y - _ob->height / 2;
+	float _obBottom = _ob->pos.y + _ob->height / 2;
+
+	// 3. 가장 가까운 박스 안 점 계산 (클램핑)
+	float closestX = CP_Math_ClampFloat(circleCenter.x, _obLeft, _obRight);
+	float closestY = CP_Math_ClampFloat(circleCenter.y, _obTop, _obBottom);
+
+	// 4. 거리 계산 (원 중심 → 가장 가까운 점)
+	float dx = circleCenter.x - closestX;
+	float dy = circleCenter.y - closestY;
+	float distanceSq = dx * dx + dy * dy;
+	float radiusSq = radius * radius;
+
+	// 5. 충돌 여부 판단
+	if (distanceSq < radiusSq)
+	{
+		if (player->playerState == NORMAL)
+		{
+			// 1스테이지로 이동할 로직 구현 부탁!!!!!!!!!
 		}
 	}
 }

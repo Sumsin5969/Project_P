@@ -13,3 +13,5 @@
 #include "BossStage.h"
 
 void InitTutorialObstacle(Obstacle* _ob);
+
+void InitStartBox(Obstacle* _ob);

@@ -38,3 +38,11 @@ void InitTutorialObstacle(Obstacle* _ob)
 		_ob[i].sniper = 0;
 	}
 }
+
+void InitStartBox(Obstacle* _ob)
+{
+	_ob->pos.x = 0;
+	_ob->pos.y = 375;
+	_ob->width = 50;
+	_ob->height = 50;
+}
