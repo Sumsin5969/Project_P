@@ -78,7 +78,7 @@ void GMLateUpdate()
 
 	if (stageState == Tutorial)
 	{
-		CP_Image_Draw(tutorialImage, GetCamera()->camPos.x, GetCamera()->camPos.y, 1536, 1024, 255);
+		CP_Image_Draw(tutorialImage, GetCamera()->camPos.x, GetCamera()->camPos.y, 1760, 990, 255);
 	}
 
 	RenderAll();
