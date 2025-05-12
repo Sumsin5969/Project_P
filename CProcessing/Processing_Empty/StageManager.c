@@ -10,6 +10,9 @@
 
 const float defaultTime = 20.f;
 char timeBuffer[10];
+char intBuffer[3];
+char commaBuffer[2];
+char comma = '.';
 float stageTime = 20.f; // 타이머
 float timeAcc = 0.f; // 가중치
 float stageTimeStart = 0.f;
@@ -40,8 +43,23 @@ void DefaultTimerUI()
 {
 	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 50));
 	CP_Settings_TextSize(500.f);
-	CP_Font_DrawText(timeBuffer, WIDTH/2, HEIGHT/2);
-	sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", stageTime);
+
+	CP_Font_DrawText(commaBuffer, WIDTH / 2, HEIGHT / 2);
+	sprintf_s(commaBuffer, sizeof(commaBuffer), "%c", comma);
+
+
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_RIGHT, CP_TEXT_ALIGN_V_MIDDLE);
+	sprintf_s(timeBuffer, sizeof(timeBuffer), "%d", (int)stageTime);
+	CP_Font_DrawText(timeBuffer, WIDTH / 2 - 30, HEIGHT / 2);
+
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_MIDDLE);
+	float temp = stageTime - (int)(stageTime);
+	temp *= 10;
+	sprintf_s(intBuffer, sizeof(intBuffer), "%d", (int)temp);
+	CP_Font_DrawText(intBuffer, WIDTH / 2 + 100, HEIGHT / 2);
+
+	//sprintf_s(timeBuffer, sizeof(timeBuffer), "%.1f", (int)stageTime);
+
 }
 
 void StageTimer() // Play일때 기본적으로 작동되는 타이머
