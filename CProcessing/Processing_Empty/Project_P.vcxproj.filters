@@ -13,6 +13,7 @@
     <ClCompile Include="StageManager.c" />
     <ClCompile Include="SoundManager.c" />
     <ClCompile Include="BossStage.c" />
+    <ClCompile Include="TutorialStage.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyC\Collision.h">
@@ -32,6 +33,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="BossStage.h" />
+    <ClInclude Include="TutorialStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

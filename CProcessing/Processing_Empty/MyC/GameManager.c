@@ -10,13 +10,17 @@
 #include "../StageManager.h"
 #include "../SoundManager.h"
 #include "../BossStage.h"
+#include "../TutorialStage.h"
 
 Obstacle wall[MAX];
 Obstacle obstacles[7][2];
 Obstacle bosswall[4];
+Obstacle tutorialwall[3];
 
 void InitGameManager()
 {
+	InitTutorialObstacle(tutorialwall);
+
 	InitCamera();
 
 	PlayerInit();
@@ -39,23 +43,27 @@ void GMUpdate()
 
 	CheckGameState();
 
-	// 벽과 장애물 체크
-	StageTimer();
 
 
 	if (gameState == Play)
 	{
+		Update_Tutorial();
+		
 		CheckWall(wall);
 
 		PlayerMove();
 
-		ChangePlayerSize();
-
-		Update_Enemy();
-
-		ChangeEnemySize();
-
 		Dash();
+
+		ChangePlayerSize();
+		if (stageState > Tutorial)
+		{
+			Update_Enemy();
+
+			StageTimer();
+
+			ChangeEnemySize();
+		}
 	}
 }
 
@@ -65,7 +73,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	//DebugUpdate();
+	DebugUpdate();
 
 	UpdateCameraShake();
 
@@ -140,8 +148,6 @@ void CheckPlayerState()
 	switch (player->playerState)
 	{
 	case HIT:
-		stageState--;
-
 		SetZoomInTargetRate();
 
 		player->playerState = NORMAL;
@@ -178,6 +184,7 @@ void InitAll()
 	PlayerInit();
 	StageTimerReset();
 	InitWall(wall);
+	InitTutorialObstacle(tutorialwall);
 	InitEnemies();
 	InitCamPosition();
 }
@@ -192,6 +199,18 @@ void SaveEnemyPos()
 {
 	enemyShadow[enemyShadowIndex] = elite_StageFive.pos;
 	enemyShadowIndex++;
+}
+
+// 튜토리얼 스테이지 업데이트 관리
+void Update_Tutorial()
+{
+	if (stageState == Tutorial)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			CheckObstacle(&tutorialwall[i]);
+		}
+	}
 }
 
 // 스테이지1 업데이트 관리

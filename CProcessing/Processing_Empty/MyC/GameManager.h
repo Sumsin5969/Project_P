@@ -37,7 +37,9 @@ int enemyShadowIndex;
 
 extern Obstacle wall[MAX];
 extern Obstacle bosswall[4];
+extern Obstacle tutorialwall[3];
 
+void Update_Tutorial();
 void Update_StageOne();
 void Update_StageTwo();
 void Update_StageThree();

@@ -207,6 +207,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="MyC\JhDebug.c" />
     <ClCompile Include="SoundManager.c" />
     <ClCompile Include="StageManager.c" />
+    <ClCompile Include="TutorialStage.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BossStage.h" />
@@ -218,6 +219,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="TutorialStage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -23,7 +23,7 @@ void CheckBullet(Bullet* _bullet)
 		dy = player->pos.y - _bullet[i].projPos.y;
 		distance = sqrtf(dx * dx + dy * dy);
 
-		radiusSum = player->size / 2.f + _bullet[i].size / 2.f;
+		radiusSum = player->size / 2.5f + _bullet[i].size / 2.f;
 
 		if (distance <= radiusSum)
 		{
@@ -38,7 +38,7 @@ void CheckBullet(Bullet* _bullet)
 
 void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 {
-	float radius = player->size / 2;
+	float radius = player->size / 2.5f;
 
 	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
 	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
@@ -58,14 +58,14 @@ void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 	float dy = circleCenter.y - closestY;
 	float distanceSq = dx * dx + dy * dy;
 	float radiusSq = radius * radius;
-
+	
 	// 5. 충돌 여부 판단
 	if (distanceSq < radiusSq)
 	{
 		if (player->playerState == NORMAL)
 		{
 			_obstacle->sniper = 1;
-
+			printf("wall type: %d\n",_obstacle->type);
 			player->playerState = HIT;
 		}
 	}
@@ -75,7 +75,7 @@ void CheckLaser(Laser* _laser)
 {
 	if (_laser->state != ATTACK) return;
 
-	float radius = player->size / 2;
+	float radius = player->size / 2.5f;
 
 	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
 	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
@@ -115,7 +115,7 @@ void CheckWall(Obstacle* _obstacle)
 	CP_Vector camPos = GetCamera()->camPos;
 	float camZoom = GetCamera()->camZoom;
 
-	float playerHalfSize = player->size / 2;
+	float playerHalfSize = player->size / 2.5f;
 
 	float playerLeft = (player->pos.x - playerHalfSize) * camZoom + camPos.x;
 	float playerRight = (player->pos.x + playerHalfSize) * camZoom + camPos.x;
@@ -240,7 +240,7 @@ void CheckWallBullet(Obstacle* _obstacle, Bullet* b)
 
 void CheckEnemy(Enemy* _enemy) // AABB - Circle collision
 {
-	float radius = player->size / 2;
+	float radius = player->size / 2.5f;
 
 	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
 	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);
@@ -275,7 +275,7 @@ void CheckEnemy(Enemy* _enemy) // AABB - Circle collision
 
 void CheckBoss(Boss* _boss) // AABB - Circle collision
 {
-	float radius = player->size / 2;
+	float radius = player->size / 2.5f;
 
 	// 1. 원 중심 계산 (좌상단 기준으로 반지름 보정)
 	CP_Vector circleCenter = CP_Vector_Set(player->pos.x, player->pos.y);

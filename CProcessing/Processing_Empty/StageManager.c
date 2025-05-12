@@ -152,6 +152,7 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 
 	if (t >= 1.f)
 	{
+		stageState--;
 		stageTime = defaultTime;
 		timeAcc = 0.f;
 		ZoomInForce(); // Setzoom쓰면 필요없음;

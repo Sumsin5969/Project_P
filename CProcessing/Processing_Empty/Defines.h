@@ -52,6 +52,7 @@ typedef enum GameState
 
 typedef enum StageState
 {
+	Tutorial,
 	StageOne,
 	StageTwo,
 	StageThree,

@@ -173,6 +173,7 @@ void RenderObstacle(Obstacle* _obstacle)
 	if (_obstacle->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
 
+	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
 
@@ -427,9 +428,22 @@ void RenderBossObstacle()
 	}
 }
 
+void RenderTutorialWall()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		RenderObstacle(&tutorialwall[i]);
+	}
+}
+
 void RenderEnemyAll()
 {
-	if (stageState < StageBoss)
+	if (stageState < StageOne)
+	{
+		RenderTutorialWall();
+	}
+
+	if (stageState < StageBoss && stageState > Tutorial)
 	{
 		RenderEnemyShadow();
 		RenderEnemy_StageSix();
@@ -439,7 +453,7 @@ void RenderEnemyAll()
 		RenderEnemy_StageTwo();
 		RenderEnemy_StageOne();
 	}
-	else
+	else if (stageState == StageBoss || (stageState > StageSix || gameState == StageDown))
 	{
 		RenderBoss(&boss);
 		RenderBossObstacle();
@@ -448,14 +462,14 @@ void RenderEnemyAll()
 
 void RenderAttackAll()
 {
-	if (stageState < StageBoss)
+	if ((stageState < StageBoss && stageState > Tutorial) && (stageState < StageBoss))
 	{
 		RenderBullet_StageSix();
 		RenderBullet_StageThree();
 		RenderLaser_StageTwo();
 		RenderBullet_StageOne();
 	}
-	else
+	else if (stageState == StageBoss || (stageState > StageSix || gameState == StageDown))
 	{
 		RenderBossAttack();
 	}
@@ -463,7 +477,10 @@ void RenderAttackAll()
 
 void RenderAll()
 {
-	DefaultTimerUI();
+	if (stageState > Tutorial)
+	{
+		DefaultTimerUI();
+	}
 
 	// 적 렌더링
 	RenderEnemyAll();

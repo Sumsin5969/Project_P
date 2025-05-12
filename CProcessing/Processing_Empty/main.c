@@ -33,15 +33,16 @@ void game_init(void)
 
 void game_update(void)
 {
+
+	GMUpdate();
+
+	GMLateUpdate();
+
 	if (gameState == GameOver || gameState == MainMenu)
 	{
 		PrintMainMenu();
 		return;
 	}
-
-	GMUpdate();
-
-	GMLateUpdate();
 }
 
 void game_exit(void)
@@ -82,7 +83,7 @@ void PrintMainMenu()
 		CP_Sound_PlayAdvanced(gameStartSound, 2, 1, FALSE, CP_SOUND_GROUP_SFX);
 		//CP_Sound_PlayAdvanced(titleBGM, 1, 1, FALSE, CP_SOUND_GROUP_1);
 
-		stageState = StageOne;
+		stageState = Tutorial;
 		gameState = Play;
 		PlayStageBGM(stageState);
 	}
