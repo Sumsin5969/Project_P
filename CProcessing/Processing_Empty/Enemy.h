@@ -150,15 +150,21 @@ Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
-Enemy BossLaserShooter[MAX_LASERS];
-Laser Lasers_BossStage[MAX_LASERS];
+Enemy BossFirstLaserShooter[MAX_LASERS];
+Laser FirstLasers_BossStage[MAX_LASERS];
+
+Enemy BossSecondLaserShooter[3];
+Laser SecondLasers_BossStage[3];
 
 void InitBoss(Boss*);
 void InitBossCrossBullet(Boss*);
 void InitBossSpiralBullet(Boss*);
 
-void InitBossLaserShooter(Enemy*);
-void InitBossFirstLaser(Enemy*, Laser*);
+void InitBossFirstLaserShooter(Enemy* _lasershooter);
+void InitBossFirstLaser(Enemy* _lasershooter, Laser* _laser);
+
+void InitBossSecondLaserShooter(Enemy*);
+void InitBossSecondLaser(Enemy*, Laser*);
 
 Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
 Bullet SpiralBullets_Boss[4][MAX_BULLETS_PER_ENEMY];

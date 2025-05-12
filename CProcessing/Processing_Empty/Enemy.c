@@ -106,7 +106,7 @@ void InitBossSpiralBullet(Boss* _boss)
 	}
 }
 
-void InitBossLaserShooter(Enemy* _lasershooter)
+void InitBossFirstLaserShooter(Enemy* _lasershooter)
 {
 	float xCoor = -3300;
 	for (int i = 0; i < MAX_LASERS; i++)
@@ -146,8 +146,64 @@ void InitBossFirstLaser(Enemy* _lasershooter, Laser* _laser)
 
 		_laser[i].state = IDLE;
 		_laser[i].sniper = 0;
+		_laser[i].active = 0;
 	}
 }
+
+void InitBossSecondLaserShooter(Enemy* _lasershooter)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		_lasershooter[i].pos.x = -4000;
+		switch (i)
+		{
+		case 0:
+			_lasershooter[i].pos.y = -1200.f;
+			break;
+		case 1:
+			_lasershooter[i].pos.y = 0.f;
+			break;
+		case 2:
+			_lasershooter[i].pos.y = 1200.f;
+			break;
+		}
+		_lasershooter[i].size = 1400.f;
+		_lasershooter[i].oriSize = _lasershooter[i].size;
+		_lasershooter[i].spd = 0.f;
+		_lasershooter[i].active = 0;
+		_lasershooter[i].sniper = 0;
+	}
+
+}
+
+void InitBossSecondLaser(Enemy* _lasershooter, Laser* _laser)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		_laser[i].laserDirection = LD_RIGHT;
+		_laser[i].pos.x = _lasershooter[i].pos.x;
+		_laser[i].pos.y = _lasershooter[i].pos.y;
+		_laser[i].laserAlpha = 50;
+		_laser[i].laserAlphaMax = 150;
+
+		_laser[i].time = 0.f;
+		_laser[i].idleDuration = 3.f;
+		_laser[i].warningAttackDuration = 2.f;
+		_laser[i].waitDuration = 0.45f;
+		_laser[i].attackDuration = 0.6f;
+
+		_laser[i].laserWarningAttackRange = _lasershooter[i].size;
+		_laser[i].laserWarningAttackRangeMax = _lasershooter[i].size;
+
+		_laser[i].laserWidth = 0.f;
+		_laser[i].laserHeight = 0.f;
+
+		_laser[i].state = IDLE;
+		_laser[i].sniper = 0;
+		_laser[i].active = 0;
+	}
+}
+
 // 스테이지 1 적과 탄환 초기화
 void EnemyInit_StageOne(Enemy* _enemy)
 {

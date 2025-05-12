@@ -74,7 +74,6 @@ void PlayStageBGM(StageState stage)
 		break;
 	case StageBoss:
 		CP_Sound_PlayAdvanced(bossStageSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
-		break;
 	}
 
 	bgmPlaying = TRUE;

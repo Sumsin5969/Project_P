@@ -11,6 +11,8 @@
 #include "StageManager.h"
 #include "Enemy.h"
 
+void InitBossPhaseThree(Boss* _boss);
+
 void InitPhaseThreeObstacle(Obstacle* _ob);
 
 void BossStageController(Boss* _boss);
@@ -20,4 +22,5 @@ void CrossBulletFire(Boss*);
 void SpiralBulletConditioner(Boss* _boss);
 void SpiralBulletFire(Boss* _boss);
 void BossLaserAttack(Boss*);
+void FirstLaserAttack();
 void Contact(Boss*);
