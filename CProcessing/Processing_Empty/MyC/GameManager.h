@@ -54,3 +54,5 @@ void SetTutorialImage(CP_Image img);
 void SetEndingImage(CP_Image img);
 
 void Update_Enemy();
+
+void DrawEndingImage(float width, float height);

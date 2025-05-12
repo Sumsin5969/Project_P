@@ -17,8 +17,7 @@ void game_init(void)
 {
 	titleImage = CP_Image_Load("./Assets/TitleImage.png");
 	SetTutorialImage(CP_Image_Load("./Assets/Tutorial.png"));
-	(CP_Image_Load("./Assets/Tutorial.png"));
-
+	SetEndingImage(CP_Image_Load("./Assets/EndingImage.png"));
 
 	LoadSounds();
 

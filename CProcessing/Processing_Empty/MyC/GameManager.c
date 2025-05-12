@@ -48,8 +48,6 @@ void GMUpdate()
 
 	CheckGameState();
 
-
-
 	if (gameState == Play)
 	{
 		Update_Tutorial();
@@ -61,6 +59,7 @@ void GMUpdate()
 		Dash();
 
 		ChangePlayerSize();
+
 		if (stageState > Tutorial)
 		{
 			Update_Enemy();
@@ -70,12 +69,22 @@ void GMUpdate()
 			ChangeEnemySize();
 		}
 	}
+	else if (gameState == GameClear)
+	{
+		Ending(&boss);
+	}
 }
 
 void GMLateUpdate()
 {
-
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
+
+	if (gameState == GameClear)
+	{
+		RenderPlayer();
+		DrawEndingImage((GetCamera()->camZoom) / 44, (GetCamera()->camZoom) / 44);
+		return;
+	}
 
 	if (stageState == Tutorial)
 	{
@@ -84,14 +93,17 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	//DebugUpdate();
+	DebugUpdate();
 
 	UpdateCameraShake();
 
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
-	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
+	if (CP_Input_KeyTriggered(KEY_W))
+	{
+		player->playerState = HIT;
+	}
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
 	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite_StageFive);
 	if (CP_Input_KeyTriggered(KEY_M)) CP_Sound_Play(titleBGM);
@@ -350,4 +362,16 @@ void SetTutorialImage(CP_Image img)
 void SetEndingImage(CP_Image img)
 {
 	endingImage = img;
+}
+
+void DrawEndingImage(float width, float height)
+{
+	float w = CP_Image_GetWidth(endingImage) * width;
+	float h = CP_Image_GetHeight(endingImage) * height;
+
+
+	if (WIDTH <= width) width = WIDTH;
+	if (HEIGHT <= width) width = HEIGHT;
+
+	CP_Image_Draw(endingImage, GetCamera()->camPos.x, GetCamera()->camPos.y, w, h, 255);
 }
