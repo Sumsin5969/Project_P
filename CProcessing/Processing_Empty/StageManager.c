@@ -233,8 +233,8 @@ void Ending(Boss* _boss)
 	}
 	else
 	{
-		player->pos = targetPos;
-		//player->pos = CP_Vector_Zero();
+		//player->pos = targetPos;
+		player->pos = CP_Vector_Zero();
 
 		if (GetCamera()->camZoom < 44)
 		{

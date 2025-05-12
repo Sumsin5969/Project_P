@@ -115,7 +115,9 @@ void GMLateUpdate()
 
 		SetZoom(stageState);
 
-		stageTime = 1000;
+	/*	player->pos.x = 29500;
+
+		boss.time = 80;*/
 	}
 }
 
@@ -377,5 +379,5 @@ void DrawEndingImage(float width, float height)
 	if (WIDTH <= width) width = WIDTH;
 	if (HEIGHT <= width) width = HEIGHT;
 
-	CP_Image_Draw(endingImage, GetCamera()->camPos.x, GetCamera()->camPos.y, w, h, 255);
+	CP_Image_Draw(endingImage, WIDTH / 2, HEIGHT / 2, w, h, 255);
 }
