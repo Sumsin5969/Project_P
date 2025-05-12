@@ -276,7 +276,7 @@ void ThirdLaserAttack(Boss* _boss)
 
 	_boss->idleTime += dt;
 
-	const float idleDuration = 1.0f;
+	const float idleDuration = 0.95f;
 
 	if (_boss->laserCycle < 25)
 	{
@@ -387,7 +387,7 @@ void BossStageController(Boss* _boss)
 	_boss->time += dt;
 	if (_boss->time > 110.f) SetGameState(GameClear);
 	else if (_boss->time > 105.f) _boss->phase = 5;
-	else if (_boss->time > 75.f) _boss->phase = 4;
+	else if (_boss->time > 75.1f) _boss->phase = 4;
 	else if (_boss->time > 35.f) _boss->phase = 3;
 	else if (_boss->time > 15.5f) _boss->phase = 2;
 	else if (_boss->time > 8.9f) _boss->phase = 1;
@@ -439,6 +439,7 @@ void BossStageController(Boss* _boss)
 			InitBossPhaseFour(_boss);
 			_boss->active = 0;
 		}
+
 		ThirdLaserAttack(_boss);
 
 		if (_boss->time < 100.f)
