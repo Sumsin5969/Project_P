@@ -112,7 +112,7 @@ void Dash(void)
 			}
 			else
 			{
-				player->spd = 800;
+				player->spd = player->originalSpd * 2;
 			}
 
 			shadowIndex = 0; // 잔상 초기화
