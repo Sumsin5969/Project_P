@@ -35,15 +35,12 @@ void CrossBulletConditioner(Boss* _boss)
 
 		for (int i = 0; i < 4; i++)
 		{
-			if (CrossBullets_Boss[i][_boss->magazine].active == 0)
-				CrossBullets_Boss[i][_boss->magazine].projPos = _boss->pos;
-
 			CrossBullets_Boss[i][_boss->magazine].active = 1;
 		}
 
 		_boss->magazine++;
 
-		if (_boss->magazine >= BOSSCLIP)
+		if (_boss->magazine > BOSSCLIP)
 		{
 			_boss->magazine = 0;
 		}
@@ -65,6 +62,69 @@ void CrossBulletFire(Boss* _boss)
 			{
 				CrossBullets_Boss[i][j].projPos.x += CrossBullets_Boss[i][j].projSpd * CrossBullets_Boss[i][j].fireDir.x * dt;
 				CrossBullets_Boss[i][j].projPos.y += CrossBullets_Boss[i][j].projSpd * CrossBullets_Boss[i][j].fireDir.y * dt;
+			}
+		}
+	}
+}
+
+void InitBossPhaseFour(Boss* _boss)
+{
+	_boss->fireTime = 0.f;
+	_boss->fireDelay = 0.15f;
+	_boss->magazine = 0;
+}
+
+void SpiralBulletConditioner(Boss* _boss)
+{
+	float dt = GetDt();
+
+	_boss->fireTime += dt;
+	static float degreeAddition = 0;
+	if (_boss->fireTime > _boss->fireDelay)
+	{
+		_boss->fireTime = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			SpiralBullets_Boss[i][_boss->magazine].degree = 0;
+			SpiralBullets_Boss[i][_boss->magazine].degree += degreeAddition + (i * 90);
+			SpiralBullets_Boss[i][_boss->magazine].fireAngle = CP_Math_Radians(SpiralBullets_Boss[i][_boss->magazine].degree);
+			SpiralBullets_Boss[i][_boss->magazine].fireDir.x = cosf(SpiralBullets_Boss[i][_boss->magazine].fireAngle);
+			SpiralBullets_Boss[i][_boss->magazine].fireDir.y = sinf(SpiralBullets_Boss[i][_boss->magazine].fireAngle);
+			SpiralBullets_Boss[i][_boss->magazine].active = 1;
+		}
+
+		_boss->magazine++;
+
+		if (_boss->magazine >= MAX_BULLETS_PER_ENEMY)
+		{
+			_boss->magazine = 0;
+		}
+			degreeAddition += 5;
+			if (degreeAddition >= 360)
+			{
+				degreeAddition = 0;
+			}
+	}
+}
+
+// 탄이 움직이게 할 함수
+void SpiralBulletFire(Boss* _boss)
+{
+	float dt = GetDt();
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
+		{
+			if (!SpiralBullets_Boss[i][j].active)
+			{
+				SpiralBullets_Boss[i][j].projPos = _boss->pos;
+			}
+			else
+			{
+				SpiralBullets_Boss[i][j].projPos.x += SpiralBullets_Boss[i][j].projSpd * SpiralBullets_Boss[i][j].fireDir.x * dt;
+				SpiralBullets_Boss[i][j].projPos.y += SpiralBullets_Boss[i][j].projSpd * SpiralBullets_Boss[i][j].fireDir.y * dt;
 			}
 		}
 	}
@@ -195,24 +255,18 @@ void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
 	_boss->time += dt;
-	if (_boss->time > 100.f)
-	{
-		_boss->state = DEAD;
-	}
+	if (_boss->time > 100.f) _boss->phase = 5;
+	else if (_boss->time > 75.f) _boss->phase = 4;
 	else if (_boss->time > 35.f) _boss->phase = 3;
 	else if (_boss->time > 15.5f) _boss->phase = 2;
 	else if (_boss->time > 8.9f) _boss->phase = 1;
-	else if (_boss->time < 8.f)	Contact(&boss);
+	else if (_boss->time < 8.f) Contact(_boss);
 
-	// 0페이즈: 보스 등장
-	// 1페이즈: 보스 세발쏘는거
-	// 2페이즈: 레이저 나오는거
-	// 3페이즈: 이동
-	// 4페이즈: 구상중
 	if (_boss->phase == 1)
 	{
 		CrossBulletConditioner(_boss);
 		CrossBulletFire(_boss);
+
 		for (int i = 0; i < 4; i++)
 		{
 			CheckWallBullet(wall, CrossBullets_Boss[i]);
@@ -223,15 +277,33 @@ void BossStageController(Boss* _boss)
 	if (_boss->phase == 2)
 	{
 		RunAway(_boss);
-		BossLaserAttack(&boss);
+		BossLaserAttack(_boss);
 	}
 
 	if (_boss->phase == 3)
 	{
 		CameraMove(LD_LEFT, 30, 0.005f, 40);
+
 		for (int i = 0; i < 4; i++)
 		{
 			CheckObstacle(bosswall);
+		}
+	}
+
+	if (_boss->phase == 4)
+	{
+		if (_boss->active == 0)
+		{
+			InitBossPhaseFour(_boss);
+			_boss->active = 1;
+		}
+		SpiralBulletConditioner(_boss);
+		SpiralBulletFire(_boss);
+
+		for (int i = 0; i < 4; i++)
+		{
+			CheckWallBullet(wall, SpiralBullets_Boss[i]);
+			CheckBullet(SpiralBullets_Boss[i]);
 		}
 	}
 }

@@ -155,10 +155,13 @@ Laser Lasers_BossStage[MAX_LASERS];
 
 void InitBoss(Boss*);
 void InitBossCrossBullet(Boss*);
-void InitBossLaserShooter(Enemy* _lasershooter);
-void InitBossFirstLaser(Enemy* _lasershooter, Laser* _laser);
+void InitBossSpiralBullet(Boss*);
+
+void InitBossLaserShooter(Enemy*);
+void InitBossFirstLaser(Enemy*, Laser*);
+
 Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
-void BossCrossFire(Boss*, Bullet*);
+Bullet SpiralBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
 
 void EnemyInit_StageOne(Enemy*);
 void EnemyMove_StageOne(Enemy*);

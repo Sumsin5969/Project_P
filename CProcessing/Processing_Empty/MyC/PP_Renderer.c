@@ -413,6 +413,11 @@ void RenderBossAttack()
 			{
 				RenderBullet(&CrossBullets_Boss[i][j]);
 			}
+
+			if (SpiralBullets_Boss[i][j].active == 1)
+			{
+				RenderBullet(&SpiralBullets_Boss[i][j]);
+			}
 		}
 	}
 }

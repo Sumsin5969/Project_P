@@ -83,7 +83,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	DebugUpdate();
+	//DebugUpdate();
 
 	UpdateCameraShake();
 
@@ -186,6 +186,7 @@ void InitEnemies()
 	InitBossFirstLaser(BossLaserShooter, Lasers_BossStage);
 	InitBossCrossBullet(&boss);
 	InitPhaseThreeObstacle(bosswall);
+	InitBossSpiralBullet(&boss);
 }
 
 
@@ -228,42 +229,51 @@ void Update_Tutorial()
 // 스테이지1 업데이트 관리
 void Update_StageOne()
 {
-	for (int i = 0; i < MAX_ENEMIES;i++)
+	if (stageState >= StageOne)
 	{
-		CheckEnemy(&enemies[StageOne][i]);
-		EnemyMove_StageOne(&enemies[StageOne][i]);
-		BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
-		DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
-		CheckBullet(Bullets_StageOne[i]);
-		CheckWallBullet(wall, Bullets_StageOne[i]);
+		for (int i = 0; i < MAX_ENEMIES;i++)
+		{
+			CheckEnemy(&enemies[StageOne][i]);
+			EnemyMove_StageOne(&enemies[StageOne][i]);
+			BulletConditioner(&enemies[StageOne][i], Bullets_StageOne[i]);
+			DirectBulletFire(&enemies[StageOne][i], Bullets_StageOne[i]);
+			CheckBullet(Bullets_StageOne[i]);
+			CheckWallBullet(wall, Bullets_StageOne[i]);
+		}
 	}
 }
 
 // 스테이지2 업데이트 관리
 void Update_StageTwo()
 {
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (stageState >= StageTwo)
 	{
-		CheckEnemy(&enemies[StageTwo][i]);
-		CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
-		CheckLaser(&Lasers_StageTwo[i]);
-		LaserAttack(&Lasers_StageTwo[i]);
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CheckEnemy(&enemies[StageTwo][i]);
+			CreateLaser(&enemies[StageTwo][i], &Lasers_StageTwo[i]);
+			CheckLaser(&Lasers_StageTwo[i]);
+			LaserAttack(&Lasers_StageTwo[i]);
+		}
 	}
 }
 
 // 스테이지3 업데이트 관리
 void Update_StageThree()
 {
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (stageState >= StageThree)
 	{
-		CheckEnemy(&enemies[StageThree][i]);
-		CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
-		CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
-
-		for (int j = 0; j < CLIP; j++)
+		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			CheckBullet(CircleBullets_StageThree[i][j]);
-			CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
+			CheckEnemy(&enemies[StageThree][i]);
+			CircleBulletConditioner(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+			CircleBulletFire(&enemies[StageThree][i], CircleBullets_StageThree[i]);
+
+			for (int j = 0; j < CLIP; j++)
+			{
+				CheckBullet(CircleBullets_StageThree[i][j]);
+				CheckWallBullet(wall, CircleBullets_StageThree[i][j]);
+			}
 		}
 	}
 }
@@ -271,34 +281,46 @@ void Update_StageThree()
 // 스테이지4 업데이트 관리
 void Update_StageFour()
 {
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (stageState >= StageFour)
 	{
-		CheckEnemy(&enemies[StageFour][i]);
-		EnemyMove_StageFour(&enemies[StageFour][i]);
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			CheckEnemy(&enemies[StageFour][i]);
+			EnemyMove_StageFour(&enemies[StageFour][i]);
+		}
 	}
 }
 
 void Update_StageFive()
 {
-	CheckBoss(&elite_StageFive);
-	EnemyMove_StageFive(&elite_StageFive);
+	if (stageState >= StageFive)
+	{
+		CheckBoss(&elite_StageFive);
+		EnemyMove_StageFive(&elite_StageFive);
+	}
 }
 
 void Update_StageSix()
 {
-	CheckEnemy(&enemy_StageSix);
-	EnemyMove_StageSix(&enemy_StageSix);
-	BulletConditioner(&enemy_StageSix, Bullets_StageSix);
-	DirectBulletFire(&enemy_StageSix, Bullets_StageSix);
-	CheckBullet(Bullets_StageSix);
-	CheckWallBullet(wall, Bullets_StageSix);
+	if (stageState >= StageSix)
+	{
+		CheckEnemy(&enemy_StageSix);
+		EnemyMove_StageSix(&enemy_StageSix);
+		BulletConditioner(&enemy_StageSix, Bullets_StageSix);
+		DirectBulletFire(&enemy_StageSix, Bullets_StageSix);
+		CheckBullet(Bullets_StageSix);
+		CheckWallBullet(wall, Bullets_StageSix);
+	}
 }
 
 // 보스 스테이지 관리
 void Update_StageBoss()
 {
-	CheckBoss(&boss);
-	BossStageController(&boss);
+	if (stageState == StageBoss)
+	{
+		CheckBoss(&boss);
+		BossStageController(&boss);
+	}
 }
 
 void Update_Enemy()

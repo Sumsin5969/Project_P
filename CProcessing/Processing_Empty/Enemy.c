@@ -66,69 +66,42 @@ void InitBossCrossBullet(Boss* _boss)
 			}
 			if (dirChanger == 0)
 			{
-				switch (i)
-				{
-				case 0:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4);
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				case 1:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4);
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				case 2:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4);
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				case 3:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4);
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				}
+				CrossBullets_Boss[i][j].degree = i * (360.f / 4);
+				CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
+				CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
+				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
 			}
 			else
 			{
-				switch (i)
-				{
-				case 0:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4) - 45;
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				case 1:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4) - 45;
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				case 2:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4) - 45;
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				case 3:
-					CrossBullets_Boss[i][j].degree = i * (360.f / 4) - 45;
-					CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
-					CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
-					CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
-					break;
-				}
+				CrossBullets_Boss[i][j].degree = i * (360.f / 4) - 45;
+				CrossBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i][j].degree);
+				CrossBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i][j].fireAngle);
+				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
 			}
 			CrossBullets_Boss[i][j].projPos = _boss->pos;
 			CrossBullets_Boss[i][j].projSpd = 2500.f;
 			CrossBullets_Boss[i][j].active = 0;
 			CrossBullets_Boss[i][j].size = _boss->size / 3;
 			CrossBullets_Boss[i][j].sniper = 0;
+		}
+	}
+}
+
+void InitBossSpiralBullet(Boss* _boss)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0;j < MAX_BULLETS_PER_ENEMY;j++)
+		{
+			SpiralBullets_Boss[i][j].degree = i * (360.f / 4);
+			SpiralBullets_Boss[i][j].fireAngle = CP_Math_Radians(CrossBullets_Boss[i]->degree);
+			SpiralBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i]->fireAngle);
+			SpiralBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i]->fireAngle);
+			SpiralBullets_Boss[i][j].projPos = _boss->pos;
+			SpiralBullets_Boss[i][j].projSpd = 500.f;
+			SpiralBullets_Boss[i][j].active = 0;
+			SpiralBullets_Boss[i][j].size = _boss->size / 3;
+			SpiralBullets_Boss[i][j].sniper = 0;
 		}
 	}
 }
@@ -395,7 +368,7 @@ void EnemyInit_StageFive(Boss* _elite)
 	_elite->oriSize = 50.f * (float)pow(1.25, 4);
 	_elite->dashTime = 0.f;
 	_elite->dashTimeMax = .3f;
-	_elite->dashSpeedBoost = 50.f;
+	_elite->dashSpeedBoost = 40.f;
 	_elite->dashDelay = 0.f;
 	_elite->dashDelayMax = 3.f;
 	_elite->isDashing = 0;
