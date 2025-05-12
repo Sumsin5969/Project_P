@@ -134,6 +134,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 		PlayStageBGM(stageState);
 
 		SetGameState(Play);
+		
 	}
 
 	/*CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);

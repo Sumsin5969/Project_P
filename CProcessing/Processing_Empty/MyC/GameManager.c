@@ -19,6 +19,7 @@ Obstacle tutorialwall[3];
 Obstacle startbox[2];
 
 CP_Image tutorialImage;
+CP_Image endingImage;
 
 void InitGameManager()
 {
@@ -344,4 +345,9 @@ void Update_Enemy()
 void SetTutorialImage(CP_Image img)
 {
 	tutorialImage = img;
+}
+
+void SetEndingImage(CP_Image img)
+{
+	endingImage = img;
 }

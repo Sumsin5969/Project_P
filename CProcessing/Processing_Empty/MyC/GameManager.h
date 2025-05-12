@@ -51,4 +51,6 @@ void Update_StageBoss();
 // 적 업데이트 함수들을 묶은 함수
 
 void SetTutorialImage(CP_Image img);
+void SetEndingImage(CP_Image img);
+
 void Update_Enemy();
