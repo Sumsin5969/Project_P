@@ -235,6 +235,7 @@ void Ending(Boss* _boss)
 	{
 		//player->pos = targetPos;
 		player->pos = CP_Vector_Zero();
+		GetCamera()->camPos = CP_Vector_Set(WIDTH * 0.5f, HEIGHT * 0.5f); // 카메라 포지션을 중앙으로
 
 		if (GetCamera()->camZoom < 44)
 		{
