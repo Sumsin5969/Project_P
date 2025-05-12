@@ -411,6 +411,11 @@ void RenderBossAttack()
 		RenderLaser(&SecondLasers_BossStage[i]);
 	}
 
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		RenderLaser(&ThirdLasers_BossStage[i]);
+	}
+
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < MAX_BULLETS_PER_ENEMY; j++)
@@ -435,6 +440,17 @@ void RenderBossObstacle()
 		for (int i = 0; i < 11; i++)
 		{
 			RenderObstacle(&bosswall[i]);
+		}
+	}
+}
+
+void RenderBossFragment()
+{
+	if (boss.time >= 110.f)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			RenderObstacle(&BossFrag[i]);
 		}
 	}
 }
@@ -496,10 +512,11 @@ void RenderEnemyAll()
 		RenderEnemy_StageTwo();
 		RenderEnemy_StageOne();
 	}
-	else if (stageState == StageBoss || (stageState > StageSix || gameState == StageDown))
+	else if (stageState == StageBoss)
 	{
 		RenderBoss(&boss);
 		RenderBossObstacle();
+		RenderBossFragment();
 	}
 }
 

@@ -67,13 +67,6 @@ void CrossBulletFire(Boss* _boss)
 	}
 }
 
-void InitBossPhaseFour(Boss* _boss)
-{
-	_boss->fireTime = 0.f;
-	_boss->fireDelay = 0.15f;
-	_boss->magazine = 0;
-}
-
 void SpiralBulletConditioner(Boss* _boss)
 {
 	float dt = GetDt();
@@ -100,7 +93,7 @@ void SpiralBulletConditioner(Boss* _boss)
 		{
 			_boss->magazine = 0;
 		}
-			degreeAddition += 5;
+			degreeAddition += 8;
 			if (degreeAddition >= 360)
 			{
 				degreeAddition = 0;
@@ -166,7 +159,7 @@ void RunAway(Boss* _boss)
 		_boss->pos.x += dt * _boss->spd;
 		if (_boss->pos.x >= 3600.f)
 		{
-			_boss->pos.x = 30000;
+			_boss->pos.x = 29500;
 			_boss->spd = originSpd;
 		}
 	}
@@ -226,8 +219,19 @@ void InitBossPhaseThree(Boss* _boss)
 	_boss->idleTime = 0;
 	_boss->arrIndex = 0;
 	_boss->laserCycle = 0;
-	_boss->active = 1;
 }
+
+void InitBossPhaseFour(Boss* _boss)
+{
+	_boss->fireTime = 0.f;
+	_boss->fireDelay = 0.15f;
+	_boss->magazine = 0;
+
+	// 아래는 레이저
+	_boss->idleTime = 0;
+	_boss->laserCycle = 0;
+}
+
 
 void SecondLaserAttack(Boss* _boss)
 {
@@ -252,6 +256,8 @@ void SecondLaserAttack(Boss* _boss)
 		}
 	}
 
+
+
 	for (int i = 0; i < 3; i++)
 	{
 		if (SecondLasers_BossStage[i].active == 1)
@@ -260,6 +266,48 @@ void SecondLaserAttack(Boss* _boss)
 			CreateLaser(&BossSecondLaserShooter[i], &SecondLasers_BossStage[i]);
 			CheckLaser(&SecondLasers_BossStage[i]);
 			LaserAttack(&SecondLasers_BossStage[i]);
+		}
+	}
+}
+
+void ThirdLaserAttack(Boss* _boss)
+{
+	float dt = GetDt();
+
+	_boss->idleTime += dt;
+
+	const float idleDuration = 1.0f;
+
+	if (_boss->laserCycle < 25)
+	{
+		if (_boss->idleTime > idleDuration)
+		{
+			if (_boss->idleTime >= _boss->timeArr[_boss->arrIndex])
+			{
+				do {
+					_boss->rd = rand() % MAX_LASERS;
+				} while (_boss->rd == _boss->rdprev);
+
+				_boss->rdprev = _boss->rd;
+
+				if (ThirdLasers_BossStage[_boss->rd].active == 0)
+				{
+					ThirdLasers_BossStage[_boss->rd].active = 1;
+				}
+
+				_boss->idleTime = 0.f;
+				_boss->laserCycle++;
+			}
+		}
+	}
+
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		if (ThirdLasers_BossStage[i].active == 1)
+		{
+			CreateLaser(&BossThirdLaserShooter[i], &ThirdLasers_BossStage[i]);
+			CheckLaser(&ThirdLasers_BossStage[i]);
+			LaserAttack(&ThirdLasers_BossStage[i]);
 		}
 	}
 }
@@ -321,15 +369,24 @@ void InitPhaseThreeObstacle(Obstacle* _ob)
 	}
 }
 
+void BossDead(Bullet* _fragment, Obstacle* _ob)
+{
+	float dt = GetDt();
+	for (int i = 0; i < 8; i++)
+	{
+		_fragment[i].active = 1;
+		_fragment[i].projPos.x += _fragment[i].fireDir.x * _fragment[i].projSpd * dt;
+		_fragment[i].projPos.y += _fragment[i].fireDir.y * _fragment[i].projSpd * dt;
+		_ob[i].pos = _fragment[i].projPos;
+	}
+}
+
 void BossStageController(Boss* _boss)
 {
 	float dt = GetDt();
 	_boss->time += dt;
-	if (_boss->time > 120.f)
-	{
-		_boss->state = DEAD;
-	}
-	else if (_boss->time > 80.f) _boss->phase = 4;
+	if (_boss->time > 105.f) _boss->phase = 5;
+	else if (_boss->time > 75.f) _boss->phase = 4;
 	else if (_boss->time > 35.f) _boss->phase = 3;
 	else if (_boss->time > 15.5f) _boss->phase = 2;
 	else if (_boss->time > 8.9f) _boss->phase = 1;
@@ -350,20 +407,20 @@ void BossStageController(Boss* _boss)
 	if (_boss->phase == 2)
 	{
 		RunAway(_boss);
-		FirstLaserAttack(&boss);
+		FirstLaserAttack(_boss);
 	}
 
 	if (_boss->phase == 3)
 	{
-		CameraMove(LD_LEFT, 30, 0.005f, 40);
+		CameraMove(LD_LEFT, 30, 0.005f, 42);
 
 		for (int i = 0; i < 4; i++)
+
 		if (_boss->active == 0)
 		{
 			InitBossPhaseThree(_boss);
+			_boss->active = 1;
 		}
-
-		CameraMove(LD_LEFT, 30, 0.005f, 42);
 
 		SecondLaserAttack(&boss);
 
@@ -376,18 +433,40 @@ void BossStageController(Boss* _boss)
 
 	if (_boss->phase == 4)
 	{
-		if (_boss->active == 0)
+		if (_boss->active == 1)
 		{
 			InitBossPhaseFour(_boss);
-			_boss->active = 1;
+			_boss->active = 0;
 		}
-		SpiralBulletConditioner(_boss);
-		SpiralBulletFire(_boss);
+		ThirdLaserAttack(_boss);
 
+		if (_boss->time < 100.f)
+		{
+			SpiralBulletConditioner(_boss);
+		}
+
+		SpiralBulletFire(_boss);
 		for (int i = 0; i < 4; i++)
 		{
 			CheckWallBullet(wall, SpiralBullets_Boss[i]);
 			CheckBullet(SpiralBullets_Boss[i]);
 		}
+
+	}
+
+	if (_boss->phase == 5)
+	{
+		if (_boss->active == 0)
+		{
+			InitBossFragment(_boss);
+			_boss->active = 1;
+		}
+		BossDead(BossFragment, BossFrag);
+		CheckWallBullet(wall, BossFragment);
+		for (int i = 0; i < 8; i++)
+		{
+			CheckObstacle(&BossFrag[i]);
+		}
+		_boss->pos.x = 100000;
 	}
 }

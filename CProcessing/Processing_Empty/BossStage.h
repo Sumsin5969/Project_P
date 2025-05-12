@@ -22,5 +22,5 @@ void CrossBulletFire(Boss*);
 void SpiralBulletConditioner(Boss* _boss);
 void SpiralBulletFire(Boss* _boss);
 void BossLaserAttack(Boss*);
-void FirstLaserAttack();
+void FirstLaserAttack(Boss*);
 void Contact(Boss*);

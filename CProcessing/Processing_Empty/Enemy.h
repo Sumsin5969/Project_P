@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "cprocessing.h"
 #include "Defines.h"
+#include "Obstacle.h"
 
 typedef struct Enemy
 {
@@ -142,19 +143,6 @@ typedef struct LaserCircle
 } LaserCircle;
 
 Boss boss;
-Boss elite_StageFive;
-Enemy enemy_StageSix;
-Enemy enemies[6][MAX_ENEMIES];
-Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
-Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
-Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
-Laser Lasers_StageTwo[MAX_ENEMIES];
-
-Enemy BossFirstLaserShooter[MAX_LASERS];
-Laser FirstLasers_BossStage[MAX_LASERS];
-
-Enemy BossSecondLaserShooter[3];
-Laser SecondLasers_BossStage[3];
 
 void InitBoss(Boss*);
 void InitBossCrossBullet(Boss*);
@@ -166,8 +154,32 @@ void InitBossFirstLaser(Enemy* _lasershooter, Laser* _laser);
 void InitBossSecondLaserShooter(Enemy*);
 void InitBossSecondLaser(Enemy*, Laser*);
 
+void InitBossThirdLaserShooter(Enemy* _lasershooter);
+void InitBossThirdLaser(Enemy* _lasershooter, Laser* _laser);
+
 Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
 Bullet SpiralBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
+
+Enemy BossFirstLaserShooter[MAX_LASERS];
+Laser FirstLasers_BossStage[MAX_LASERS];
+
+Enemy BossSecondLaserShooter[3];
+Laser SecondLasers_BossStage[3];
+
+Enemy BossThirdLaserShooter[MAX_LASERS];
+Laser ThirdLasers_BossStage[MAX_LASERS];
+
+Boss elite_StageFive;
+Enemy enemy_StageSix;
+Enemy enemies[6][MAX_ENEMIES];
+Bullet CircleBullets_StageThree[MAX_ENEMIES][CLIP][MAX_BULLETS_PER_ENEMY];
+Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
+Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
+Laser Lasers_StageTwo[MAX_ENEMIES];
+
+Bullet BossFragment[8];
+Obstacle BossFrag[8];
+void InitBossFragment(Boss*);
 
 void EnemyInit_StageOne(Enemy*);
 void EnemyMove_StageOne(Enemy*);

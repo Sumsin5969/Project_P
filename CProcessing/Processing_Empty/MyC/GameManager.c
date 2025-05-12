@@ -84,7 +84,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	//DebugUpdate();
+	DebugUpdate();
 
 	UpdateCameraShake();
 
@@ -190,6 +190,8 @@ void InitEnemies()
 	InitBossSpiralBullet(&boss);
 	InitBossSecondLaserShooter(BossSecondLaserShooter);
 	InitBossSecondLaser(BossSecondLaserShooter, SecondLasers_BossStage);
+	InitBossThirdLaserShooter(BossThirdLaserShooter);
+	InitBossThirdLaser(BossThirdLaserShooter, ThirdLasers_BossStage);
 }
 
 

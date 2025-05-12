@@ -51,6 +51,24 @@ void InitBoss(Boss* _boss)
 		_boss->timeArr[i] = timeArray[i];
 	}
 }
+
+void InitBossFragment(Boss* _boss)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		BossFragment[i].degree = (360.f / 8) * i;
+		BossFragment[i].fireAngle = CP_Math_Radians(BossFragment[i].degree);
+		BossFragment[i].fireDir.x = cosf(BossFragment[i].fireAngle);
+		BossFragment[i].fireDir.y = sinf(BossFragment[i].fireAngle);
+		BossFragment[i].projPos = _boss->pos;
+		BossFragment[i].projSpd = 3000.f;
+		BossFragment[i].active = 0;
+		BossFrag[i].width = _boss->size / 4;
+		BossFrag[i].height = _boss->size / 4;
+		BossFrag[i].sniper = 0;
+	}
+}
+
 void InitBossCrossBullet(Boss* _boss)
 {
 	// Init Bullets
@@ -98,7 +116,7 @@ void InitBossSpiralBullet(Boss* _boss)
 			SpiralBullets_Boss[i][j].fireDir.x = cosf(CrossBullets_Boss[i]->fireAngle);
 			SpiralBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i]->fireAngle);
 			SpiralBullets_Boss[i][j].projPos = _boss->pos;
-			SpiralBullets_Boss[i][j].projSpd = 500.f;
+			SpiralBullets_Boss[i][j].projSpd = 800.f;
 			SpiralBullets_Boss[i][j].active = 0;
 			SpiralBullets_Boss[i][j].size = _boss->size / 3;
 			SpiralBullets_Boss[i][j].sniper = 0;
@@ -108,13 +126,13 @@ void InitBossSpiralBullet(Boss* _boss)
 
 void InitBossFirstLaserShooter(Enemy* _lasershooter)
 {
-	float xCoor = -3300;
+	float xCoor = -3000;
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
-		xCoor += 6400 / MAX_LASERS;
+		xCoor += 6000 / MAX_LASERS;
 		_lasershooter[i].pos.x = xCoor;
-		_lasershooter[i].pos.y = 2000.f;
-		_lasershooter[i].size = 300.f;
+		_lasershooter[i].pos.y = 3000.f;
+		_lasershooter[i].size = 600.f;
 		_lasershooter[i].oriSize = _lasershooter[i].size;
 		_lasershooter[i].spd = 0.f;
 		_lasershooter[i].active = 0;
@@ -193,6 +211,50 @@ void InitBossSecondLaser(Enemy* _lasershooter, Laser* _laser)
 		_laser[i].attackDuration = 0.6f;
 
 		_laser[i].laserWarningAttackRange = _lasershooter[i].size;
+		_laser[i].laserWarningAttackRangeMax = _lasershooter[i].size;
+
+		_laser[i].laserWidth = 0.f;
+		_laser[i].laserHeight = 0.f;
+
+		_laser[i].state = IDLE;
+		_laser[i].sniper = 0;
+		_laser[i].active = 0;
+	}
+}
+
+void InitBossThirdLaserShooter(Enemy* _lasershooter)
+{
+	float yCoor = -1500;
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		yCoor += 3000 / MAX_LASERS;
+		_lasershooter[i].pos.x = 20000;
+		_lasershooter[i].pos.y = yCoor;
+		_lasershooter[i].size = 500.f;
+		_lasershooter[i].oriSize = _lasershooter[i].size;
+		_lasershooter[i].spd = 0.f;
+		_lasershooter[i].active = 0;
+		_lasershooter[i].sniper = 0;
+	}
+
+}
+
+void InitBossThirdLaser(Enemy* _lasershooter, Laser* _laser)
+{
+	for (int i = 0; i < MAX_LASERS; i++)
+	{
+		_laser[i].laserDirection = LD_RIGHT;
+		_laser[i].pos.x = _lasershooter[i].pos.x;
+		_laser[i].pos.y = _lasershooter[i].pos.y;
+		_laser[i].laserAlpha = 50;
+		_laser[i].laserAlphaMax = 200;
+		_laser[i].time = 0.f;
+		_laser[i].idleDuration = 0.f;
+		_laser[i].warningAttackDuration = 1.f;
+		_laser[i].waitDuration = 0.2f;
+		_laser[i].attackDuration = 0.5f;
+
+		_laser[i].laserWarningAttackRange = 0.f;
 		_laser[i].laserWarningAttackRangeMax = _lasershooter[i].size;
 
 		_laser[i].laserWidth = 0.f;

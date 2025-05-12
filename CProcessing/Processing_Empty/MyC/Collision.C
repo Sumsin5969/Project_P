@@ -66,7 +66,6 @@ void CheckObstacle(Obstacle* _obstacle) // AABB - Circle collision
 		if (player->playerState == NORMAL)
 		{
 			_obstacle->sniper = 1;
-			printf("wall type: %d\n",_obstacle->type);
 			player->playerState = HIT;
 		}
 	}
