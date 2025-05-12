@@ -337,7 +337,9 @@ void CheckStartBox(Obstacle* _ob)
 	{
 		if (player->playerState == NORMAL)
 		{
+			gameState = StageUp;
 			// 1스테이지로 이동할 로직 구현 부탁!!!!!!!!!
+			PlayerInit();
 		}
 	}
 }
