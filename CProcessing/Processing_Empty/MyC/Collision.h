@@ -10,3 +10,5 @@ void CheckObstacle(Obstacle* _obstacle);
 void CheckLaser(Laser* _laser);
 void CheckEnemy(Enemy*);
 void CheckBoss(Boss*);
+
+void CheckStartBox(Obstacle* _ob);
