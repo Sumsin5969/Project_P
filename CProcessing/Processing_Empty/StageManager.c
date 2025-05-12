@@ -7,6 +7,7 @@
 #include "SoundManager.h"
 #include "math.h"
 #include <corecrt.h>
+#include "Enemy.h"
 
 const float defaultTime = 20.f;
 char timeBuffer[10];
@@ -134,7 +135,7 @@ void StageTimerLevelUp() // 스테이지 상승할 때
 		PlayStageBGM(stageState);
 
 		SetGameState(Play);
-		
+
 	}
 
 	/*CP_Font_DrawText(timeBuffer, WIDTH / 2, 30);
@@ -205,4 +206,53 @@ void StageTimerLevelDown() // 스테이지 다운할 때
 void SetStageTime(float _time)
 {
 	stageTime = _time;
+}
+
+void Ending(Boss* _boss)
+{
+	static float distance = 99999;
+
+	float dt = GetDt();
+	static float ac;
+
+	CP_Vector targetPos = CP_Vector_Set(29500, 0);
+
+	static float cac;
+
+	if (player->spd <= distance)
+	{
+		float speed = player->spd * dt * ac;
+		ac += dt;
+		printf("엔딩이동\n");
+
+		if (100 < speed) ac = 1;
+
+		CP_Vector dir = CP_Vector_Normalize(CP_Vector_Subtract(targetPos, player->pos));
+		CP_Vector moveDelta = CP_Vector_Scale(dir, speed);
+
+		printf("플레이어 이동속도 = %f \n", speed);
+
+		player->pos = CP_Vector_Add(player->pos, moveDelta);
+
+		distance = CP_Vector_Distance(targetPos, player->pos);
+		printf("거리 = %f \n", distance);
+	}
+	else
+	{
+		player->pos = targetPos;
+		//player->pos = CP_Vector_Zero();
+
+		if (GetCamera()->camZoom < 44)
+		{
+			cac += dt / 5;
+			if (1 <= cac) cac = 1;
+			printf("줌인");
+			GetCamera()->camZoom += cac;
+		}
+		else
+		{
+			GetCamera()->camZoom = 44;
+		}
+	}
+
 }

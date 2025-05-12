@@ -126,3 +126,4 @@ void FreeBGM()
 {
 	//CP_Sound_StopGroup()
 }
+
