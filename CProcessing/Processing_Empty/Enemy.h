@@ -12,7 +12,7 @@ typedef struct Enemy
 	float fireTime;// 쿨타임
 	float fireDelay;// 쿨타임 cap
 	int magazine; // 탄창
-
+	
 	float size;
 	float oriSize;
 
