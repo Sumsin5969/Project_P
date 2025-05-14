@@ -22,6 +22,8 @@ void RenderWall(Obstacle* _obstacles)
 	{
 		if (_obstacles->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255)); // 플레이어를 맞췄다면
 		else CP_Settings_Fill(ENEMY_COLOR());
+		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		CP_Settings_StrokeWeight(.5f);
 		CP_Graphics_DrawRect(_obstacles[i].pos.x, _obstacles[i].pos.y, _obstacles[i].width, _obstacles[i].height);
 	}
 }
@@ -111,18 +113,20 @@ void RenderPlayer()
 		invincibleColorIndex++;
 
 		if (100 < invincibleColorIndex) invincibleColorIndex = 0;
-		
+
+		CP_Settings_NoStroke();
 		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 		CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
 
 		return;
 	}
 	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
+	CP_Settings_NoStroke();
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 	if (!player->isDashing)
 	{
 		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_StrokeWeight(2.f * cam->camZoom);
+		CP_Settings_StrokeWeight(1.5f * cam->camZoom);
 		CP_Settings_Fill(CP_Color_Create(36, 235, 50, 255));
 		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * (player->size / 2.f));
 	}
@@ -159,7 +163,7 @@ void RenderBullet(Bullet* _bullet)
 	else CP_Settings_Fill(ENEMY_COLOR());
 
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_StrokeWeight(2.f * cam->camZoom);
+	CP_Settings_StrokeWeight(1.5f * cam->camZoom);
 
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, _bulletSize);
 }
@@ -176,7 +180,7 @@ void RenderObstacle(Obstacle* _obstacle)
 	else CP_Settings_Fill(ENEMY_COLOR());
 
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_StrokeWeight(2.f * cam->camZoom);
+	CP_Settings_StrokeWeight(1.5f * cam->camZoom);
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obstacle->width * cam->camZoom, _obstacle->height * cam->camZoom);
 }
@@ -394,7 +398,7 @@ void RenderBoss(Boss* _boss)
 	float _bossSize = _boss->size * cam->camZoom;
 	if (_boss->sniper == 1) CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 	else CP_Settings_Fill(ENEMY_COLOR());
-
+	CP_Settings_NoStroke();
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _bossSize, _bossSize);
 }
 
@@ -480,6 +484,9 @@ void RenderBlueBox(Obstacle* _ob)
 	
 	CP_Settings_Fill(CP_Color_Create(0, 180, 250, 255));
 
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_StrokeWeight(1.5f * cam->camZoom);
+
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obSize, _obSize);
 }
 
@@ -494,6 +501,9 @@ void RenderOuterBlueBox(Obstacle* _ob)
 	float _obSize = _ob->width * cam->camZoom;
 
 	CP_Settings_Fill(CP_Color_Create(0, 150, 255, 255));
+
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_StrokeWeight(1.5f * cam->camZoom);
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obSize, _obSize);
 }
