@@ -103,10 +103,12 @@ void GMLateUpdate()
 		{
 			preGameState = GetGameState();
 			SetGameState(Pause);
+			CP_Sound_PauseAll();
 		}
 		else if (GetGameState() == Pause)
 		{
 			SetGameState(preGameState);
+			CP_Sound_ResumeAll();
 		}
 	}
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
