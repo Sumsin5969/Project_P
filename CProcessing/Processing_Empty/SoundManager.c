@@ -1,6 +1,7 @@
 #include <cprocessing.h>
 #include "SoundManager.h"
 #include "Defines.h"
+#include "MyC/GameManager.h"
 
 
 CP_Sound titleBGM;
@@ -55,25 +56,25 @@ void PlayStageBGM(StageState stage)
 	switch (stage)
 	{
 	case StageOne:
-		CP_Sound_PlayAdvanced(stageSound_1, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_1, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case  StageTwo:
-		CP_Sound_PlayAdvanced(stageSound_2, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_2, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageThree:
-		CP_Sound_PlayAdvanced(stageSound_3, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_3, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageFour:
-		CP_Sound_PlayAdvanced(stageSound_4, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_4, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageFive:
-		CP_Sound_PlayAdvanced(stageSound_5, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_5, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageSix:
-		CP_Sound_PlayAdvanced(stageSound_6, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(stageSound_6, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 		break;
 	case StageBoss:
-		CP_Sound_PlayAdvanced(bossStageSound, 1, 1, FALSE, CP_SOUND_GROUP_MUSIC);
+		CP_Sound_PlayAdvanced(bossStageSound, volumeChanger, 1, FALSE, CP_SOUND_GROUP_MUSIC);
 	}
 
 	bgmPlaying = TRUE;
@@ -84,7 +85,7 @@ void PlayStageDownSound()
 	if (soundPlaying == FALSE)
 	{
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
-		CP_Sound_PlayAdvanced(stageDownSound, 1, 1, FALSE, CP_SOUND_GROUP_SFX);
+		CP_Sound_PlayAdvanced(stageDownSound, volumeChanger, 1, FALSE, CP_SOUND_GROUP_SFX);
 		soundPlaying = TRUE;
 	}
 	else
@@ -98,7 +99,7 @@ void PlayStageUpSound()
 	if (soundPlaying == FALSE)
 	{
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
-		CP_Sound_PlayAdvanced(stageUpSound, 0.5, 1, FALSE, CP_SOUND_GROUP_SFX);
+		CP_Sound_PlayAdvanced(stageUpSound, volumeChanger*0.5f, 1, FALSE, CP_SOUND_GROUP_SFX);
 		soundPlaying = TRUE;
 	}
 	else

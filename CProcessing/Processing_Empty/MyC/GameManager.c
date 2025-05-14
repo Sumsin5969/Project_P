@@ -21,6 +21,8 @@ Obstacle startbox[2];
 CP_Image tutorialImage;
 CP_Image endingImage;
 
+float volumeChanger = 1;
+
 void InitGameManager()
 {
 	InitTutorialObstacle(tutorialwall);
@@ -114,6 +116,8 @@ void GMLateUpdate()
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
 	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
+	if (CP_Input_KeyTriggered(KEY_A)) volumeChanger *= 0.75f;
+	if (CP_Input_KeyTriggered(KEY_S)) volumeChanger *= 1.25f;
 }
 
 void FreeAll()

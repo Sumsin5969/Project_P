@@ -40,7 +40,7 @@ extern Obstacle wall[MAX];
 extern Obstacle bosswall[11];
 extern Obstacle tutorialwall[3];
 extern Obstacle startbox[2];
-
+extern float volumeChanger;
 void Update_Tutorial();
 void Update_StageOne();
 void Update_StageTwo();
