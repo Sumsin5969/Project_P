@@ -93,7 +93,7 @@ void GMLateUpdate()
 
 	RenderAll();
 
-	DebugUpdate();
+	//DebugUpdate();
 
 	UpdateCameraShake();
 
@@ -111,28 +111,9 @@ void GMLateUpdate()
 			CP_Sound_ResumeAll();
 		}
 	}
-	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
-	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
-	if (CP_Input_KeyTriggered(KEY_W))
-	{
-		player->playerState = HIT;
-	}
+	if (CP_Input_KeyTriggered(KEY_W)) player->playerState = HIT;
 	if (CP_Input_KeyTriggered(KEY_G)) player->playerState = INVINCIBLE;
-	if (CP_Input_KeyTriggered(KEY_Z)) EnemyInit_StageFive(&elite_StageFive);
-	if (CP_Input_KeyTriggered(KEY_M)) CP_Sound_Play(titleBGM);
-	if (CP_Input_KeyTriggered(KEY_O))
-	{
-
-		stageState = StageBoss;
-		player->playerState = INVINCIBLE;
-
-		SetZoom(stageState);
-
-		/*	player->pos.x = 29500;
-
-			boss.time = 80;*/
-	}
 }
 
 void FreeAll()

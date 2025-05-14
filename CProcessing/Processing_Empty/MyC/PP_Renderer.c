@@ -600,7 +600,7 @@ void RenderLaserParticles(LaserParticle* lp)
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, lp->pos);
 
-	CP_Settings_Stroke(CP_Color_Create(100, 100, 255, 255));
-	CP_Settings_StrokeWeight(6);
+	CP_Settings_Stroke(CP_Color_Create(200, 1, 147, 120));
+	CP_Settings_StrokeWeight(6*cam->camZoom);
 	CP_Graphics_DrawLine(targetVector.x - lp->length / 2, targetVector.y - lp->length / 2, targetVector.x + lp->length / 2, targetVector.y + lp->length / 2);
 }

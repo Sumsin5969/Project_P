@@ -1092,12 +1092,12 @@ void LaserParticleInit_StageTwo(Laser* enemy, LaserParticle* lp,Enemy* father)
 	lp->myFather = father;
 	lp->myMother = enemy;
 
-	lp->length = (float)(rand() % 20) + 1;
+	lp->length = (float)(rand() % 10) + 1;
 
-	lp->speed = (float)(rand() % 20) + 5;
+	lp->speed = (float)(rand() % 5) + 1;
 
-	lp->pos.x = lp->myFather->pos.x + (rand() % 500 - 250);
-	lp->pos.y = lp->myMother->pos.y + (rand() % 500 - 250);
+	lp->pos.x = lp->myFather->pos.x + (rand() % 250 - 125);
+	lp->pos.y = lp->myMother->pos.y + (rand() % 250 - 125);
 
 	lp->oriPos = lp->pos;
 }
@@ -1114,7 +1114,6 @@ void LaserParticleMove(LaserParticle* lp)
 	CP_Vector moveDelta = CP_Vector_Scale(dir, lp->speed);
 
 	lp->pos = CP_Vector_Add(lp->pos, moveDelta); // 이동시키는 함수
-
 	if (distance < 10)
 	{
 		lp->pos = lp->oriPos;
