@@ -142,6 +142,17 @@ typedef struct LaserCircle
 	int sniper;
 } LaserCircle;
 
+typedef struct
+{
+	CP_Vector pos;
+	float length;
+	Laser* myMother;
+	Enemy* myFather;
+	float speed;
+
+	CP_Vector oriPos;
+}LaserParticle;
+
 Boss boss;
 
 void InitBoss(Boss*);
@@ -177,6 +188,8 @@ Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
+LaserParticle LaserParticles_StageTwo[4][100]; // 한 레이저당 100개의 파티클을 가질 예정이다.
+
 Bullet BossFragment[8];
 Obstacle BossFrag[8];
 void InitBossFragment(Boss*);
@@ -200,8 +213,8 @@ void EnemyMove_StageSix(Enemy*);
 
 
 void BulletConditioner(Enemy*, Bullet*);
-void CircleBulletConditioner(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
-void CircleBulletFire(Enemy*, Bullet [CLIP][MAX_BULLETS_PER_ENEMY]);
+void CircleBulletConditioner(Enemy*, Bullet[CLIP][MAX_BULLETS_PER_ENEMY]);
+void CircleBulletFire(Enemy*, Bullet[CLIP][MAX_BULLETS_PER_ENEMY]);
 void DirectBulletFire(Enemy*, Bullet*);
 
 void CreateLaser(Enemy*, Laser*);
@@ -211,3 +224,5 @@ void EnableEnemy(Enemy*);
 void DisableEnemy(Enemy*);
 
 void ChangeEnemySize();
+void LaserParticleInit_StageTwo(Laser* enemy, LaserParticle* lp,Enemy*);
+void LaserParticleMove(LaserParticle* lp);

@@ -37,3 +37,4 @@ void RenderBossShadow(Boss*);
 
 void RenderAll();
 void StageTimer();
+void RenderLaserParticles(LaserParticle* lp);

@@ -1084,4 +1084,39 @@ void ChangeEnemySize()
 			enemies[i][j].size = enemies[i][j].oriSize * scale;
 		}
 	}
+
+}
+
+void LaserParticleInit_StageTwo(Laser* enemy, LaserParticle* lp,Enemy* father)
+{
+	lp->myFather = father;
+	lp->myMother = enemy;
+
+	lp->length = (float)(rand() % 20) + 1;
+
+	lp->speed = (float)(rand() % 20) + 5;
+
+	lp->pos.x = lp->myFather->pos.x + (rand() % 500 - 250);
+	lp->pos.y = lp->myMother->pos.y + (rand() % 500 - 250);
+
+	lp->oriPos = lp->pos;
+}
+
+void LaserParticleMove(LaserParticle* lp)
+{
+	// 이동시켜준다.
+	float distance = CP_Vector_Distance(lp->pos, lp->myFather->pos);
+
+
+	CP_Vector tempVector = CP_Vector_Subtract(lp->myFather->pos, lp->pos);
+	CP_Vector dir = CP_Vector_Normalize(tempVector);
+
+	CP_Vector moveDelta = CP_Vector_Scale(dir, lp->speed);
+
+	lp->pos = CP_Vector_Add(lp->pos, moveDelta); // 이동시키는 함수
+
+	if (distance < 10)
+	{
+		lp->pos = lp->oriPos;
+	}
 }

@@ -121,7 +121,7 @@ void RenderPlayer()
 		return;
 	}
 	//CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255)); 파랑
-	CP_Settings_Fill(CP_Color_Create(36, 235, 36, 255));	
+	CP_Settings_Fill(CP_Color_Create(36, 235, 36, 255));
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 	if (!player->isDashing)
@@ -330,6 +330,11 @@ void RenderEnemy_StageTwo()
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		RenderEnemy(&enemies[StageTwo][i]);
+
+		for (int j = 0; j < 100; ++j)
+		{
+			RenderLaserParticles(&LaserParticles_StageTwo[i][j]);
+		}
 	}
 }
 
@@ -487,7 +492,7 @@ void RenderBlueBox(Obstacle* _ob)
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, _ob->pos);
 
 	float _obSize = _ob->width * cam->camZoom;
-	
+
 	CP_Settings_Fill(CP_Color_Create(0, 180, 250, 255));
 
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
@@ -582,5 +587,20 @@ void RenderAll()
 	// 디버그 UI
 	//DebugUpdate();
 	// 타이머 UI
-	
+
+}
+
+void RenderLaserParticles(LaserParticle* lp)
+{
+	if (lp->myMother->state != WARNING) return;
+
+	CamInfo* cam = GetCamera();
+	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
+	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
+	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
+	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, lp->pos);
+
+	CP_Settings_Stroke(CP_Color_Create(100, 100, 255, 255));
+	CP_Settings_StrokeWeight(6);
+	CP_Graphics_DrawLine(targetVector.x - lp->length / 2, targetVector.y - lp->length / 2, targetVector.x + lp->length / 2, targetVector.y + lp->length / 2);
 }
