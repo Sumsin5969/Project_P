@@ -1,4 +1,5 @@
-﻿#include "PP_Renderer.h"
+﻿#include "cprocessing.h"
+#include "PP_Renderer.h"
 #include "ZoomCamera.h"
 #include "../Defines.h"
 #include "stdio.h"
@@ -505,11 +506,6 @@ void RenderOuterBlueBox(Obstacle* _ob)
 	CP_Settings_StrokeWeight(1.5f * cam->camZoom);
 
 	CP_Graphics_DrawRect(targetVector.x, targetVector.y, _obSize, _obSize);
-}
-
-void ConvergingEffect()
-{
-	
 }
 
 void RenderEnemyAll()

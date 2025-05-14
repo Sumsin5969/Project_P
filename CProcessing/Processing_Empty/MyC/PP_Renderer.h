@@ -1,5 +1,4 @@
 #pragma once
-#include "cprocessing.h"
 #include "../Player.h"
 #include "../Enemy.h"
 #include "../Obstacle.h"
@@ -38,10 +37,3 @@ void RenderBossShadow(Boss*);
 
 void RenderAll();
 void StageTimer();
-
-typedef struct Effect
-{
-	CP_Vector pos;
-	float size;
-	float spd;
-} Effect;
