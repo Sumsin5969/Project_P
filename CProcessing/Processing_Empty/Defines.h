@@ -49,6 +49,7 @@ typedef enum GameState
 	MainMenu,
 	GameOver,
 	GameClear,
+	Pause,
 } GameState;
 
 typedef enum StageState

@@ -97,6 +97,18 @@ void GMLateUpdate()
 
 	UpdateCameraShake();
 
+	if (CP_Input_KeyTriggered(KEY_ESCAPE))
+	{
+		if (GetGameState() != Pause)
+		{
+			preGameState = GetGameState();
+			SetGameState(Pause);
+		}
+		else if (GetGameState() == Pause)
+		{
+			SetGameState(preGameState);
+		}
+	}
 	if (CP_Input_KeyTriggered(KEY_A)) gameState = StageDown; // 게임스테이트 디버깅용
 	if (CP_Input_KeyTriggered(KEY_S)) gameState = Play;
 	if (CP_Input_KeyTriggered(KEY_Q)) SetStageTime(0.5f);
@@ -115,9 +127,9 @@ void GMLateUpdate()
 
 		SetZoom(stageState);
 
-	/*	player->pos.x = 29500;
+		/*	player->pos.x = 29500;
 
-		boss.time = 80;*/
+			boss.time = 80;*/
 	}
 }
 

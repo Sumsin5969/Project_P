@@ -26,6 +26,7 @@ void InitAll();
 
 StageState stageState;
 GameState gameState;
+GameState preGameState;
 
 PlayerCharacter* player;
 

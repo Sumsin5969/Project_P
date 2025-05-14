@@ -14,6 +14,8 @@ char timeBuffer[10];
 char intBuffer[3];
 char commaBuffer[2];
 char comma = '.';
+char pauseUIBuffer[10];
+char* pausetext = "Pause";
 float stageTime = 20.f; // 타이머
 float timeAcc = 0.f; // 가중치
 float stageTimeStart = 0.f;
@@ -38,6 +40,17 @@ void OnPlayerHit()
 {
 	// prevstg ㄱㄱ
 	// 무적 ㄱㄱ
+}
+
+void PauseUI()
+{
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+
+	CP_Settings_TextSize(500.f);
+	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 50));
+
+	CP_Font_DrawText(pauseUIBuffer, WIDTH / 2, HEIGHT / 2);
+	sprintf_s(pauseUIBuffer, sizeof(pauseUIBuffer), "%s", pausetext);
 }
 
 void DefaultTimerUI()

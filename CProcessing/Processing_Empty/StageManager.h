@@ -11,5 +11,6 @@ void StageTimerReset();
 void SetStageTime(float _time);
 void Ending(Boss*);
 void DefaultTimerUI();
+void PauseUI();
 
 extern float stageTime;

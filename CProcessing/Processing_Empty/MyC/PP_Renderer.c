@@ -539,7 +539,11 @@ void RenderAttackAll()
 
 void RenderAll()
 {
-	if (stageState > Tutorial)
+	if (GetGameState() == Pause)
+	{
+		PauseUI();
+	}
+	else if (stageState > Tutorial)
 	{
 		DefaultTimerUI();
 	}
@@ -562,4 +566,5 @@ void RenderAll()
 	// 디버그 UI
 	//DebugUpdate();
 	// 타이머 UI
+	
 }
