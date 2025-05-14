@@ -120,15 +120,21 @@ void RenderPlayer()
 
 		return;
 	}
-	CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
+	//CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255)); 파랑
+	CP_Settings_Fill(CP_Color_Create(36, 235, 36, 255));	
 	CP_Settings_NoStroke();
 	CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
 	if (!player->isDashing)
 	{
-		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
+		//CP_Settings_Fill(CP_Color_Create(36, 235, 36, 255));	// 녹색
+		CP_Settings_Fill(CP_Color_Create(36, 235, 238, 255));
+
+		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * player->size);
+
+		/*CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 		CP_Settings_StrokeWeight(1.5f * cam->camZoom);
 		CP_Settings_Fill(CP_Color_Create(36, 235, 50, 255));
-		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * (player->size / 2.f));
+		CP_Graphics_DrawCircle(targetVector.x, targetVector.y, cam->camZoom * (player->size / 2.f));*/
 	}
 }
 
