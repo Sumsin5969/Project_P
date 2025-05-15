@@ -97,7 +97,7 @@ void InitBossCrossBullet(Boss* _boss)
 				CrossBullets_Boss[i][j].fireDir.y = sinf(CrossBullets_Boss[i][j].fireAngle);
 			}
 			CrossBullets_Boss[i][j].projPos = _boss->pos;
-			CrossBullets_Boss[i][j].projSpd = 2500.f;
+			CrossBullets_Boss[i][j].projSpd = 2600.f;
 			CrossBullets_Boss[i][j].active = 0;
 			CrossBullets_Boss[i][j].size = _boss->size / 3;
 			CrossBullets_Boss[i][j].sniper = 0;
@@ -255,6 +255,50 @@ void InitBossThirdLaser(Enemy* _lasershooter, Laser* _laser)
 		_laser[i].attackDuration = 0.5f;
 
 		_laser[i].laserWarningAttackRange = 0.f;
+		_laser[i].laserWarningAttackRangeMax = _lasershooter[i].size;
+
+		_laser[i].laserWidth = 0.f;
+		_laser[i].laserHeight = 0.f;
+
+		_laser[i].state = IDLE;
+		_laser[i].sniper = 0;
+		_laser[i].active = 0;
+	}
+}
+
+void InitBossLastLaserShooter(Enemy* _lasershooter)
+{
+	float xCoor = 25800;
+	for (int i = 0; i < 35; i++)
+	{
+		xCoor += 6200 / 32;
+		_lasershooter[i].pos.x = xCoor;
+		_lasershooter[i].pos.y = 3000.f;
+		_lasershooter[i].size = 200.f;
+		_lasershooter[i].oriSize = _lasershooter[i].size;
+		_lasershooter[i].spd = 0.f;
+		_lasershooter[i].active = 0;
+		_lasershooter[i].sniper = 0;
+	}
+}
+
+void InitBossLastLaser(Enemy* _lasershooter, Laser* _laser)
+{
+	for (int i = 0; i < 35; i++)
+	{
+		_laser[i].laserDirection = LD_UP;
+		_laser[i].pos.x = _lasershooter[i].pos.x;
+		_laser[i].pos.y = _lasershooter[i].pos.y;
+		_laser[i].laserAlpha = 50;
+		_laser[i].laserAlphaMax = 200;
+
+		_laser[i].time = 0.f;
+		_laser[i].idleDuration = 0.f;
+		_laser[i].warningAttackDuration = 1.5f;
+		_laser[i].waitDuration = 0.f;
+		_laser[i].attackDuration = 0.05f;
+
+		_laser[i].laserWarningAttackRange = _lasershooter[i].size;
 		_laser[i].laserWarningAttackRangeMax = _lasershooter[i].size;
 
 		_laser[i].laserWidth = 0.f;
@@ -864,7 +908,7 @@ void LaserAttack(Laser* laser)
 		{
 			laser->state = ATTACK;
 			laser->time = 0;
-			StartCameraShake(.04f);
+			StartCameraShake(.06f);
 		}
 	}
 
@@ -1091,15 +1135,16 @@ void LaserParticleInit_StageTwo(Laser* enemy, LaserParticle* lp,Enemy* father)
 {
 	lp->myFather = father;
 	lp->myMother = enemy;
-
-	lp->length = (float)(rand() % 10) + 1;
-
-	lp->speed = (float)(rand() % 5) + 1;
+	float rd = rand() % 10 + 1.f;
+	lp->length = rd*0.2f;
+	//if (rd >= 5.f) rd+=5;
+	lp->speed = rd*0.5f;
 
 	lp->pos.x = lp->myFather->pos.x + (rand() % 250 - 125);
 	lp->pos.y = lp->myMother->pos.y + (rand() % 250 - 125);
-
 	lp->oriPos = lp->pos;
+
+	lp->angle = CP_Vector_DotProduct(lp->pos, lp->myFather->pos);
 }
 
 void LaserParticleMove(LaserParticle* lp)
@@ -1114,7 +1159,7 @@ void LaserParticleMove(LaserParticle* lp)
 	CP_Vector moveDelta = CP_Vector_Scale(dir, lp->speed);
 
 	lp->pos = CP_Vector_Add(lp->pos, moveDelta); // 이동시키는 함수
-	if (distance < 10)
+	if (distance < 5)
 	{
 		lp->pos = lp->oriPos;
 	}

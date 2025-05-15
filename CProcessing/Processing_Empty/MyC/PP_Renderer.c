@@ -331,7 +331,7 @@ void RenderEnemy_StageTwo()
 	{
 		RenderEnemy(&enemies[StageTwo][i]);
 
-		for (int j = 0; j < 100; ++j)
+		for (int j = 0; j < MAX_PARTICLES; ++j)
 		{
 			RenderLaserParticles(&LaserParticles_StageTwo[i][j]);
 		}
@@ -434,6 +434,11 @@ void RenderBossAttack()
 	for (int i = 0; i < MAX_LASERS; i++)
 	{
 		RenderLaser(&ThirdLasers_BossStage[i]);
+	}
+	
+	for (int i = 0; i < 35; i++)
+	{
+		RenderLaser(&LastLasers_BossStage[i]);
 	}
 
 	for (int i = 0; i < 4; i++)
@@ -592,15 +597,21 @@ void RenderAll()
 
 void RenderLaserParticles(LaserParticle* lp)
 {
-	if (lp->myMother->state != WARNING) return;
+	if (lp->myMother->state != WARNING && lp->myMother->state != WAIT) return;
 
 	CamInfo* cam = GetCamera();
 	CP_Matrix camS = CP_Matrix_Scale(CP_Vector_Set(cam->camZoom, cam->camZoom));
 	CP_Matrix camT = CP_Matrix_Translate(cam->camPos);
 	CP_Matrix camMatrix = CP_Matrix_Multiply(camT, camS);
 	CP_Vector targetVector = CP_Vector_MatrixMultiply(camMatrix, lp->pos);
+	CP_Vector papatargetVector = CP_Vector_MatrixMultiply(camMatrix, lp->myFather->pos);
+	CP_Vector direction = CP_Vector_Subtract(targetVector, papatargetVector);
+	direction = CP_Vector_Normalize(direction);
+	CP_Vector offset = CP_Vector_Scale(direction, lp->length*10);
 
-	CP_Settings_Stroke(CP_Color_Create(200, 1, 147, 120));
+	CP_Settings_Stroke(CP_Color_Create(200, 1, 147, 150));
+	//CP_Settings_Stroke(CP_Color_Create(38, 200, 147, 255));
 	CP_Settings_StrokeWeight(6*cam->camZoom);
-	CP_Graphics_DrawLine(targetVector.x - lp->length / 2, targetVector.y - lp->length / 2, targetVector.x + lp->length / 2, targetVector.y + lp->length / 2);
+	CP_Graphics_DrawLine(targetVector.x + offset.x, targetVector.y + offset.y
+		, papatargetVector.x, papatargetVector.y);
 }

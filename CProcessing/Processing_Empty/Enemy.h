@@ -149,7 +149,7 @@ typedef struct
 	Laser* myMother;
 	Enemy* myFather;
 	float speed;
-
+	float angle;
 	CP_Vector oriPos;
 }LaserParticle;
 
@@ -168,6 +168,9 @@ void InitBossSecondLaser(Enemy*, Laser*);
 void InitBossThirdLaserShooter(Enemy* _lasershooter);
 void InitBossThirdLaser(Enemy* _lasershooter, Laser* _laser);
 
+void InitBossLastLaserShooter(Enemy* _lasershooter);
+void InitBossLastLaser(Enemy* _lasershooter, Laser* _laser);
+
 Bullet CrossBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
 Bullet SpiralBullets_Boss[4][MAX_BULLETS_PER_ENEMY];
 
@@ -180,6 +183,9 @@ Laser SecondLasers_BossStage[3];
 Enemy BossThirdLaserShooter[MAX_LASERS];
 Laser ThirdLasers_BossStage[MAX_LASERS];
 
+Enemy BossLastLaserShooter[MAX_LASERS];
+Laser LastLasers_BossStage[35];
+
 Boss elite_StageFive;
 Enemy enemy_StageSix;
 Enemy enemies[6][MAX_ENEMIES];
@@ -188,7 +194,7 @@ Bullet Bullets_StageOne[MAX_ENEMIES][MAX_BULLETS_PER_ENEMY];
 Bullet Bullets_StageSix[MAX_BULLETS_PER_ENEMY];
 Laser Lasers_StageTwo[MAX_ENEMIES];
 
-LaserParticle LaserParticles_StageTwo[4][100]; // 한 레이저당 100개의 파티클을 가질 예정이다.
+LaserParticle LaserParticles_StageTwo[4][MAX_PARTICLES]; // 한 레이저당 100개의 파티클을 가질 예정이다.
 
 Bullet BossFragment[8];
 Obstacle BossFrag[8];

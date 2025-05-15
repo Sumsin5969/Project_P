@@ -210,11 +210,13 @@ void InitEnemies()
 	InitBossSecondLaser(BossSecondLaserShooter, SecondLasers_BossStage);
 	InitBossThirdLaserShooter(BossThirdLaserShooter);
 	InitBossThirdLaser(BossThirdLaserShooter, ThirdLasers_BossStage);
+	InitBossLastLaserShooter(BossLastLaserShooter);
+	InitBossLastLaser(BossLastLaserShooter, LastLasers_BossStage);
 
 
 	for (int i = 0;i < MAX_ENEMIES; ++i)
 	{
-		for (int j = 0; j < 100; ++j)
+		for (int j = 0; j < MAX_PARTICLES; ++j)
 		{
 			LaserParticleInit_StageTwo(&Lasers_StageTwo[i], &LaserParticles_StageTwo[i][j],&enemies[StageTwo][i]);
 		}
@@ -287,7 +289,7 @@ void Update_StageTwo()
 			CheckLaser(&Lasers_StageTwo[i]);
 			LaserAttack(&Lasers_StageTwo[i]);
 
-			for (int j = 0; j < 100; ++j)
+			for (int j = 0; j < MAX_PARTICLES; ++j)
 			{
 				LaserParticleMove(&LaserParticles_StageTwo[i][j]);
 			}

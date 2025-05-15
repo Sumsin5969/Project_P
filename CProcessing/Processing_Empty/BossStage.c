@@ -276,9 +276,9 @@ void ThirdLaserAttack(Boss* _boss)
 
 	_boss->idleTime += dt;
 
-	const float idleDuration = 0.95f;
+	const float idleDuration = 0.94f;
 
-	if (_boss->laserCycle < 25)
+	if (_boss->laserCycle < 20)
 	{
 		if (_boss->idleTime > idleDuration)
 		{
@@ -308,6 +308,45 @@ void ThirdLaserAttack(Boss* _boss)
 			CreateLaser(&BossThirdLaserShooter[i], &ThirdLasers_BossStage[i]);
 			CheckLaser(&ThirdLasers_BossStage[i]);
 			LaserAttack(&ThirdLasers_BossStage[i]);
+		}
+	}
+}
+
+void LastBossInit(Boss* _boss)
+{
+	_boss->idleTime = 0.f;
+	_boss->laserCycle = 35;
+}
+
+void LastLaserAttack(Boss* _boss)
+{
+	float dt = GetDt();
+
+	_boss->idleTime += dt;
+
+	const float idleDuration = 0.03f;
+
+	if (_boss->laserCycle >= 0)
+	{
+		if (_boss->idleTime > idleDuration)
+		{
+			if (LastLasers_BossStage[_boss->laserCycle].active == 0)
+			{
+				LastLasers_BossStage[_boss->laserCycle].active = 1;
+			}
+
+			_boss->idleTime = 0.f;
+			_boss->laserCycle--;
+		}
+	}
+
+	for (int i = 0; i < 35; i++)
+	{
+		if (LastLasers_BossStage[i].active == 1)
+		{
+			CreateLaser(&BossLastLaserShooter[i], &LastLasers_BossStage[i]);
+			CheckLaser(&LastLasers_BossStage[i]);
+			LaserAttack(&LastLasers_BossStage[i]);
 		}
 	}
 }
@@ -386,7 +425,8 @@ void BossStageController(Boss* _boss)
 	float dt = GetDt();
 	_boss->time += dt;
 	if (_boss->time > 110.f) SetGameState(GameClear);
-	else if (_boss->time > 105.f) _boss->phase = 5;
+	else if (_boss->time > 105.f) _boss->phase = 6;
+	else if (_boss->time > 100.f) _boss->phase = 5;
 	else if (_boss->time > 75.1f) _boss->phase = 4;
 	else if (_boss->time > 35.f) _boss->phase = 3;
 	else if (_boss->time > 15.5f) _boss->phase = 2;
@@ -442,7 +482,7 @@ void BossStageController(Boss* _boss)
 
 		ThirdLaserAttack(_boss);
 
-		if (_boss->time < 100.f)
+		if (_boss->time < 95.f)
 		{
 			SpiralBulletConditioner(_boss);
 		}
@@ -453,14 +493,27 @@ void BossStageController(Boss* _boss)
 			CheckWallBullet(wall, SpiralBullets_Boss[i]);
 			CheckBullet(SpiralBullets_Boss[i]);
 		}
-
 	}
+
 	if (_boss->phase == 5)
 	{
-		if (_boss->active == 0)
+		if (_boss->time > 100.f)
+		{
+			if (_boss->active == 0)
+			{
+				LastBossInit(_boss);
+				_boss->active = 1;
+			}
+			LastLaserAttack(_boss);
+		}
+	}
+
+	if (_boss->phase == 6)
+	{
+		if (_boss->active == 1)
 		{
 			InitBossFragment(_boss);
-			_boss->active = 1;
+			_boss->active = 0;
 		}
 		
 
